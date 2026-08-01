@@ -1,0 +1,67 @@
+.account {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  row-gap: 4px;
+
+  .accountName {
+    height: 32px;
+    line-height: 32px;
+    font-size: 18px;
+  }
+  .accountTip {
+    height: 20px;
+    line-height: 20px;
+    font-size: 14px;
+    color: rgb(var(--color-typography-200));
+  }
+}
+.qrcode {
+  width: 240px;
+  height: 240px;
+  margin: 16px auto 0 auto;
+  border-radius: var(--radius-md);
+  border: 1px solid rgb(var(--color-outline-0));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background-color: rgb(var(--color-background-200));
+
+  .qrcanvas {
+    width: 200px;
+    height:200px;
+  }
+}
+.address {
+  margin: 16px auto 0 auto;
+  padding: 16px 12px;
+  font-size: 14px;
+  border-radius: var(--radius);
+  background-color: rgb(var(--color-background-200));
+  display: flex;
+
+  .addressLeft {
+    .addressLeftTitle {
+      height: 20px;
+      line-height: 20px;
+    }
+    .addressLeftMain {
+      font-size: 12px;
+      line-height: 1.2;
+      color: rgb(var(--color-typography-700));
+    }
+  }
+  .addressRight {
+    flex-shrink: 0;
+    width: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+
+    .addressRightBtn {
+      width: 60px;
+      height: 32px;
+    }
+  }
+}

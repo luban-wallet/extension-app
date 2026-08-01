@@ -1,0 +1,14 @@
+.wrapper {
+  display: flex;
+  column-gap: 8px;
+  height: 4px;
+}
+.item {
+  flex: 1;
+  height: 100%;
+  background-color: rgb(var(--color-background-700));
+
+  &[data-active="true"] {
+    background-color: rgb(var(--color-primary-900));
+  }
+}

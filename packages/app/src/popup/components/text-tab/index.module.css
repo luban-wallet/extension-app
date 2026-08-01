@@ -1,0 +1,15 @@
+.wrapper {
+  display: flex;
+  align-items: center;
+  column-gap: 24px;
+  height: 48px;
+  font-size: 16px;
+  font-weight: 500;
+  color: rgb(var(--color-typography-500));
+}
+.item {
+  cursor: pointer;
+}
+.active {
+  color: rgb(var(--color-typography-900));
+}

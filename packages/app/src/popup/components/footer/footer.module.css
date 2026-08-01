@@ -1,0 +1,17 @@
+.wrapper {
+  position: fixed;
+  z-index: 50;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  padding: 12px 0 16px 0;
+  background-color: rgb(var(--color-background-0));
+  box-shadow: 1px 0px 6px rgba(var(--color-outline-900), 0.1);
+}
+.content {
+  padding: 0 16px;
+  max-width: 960px;
+  margin: 0 auto;
+  display: flex;
+  column-gap: 12px;
+}

@@ -1,0 +1,206 @@
+:root {
+  --radius-xs: 2px;
+  --radius-sm: 4px;
+  --radius: 6px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+
+  /* Primary */
+  --color-primary-500: 255, 98, 30; /* done */
+  --color-primary-900: 240, 80, 10; /* done */
+
+  /* Error */
+  --color-error-0: 254, 233, 233;
+  --color-error-500: 230, 53, 53;
+  --color-error-900: 255, 122, 95;
+
+  /* Success */
+  --color-success-0: 27, 50, 36;
+  --color-success-500: 72, 151, 102;
+  --color-success-900: 0, 138, 46;
+
+  /* Typography */
+  --color-typography-0: 220, 220, 220;
+  --color-typography-200: 130, 130, 130; /* 1done */
+  --color-typography-500: 112, 112, 112;
+  --color-typography-700: 64, 64, 64; /* done */
+  --color-typography-900: 30, 30, 30; /* done */
+
+  /* Outline */
+  --color-outline-0: 240, 240, 240; /* 1 */
+  --color-outline-200: 221, 220, 219; /* 1 */
+  --color-outline-500: 140, 141, 141;
+  --color-outline-700: 64, 64, 64;
+  --color-outline-900: 39, 38, 36;
+
+  /* Background */
+  --color-background-0: 255, 255, 255; /* 1done */
+  --color-background-200: 245, 245, 245; /* 11done */
+  --color-background-500: 238, 238, 238; /* 1done */
+  --color-background-700: 220, 220, 220; /* 1done */
+  --color-background-900: 180, 180, 180; /* 1done */
+
+  /* Background Special */
+  --color-background-error: 255, 240, 240;
+  --color-background-warning: 255, 251, 230;
+  --color-background-success: 236, 252, 242;
+}
+
+.dark {
+  /* Typography */
+  --color-typography-0: 82, 82, 82;
+  --color-typography-200: 212, 212, 212;
+  --color-typography-500: 219, 219, 220;
+  --color-typography-700: 229, 229, 229;
+  --color-typography-900: 245, 245, 245;
+
+  /* Outline */
+  --color-outline-0: 39, 38, 36;
+  --color-outline-200: 83, 82, 82;
+  --color-outline-500: 165, 163, 163;
+  --color-outline-700: 230, 230, 230;
+  --color-outline-900: 243, 243, 243;
+
+  /* Background */
+  --color-background-0: 22, 22, 22;
+  --color-background-200: 38, 38, 38;
+  --color-background-500: 46, 46, 46;
+  --color-background-700: 62, 62, 62;
+  --color-background-900: 142, 142, 142;
+
+  /* Background Special */
+  --color-background-error: 66, 43, 43;
+  --color-background-warning: 65, 47, 35;
+  --color-background-success: 28, 43, 33;
+}
+
+::-webkit-scrollbar {
+  width: 4px;
+  display: none;
+}
+::-webkit-scrollbar-thumb {
+  background-color: rgb(var(--color-outline-500));
+  border-radius: 2px;
+}
+
+/* reset */
+* {
+  box-sizing: border-box;
+}
+body {
+  margin: 0;
+  padding: 0;
+  background-color: rgb(var(--color-background-0));
+  font-family: -apple-system, "PingFang SC", sans-serif;
+  font-size: 14px;
+  color: rgb(var(--color-typography-900));
+  line-height: 1;
+  overflow-wrap: anywhere;
+}
+a {
+  color: rgb(var(--color-typography-900));
+}
+h1, h2, h3, h4, h5, h6, p {
+  margin: 0;
+}
+ul, ol {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+img {
+  max-width: 100%;
+}
+button {
+  padding-block: 0;
+  padding-inline: 0;
+}
+
+/* Animations */
+@keyframes animate-fade-in {
+	from {
+		opacity: 0;
+	}
+	to {
+		opacity: 1;
+	}
+}
+
+@keyframes animate-fade-out {
+	from {
+		opacity: 1;
+	}
+	to {
+		opacity: 0;
+	}
+}
+
+@keyframes animate-skeleton {
+  0% {
+    background-position: 0% 0%;
+  }
+  100% {
+    background-position: 100% 0%;
+  }
+}
+
+@keyframes animate-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes animate-slide-in {
+	from {
+		transform: translate3d(0, 100%, 0);
+	}
+	to {
+		transform: translate3d(0, 0, 0);
+	}
+}
+
+@keyframes animate-slide-out {
+	from {
+		transform: translate3d(0, 0, 0);
+	}
+	to {
+		transform: translate3d(0, 100%, 0);
+	}
+}
+
+@keyframes animate-slide-down {
+	from {
+		opacity: 0;
+		transform: translateY(-8px);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+
+@keyframes animate-bounce {
+  0% {
+    transform: translate3d(0, 0, 0) scaleY(1);
+  }
+
+  60% {
+    transform: translate3d(0, -20px, 0) scaleY(0.9);
+  }
+
+  75% {
+    transform: translate3d(0, 10px, 0) scaleY(0.95);
+  }
+
+  90% {
+    transform: translate3d(0, -5px, 0) scaleY(0.985);
+  }
+
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+}
+

@@ -1,0 +1,18 @@
+.wrapper {
+  display: flex;
+  justify-content: space-between;
+
+  .label {
+    font-size: 12px;
+    font-weight: normal;
+    line-height: 20px;
+    color: rgba(var(--color-typography-900), .6);
+  }
+  .detail {
+    max-width: 60%;
+    font-size: 12px;
+    line-height: 20px;
+    text-align: right;
+    font-weight: 500;
+  }
+}

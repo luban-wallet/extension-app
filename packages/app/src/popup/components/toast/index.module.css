@@ -1,0 +1,8 @@
+.success {
+  color: rgb(var(--color-success-900))!important;
+  background-color: rgb(var(--color-background-success))!important;
+}
+.error {
+  color: rgb(var(--color-error-900))!important;
+  background-color: rgb(var(--color-background-error))!important;
+}

@@ -1,0 +1,10 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  row-gap: 8px;
+}
+.item {
+  height: 64px;
+  justify-content: space-between;
+  padding: 0 12px;
+}

@@ -1,0 +1,40 @@
+.wrapper {
+  position: sticky;
+  z-index: 50;
+  inset: 0;
+  height: 44px;
+  padding: 0 12px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgb(var(--color-background-0));
+}
+.back {
+  position: absolute;
+  top: 8px;
+  left: 12px;
+  width: 28px!important;
+  height: 28px!important;
+
+  .backIcon {
+    width: 16px;
+    height: 16px;
+    color: rgb(var(--color-typography-500));
+    cursor: pointer;
+    transition: color .2s linear;
+    font-weight: normal;
+  }
+}
+
+.title {
+  font-size: 16px;
+  font-weight: 500;
+}
+.slot {
+  position: absolute;
+  top: 0;
+  right: 12px;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+}

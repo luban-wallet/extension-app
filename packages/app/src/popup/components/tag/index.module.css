@@ -1,0 +1,9 @@
+.wrapper {
+  display: inline-flex;
+  height: 20px;
+  align-items: center;
+  font-size: 12px;
+  padding: 0 4px;
+  background-color: rgb(var(--color-background-0));
+  border-radius: var(--radius);
+}

@@ -1,0 +1,32 @@
+.toggleGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.toggleGroupItem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100px;
+  background-color: rgb(var(--color-background-200));
+  border: 1px solid rgb(var(--color-outline-0));
+  border-radius: var(--radius);
+
+  &:hover {
+		background-color: rgb(var(--color-background-500));
+	}
+  &[data-state="on"] {
+		background-color: rgb(var(--color-background-700));
+	}
+}
+.toggleGroupItemTitle {
+  font-size: 16px;
+  color: rgb(var(--color-typography-900));
+}
+.toggleGroupItemTitleDesc {
+  font-size: 12px;
+  margin-top: 8px;
+  padding: 0 12px;
+  color: rgb(var(--color-typography-200));
+}

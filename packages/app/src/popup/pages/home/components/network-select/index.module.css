@@ -1,0 +1,24 @@
+.wrapper {
+  justify-content: space-between;
+  width: 52px;
+  height: 32px;
+  padding: 0 6px;
+  border-radius: var(--radius-lg);
+  background-color: rgb(var(--color-background-200));
+  border: 1px solid rgb(var(--color-outline-200));
+  color: rgb(var(--color-typography-200))!important;
+}
+.networkList {
+  display: flex;
+  flex-direction: column;
+  row-gap: 8px;
+  max-height: 400px;
+  overflow-y: auto;
+  margin-top: 8px;
+}
+
+.listLabel {
+  display: block;
+  font-size: 12px;
+  line-height: 20px;
+}

@@ -1,0 +1,31 @@
+.wrapper {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 4000;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgb(var(--color-background-0));
+}
+.inner {
+  position: relative;
+  width: 80px;
+  height: 80px;
+}
+.animate {
+  width: 80px;
+  height: 80px;
+  animation: global(animate-bounce) 1s linear infinite;
+}
+.shadow {
+  position: absolute;
+  z-index: 4001;
+  left: 10px;
+  bottom: 0;
+  width: 60px;
+  height: 2px;
+  background-color: rgb(var(--color-background-500));
+}

@@ -1,0 +1,29 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  row-gap: 8px;
+}
+.item {
+  display: grid;
+  grid-template-columns: 60px 1fr 40px;
+  height: 68px;
+  align-items: center;
+  column-gap: 8px;
+  background-color: rgb(var(--color-background-200));
+  border-radius: var(--radius);
+}
+.icon {
+  display: flex;
+  justify-content: center;
+}
+.name {
+  height: 20px;
+  line-height: 20px;
+}
+.unlink {
+  width: 32px;
+  height: 32px;
+}
+.empty {
+  margin-top: 40px;
+}

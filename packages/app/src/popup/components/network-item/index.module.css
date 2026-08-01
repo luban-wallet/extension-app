@@ -1,0 +1,24 @@
+.networkItem {
+  position: relative;
+  flex-shrink: 0;
+  display: grid;
+  grid-template-columns: 64px 1fr 40px;
+  justify-content: space-between;
+  height: 64px;
+  border-radius: var(--radius-md);
+
+  .networkItemMask {
+    position: absolute;
+    inset: 0;
+  }
+
+  .networkItemIcon {
+    display: flex;
+    justify-content: center;
+  }
+
+  .networkItemName {
+    font-weight: 500;
+    text-align: left;
+  }
+}
