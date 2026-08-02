@@ -172,11 +172,11 @@ export default function SendCoinSign() {
           disabled={loading || baseFee === '' || feeUnitPrice === '' || sendAmount === ''}
           variant="primary"
           onClick={send}
-        >{t('page.send.sign.btn.send')}</Button>
+        >{t('page.send.sign.btn.review')}</Button>
       </Footer>
 
       <ActionSheet open={showConfirm} onOpenChange={() => setShowConfirm(false)}>
-        <ActionSheetContent loading={loading} title={'Confirm Transaction'}>
+        <ActionSheetContent loading={loading} title={t('page.send.sign.review.title')}>
           <TxConfirm
             isToken={false}
             from={txMeta.current?.from ?? ''}

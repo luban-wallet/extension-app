@@ -144,6 +144,8 @@
   "page.send.sign.label.fee": "网络费",
   "page.send.sign.label.estimatefee": "预估网络费用",
   "page.send.sign.btn.cancel": "取消",
+  "page.send.sign.btn.review": "预览支付",
+  "page.send.sign.review.title": "支付详情",
   "page.send.sign.btn.send": "发送",
   "page.send.sign.msg.walleterror": "钱包错误",
   "page.send.done.msg.success": "交易成功",

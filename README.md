@@ -22,6 +22,22 @@ The wallet is developed based on `ethers` and `bitcoinjs-lib`, with all network 
 
 5. Enjoy it
 
+## Local Debug
+
+> Note: wallet password in debug mode must be `dev`
+
+1. Install dependencies
+
+```bash
+yarn workspace @luban/wallet-app install
+```
+
+2. Run
+
+```bash
+yarn workspace @luban/wallet-app dev
+```
+
 
 ## Error Codes
 

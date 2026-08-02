@@ -145,11 +145,15 @@ export default function SendTokenSign() {
 
       <Footer>
         <Button onClick={handleCancel}>{t('page.send.sign.btn.cancel')}</Button>
-        <Button disabled={loading} variant="primary" onClick={send}>{t('page.send.sign.btn.send')}</Button>
+        <Button
+          disabled={loading}
+          variant="primary"
+          onClick={send}
+        >{t('page.send.sign.btn.review')}</Button>
       </Footer>
 
       <ActionSheet open={showConfirm} onOpenChange={() => setShowConfirm(false)}>
-        <ActionSheetContent loading={loading} title={'Confirm Transaction'}>
+        <ActionSheetContent loading={loading} title={t('page.send.sign.review.title')}>
           <TxConfirm
             isToken
             from={tokenTxMeta.current?.from ?? ''}

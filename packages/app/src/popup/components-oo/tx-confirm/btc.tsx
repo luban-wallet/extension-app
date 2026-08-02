@@ -85,7 +85,7 @@ export default function Btc(props: IProps) {
       </div>
 
       <div>
-        <Button disabled={loading} variant="primary" onClick={send}>Confirm</Button>
+        <Button disabled={loading} variant="primary" onClick={send}>{t('page.send.sign.btn.send')}</Button>
       </div>
     </div>
   )
