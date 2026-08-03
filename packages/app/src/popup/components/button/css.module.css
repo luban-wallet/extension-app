@@ -57,7 +57,7 @@
 
     @media (hover: hover) {
       &:hover {
-        background-color: rgb(var(--color-background-500));
+        background-color: rgb(var(--color-background-700));
       }
     }
   }

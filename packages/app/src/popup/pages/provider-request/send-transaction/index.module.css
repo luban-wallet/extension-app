@@ -27,6 +27,9 @@
     font-size: 14px;
   }
   .dataCheck {
+    display: flex;
+    align-items: center;
+    column-gap: 4px;
     margin-top: 12px;
     padding: 12px 12px;
     border-radius: var(--radius-md);
@@ -40,6 +43,8 @@
     padding: 12px;
     border-radius: var(--radius);
     line-height: 1.5;
+    height: 100px;
+    overflow-y: auto;
   }
 }
 

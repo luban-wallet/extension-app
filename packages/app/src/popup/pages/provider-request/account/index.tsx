@@ -25,17 +25,17 @@ export default function Account() {
       return
     }
 
-    await MsgHelper.providerResponse({
-      code: 0,
-      message: 'OK',
-      data: currentAccount === null ? [] : [currentAccount.address]
-    })
-
     await new ConnectionsDao().insert({
       name: request.current.metadata.name,
       icon: request.current.metadata.icon,
       url: request.current.metadata.url,
       timestamp: Date.now()
+    })
+
+    await MsgHelper.providerResponse({
+      code: 0,
+      message: 'OK',
+      data: currentAccount === null ? [] : [currentAccount.address]
     })
   })
 

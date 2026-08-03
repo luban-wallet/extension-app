@@ -7,12 +7,12 @@ export default defineConfig({
     outDir: '../../dist_scripts_content',
     copyPublicDir: false,
     lib: {
-      entry: path.resolve(__dirname, 'src/plugins/content_scripts/content.ts'),
+      entry: path.resolve(__dirname, 'src/plugins/content_scripts/inpage.ts'),
       formats: ['umd'],
-      name: 'LBContent',
+      name: 'LBInpage',
       // the output file name
       fileName: () => {
-        return 'content.js'
+        return 'inpage.js'
       }
     }
   }

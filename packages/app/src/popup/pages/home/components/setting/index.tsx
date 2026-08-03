@@ -61,7 +61,7 @@ export default function Setting() {
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <Button variant="ghost" className={css.wrapper}>
-            <IconMenu width={24} height={24} />
+            <IconMenu width={20} height={20} />
           </Button>
         </DropdownMenuTrigger>
 

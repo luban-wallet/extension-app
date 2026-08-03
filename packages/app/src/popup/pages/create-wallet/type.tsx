@@ -11,7 +11,7 @@ import SwitchTab, { type SwitchItem } from "../../components/switch-tab"
 import css from './type.module.css'
 
 export default function GenerateType() {
-  const [count, setCount] = useState(12)
+  const [count, setCount] = useState(24)
   const [method, setMethod] = useState('a')
   const nav = useNavigate()
   const { t } = useContext(I18nContext)!
@@ -41,8 +41,8 @@ export default function GenerateType() {
         <SwitchTab
           value={count}
           values={[
-            {label: t('page.create.type.wordstype.type12'), value: 12},
-            {label: t('page.create.type.wordstype.type24'), value: 24}
+            {label: t('page.create.type.wordstype.type24'), value: 24},
+            {label: t('page.create.type.wordstype.type12'), value: 12}
           ]}
           onChange={changeWordsType}
         />

@@ -14,6 +14,7 @@ import WalletFactory from '../../../wallets/WalletFactory'
 import ServiceFactory from '../../../services/ServiceFactory'
 import { MEM_PWD } from '../../../configs/constant'
 import { WalletContext } from '../../../contexts/WalletContext'
+import IconWarn from '../../../components/icons/warn'
 
 import css from './index.module.css'
 
@@ -80,13 +81,17 @@ export default function SendTransaction() {
       return
     }
 
+    const service = ServiceFactory.getService(currentNetwork.chainType)
+    const nonce = await service.getTransactionCount(currentNetwork.rpc, currentAccount.address)
+
     const tx = {
       ...payloadData,
 
+      nonce: Number(nonce),
       chainId: currentNetwork.chainId,
       type: 2,
       maxPriorityFeePerGas: priorityFee,
-      gasLimit: payloadData.gas ?? payloadData.gasLimit,
+      gasLimit: payloadData.gasLimit ?? payloadData.gas,
       maxFeePerGas: (BigInt(baseFee) + BigInt(priorityFee)).toString(),
     }
     Reflect.deleteProperty(tx, 'gas')
@@ -94,7 +99,7 @@ export default function SendTransaction() {
 
     const wallet = await WalletFactory.getLazyWallet(currentNetwork.chainType)
     await wallet.restore(pwd, currentAccount.index)
-    const service = ServiceFactory.getService(currentNetwork.chainType)
+
     const raw = await wallet.signTransaction(tx)
     const hash = await service.sendRawTransaction(currentNetwork!.rpc, [raw])
 
@@ -126,12 +131,10 @@ export default function SendTransaction() {
       }
     }
 
-    if(danger === '') {
-      return ''
-    }
-
-    return t(danger)
+    return danger
   }
+
+  const dangerous = checkData(payloadData?.data)
 
   return (
     <>
@@ -150,7 +153,14 @@ export default function SendTransaction() {
 
         <div className={css.data}>
           <label className={css.dataTitle}>{t('page.pr.sendtransaction.data')}</label>
-          <div className={css.dataCheck}>{checkData(payloadData?.data)}</div>
+          {
+            dangerous === '' ? null : (
+              <div className={css.dataCheck}>
+                <IconWarn width={20} height={20} />
+                <span>{t(dangerous)}</span>
+              </div>
+            )
+          }
           <div className={css.dataDetail}>{payloadData?.data}</div>
         </div>
 

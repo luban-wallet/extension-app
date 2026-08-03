@@ -6,8 +6,9 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
-    "build:background": "tsc && vite build -c vite.config.bg.ts",
+    "build:background": "tsc && vite build -c vite.config.background.ts",
     "build:content": "tsc && vite build -c vite.config.content.ts",
+    "build:inpage": "tsc && vite build -c vite.config.inpage.ts",
     "lint": "eslint .",
     "preview": "vite preview"
   },

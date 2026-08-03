@@ -13,6 +13,7 @@ import { WalletContext } from '../../../../contexts/WalletContext'
 import HomeBalance from '../../../../components-oo/home-balance'
 
 import css from './index.module.css'
+import Refresh from '../refresh'
 
 export default function Panel() {
   const { t } = useContext(I18nContext)!
@@ -40,6 +41,7 @@ export default function Panel() {
         </div>
         <div className={css.topRight}>
           <NetworkSelect />
+          <Refresh />
           <Setting />
         </div>
       </div>
