@@ -9,6 +9,7 @@ import useAsyncCallback from '../../../hooks/useAsyncCallback'
 import MsgHelper from '../../../helpers/MsgHelper'
 import WalletFactory from '../../../wallets/WalletFactory'
 import { WalletContext } from '../../../contexts/WalletContext'
+import { MEM_PWD } from '../../../configs/constant'
 
 import css from './index.module.css'
 
@@ -39,8 +40,20 @@ export default function SignTypedDataV4() {
       return
     }
 
+    const pwd = await MsgHelper.memGet<string>(MEM_PWD)
+    if(pwd === '') {
+      await MsgHelper.providerResponse({
+        code: 4007,
+        message: 'Wallet error',
+        data: null
+      })
+      return
+    }
+
     // sign message
     const wallet = await WalletFactory.getLazyWallet(currentNetwork.chainType)
+    await wallet.restore(pwd, currentAccount.index)
+
     const signature = await wallet.signTypedData(data)
     await MsgHelper.providerResponse({
       code: 0,

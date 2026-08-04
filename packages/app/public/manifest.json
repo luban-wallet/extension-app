@@ -1,5 +1,5 @@
 {
-  "name": "LB Wallet",
+  "name": "LBWallet",
   "manifest_version": 3,
   "version": "0.0.1",
   "description": "Decentralized wallet",
@@ -14,16 +14,16 @@
   },
   "background": {
     "type": "module",
-    "service_worker": "background.mjs"
+    "service_worker": "dist_plugins/background.mjs"
   },
   "content_scripts": [{
-    "js": ["content.js"],
+    "js": ["dist_plugins/content.js"],
     "matches": ["file://*/*", "http://*/*", "https://*/*"],
     "run_at": "document_end"
   }],
   "permissions": ["scripting", "activeTab", "storage", "tabs"],
   "web_accessible_resources": [{
     "matches": ["file://*/*", "http://*/*", "https://*/*"],
-    "resources": ["inpage.js"]
+    "resources": ["dist_plugins/inpage.js"]
   }]
 }

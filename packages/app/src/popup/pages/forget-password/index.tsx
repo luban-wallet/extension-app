@@ -50,7 +50,7 @@ export default function ForgetPassword() {
         title={t('page.forgetpassword.header')}
         slot={
           <Button variant="ghost" className={css.repair} onClick={goTry}>
-            <IconRepair width={16} height={16} />
+            <IconRepair width={12} height={12} />
           </Button>
         }
       />

@@ -6,9 +6,10 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
-    "build:background": "tsc && vite build -c vite.config.background.ts",
-    "build:content": "tsc && vite build -c vite.config.content.ts",
-    "build:inpage": "tsc && vite build -c vite.config.inpage.ts",
+    "build:background": "export FLAG=background && tsc && vite build -c vite.config.plugin.ts",
+    "build:content": "export FLAG=content && tsc && vite build -c vite.config.plugin.ts",
+    "build:inpage": "export FLAG=inpage && tsc && vite build -c vite.config.plugin.ts",
+    "build:plugins": "npm run build:content && npm run build:inpage && npm run build:background",
     "lint": "eslint .",
     "preview": "vite preview"
   },
