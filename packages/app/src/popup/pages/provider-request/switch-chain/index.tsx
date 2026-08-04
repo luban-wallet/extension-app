@@ -1,4 +1,4 @@
-import { useContext } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import Button from '../../../components/button'
 import ColorIcon from '../../../components/color-icon'
 import Footer from '../../../components/footer'
@@ -9,6 +9,7 @@ import useAsyncCallback from '../../../hooks/useAsyncCallback'
 import NetworkDao from '../../../dao/NetworkDao'
 import MsgHelper from '../../../helpers/MsgHelper'
 import { WalletContext } from '../../../contexts/WalletContext'
+import type { INetwork } from '../../../configs/network'
 
 import css from './index.module.css'
 
@@ -20,19 +21,43 @@ export default function SwitchChain() {
   const { request } = useContext(ProviderRequestContext)!
   const { currentNetwork, setAndCacheCurrentNetworkAndAccount } = useContext(WalletContext)!
   const { t } = useContext(I18nContext)!
+  const [targetNetwork, setTargetNetwork] = useState<INetwork | null>(null)
 
   const metadata = request.current?.metadata
+
+  const getTargetChainId = () => {
+    if(request.current === null) {
+      return ''
+    }
+
+    const payload = request.current.payload as SwitchChainPayload
+    return payload.length > 0 ? BigInt(payload[0].chainId).toString() : ''
+  }
+
+  const loadTargetNetwork = async () => {
+    try {
+      const chainId = getTargetChainId()
+      if(chainId === '') {
+        return
+      }
+
+      const find = await new NetworkDao().getOneByIndex('chainId', chainId)
+      setTargetNetwork(find)
+    } catch(e) {
+      console.error(e)
+    }
+  }
+
+  useEffect(() => {
+    loadTargetNetwork()
+  }, [])
 
   const approve = useAsyncCallback(async () => {
     if(request.current === null) {
       return
     }
 
-    const payload = request.current.payload as SwitchChainPayload
-    const chainId = payload.length > 0 ? payload[0].chainId : ''
-
-    const find = await new NetworkDao().getOneByIndex('chainId', chainId)
-    if(find === null) {
+    if(targetNetwork === null) {
        MsgHelper.providerResponse({
         code: 4902,
         message: 'Unrecognized chain ID',
@@ -42,8 +67,7 @@ export default function SwitchChain() {
     }
 
     // switch
-    await setAndCacheCurrentNetworkAndAccount(find)
-
+    await setAndCacheCurrentNetworkAndAccount(targetNetwork)
     await MsgHelper.providerResponse({
       code: 0,
       message: 'OK',
@@ -71,8 +95,8 @@ export default function SwitchChain() {
             </div>
             <IconArrowRight width={20} height={20} />
             <div className={css.chainsIcon}>
-              <ColorIcon size={56} url={metadata?.icon} name={metadata?.name} />
-              <span className={css.chainsName}>{metadata?.name}</span>
+              <ColorIcon size={56} url={targetNetwork?.icon} name={targetNetwork?.name} />
+              <span className={css.chainsName}>{targetNetwork?.name}</span>
             </div>
           </div>
           <span className={css.url}>{metadata?.url}</span>

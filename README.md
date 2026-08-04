@@ -49,6 +49,7 @@ yarn workspace @luban/wallet-app dev
 | 4004 | Address mismatch |
 | 4006 | Processing another request |
 | 4007 | Wallet error |
+| 5000 | Internal error |
 
 ## Layering
 

@@ -164,9 +164,11 @@ export default function SendTransaction() {
           <div className={css.dataDetail}>{payloadData?.data}</div>
         </div>
 
-        <FeeWithRefresh
-          onFeeChange={changeFee}
-        />
+        <div className={css.fee}>
+          <FeeWithRefresh
+            onFeeChange={changeFee}
+          />
+        </div>
       </div>
 
       <Footer>
