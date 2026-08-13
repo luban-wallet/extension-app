@@ -1,0 +1,24 @@
+.canvas {
+  position: relative;
+  border: 1px solid rgb(var(--color-outline-200));
+  height: 360px;
+  border-radius: var(--radius);
+  overflow: hidden;
+  margin-top: 12px;
+}
+.mask {
+  position: absolute;
+  z-index: 10;
+  inset: 0;
+  padding: 0 12px;
+  background-color: rgb(var(--color-background-0));
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 32px;
+  color: rgb(var(--color-typography-0));
+  text-align: center;
+}
+.clearCanvas {
+  margin-top: 8px;
+}

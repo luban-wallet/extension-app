@@ -1,0 +1,43 @@
+.wrapper {
+  padding: 20px 16px 80px 16px;
+}
+
+.title {
+  font-size: 20px;
+  text-align: center;
+  font-weight: 500;
+}
+
+.metadata {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  row-gap: 20px;
+  margin-top: 56px;
+
+  .chains {
+    display: flex;
+    align-items: center;
+
+    .chainsIcon {
+      width: 150px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      row-gap: 16px;
+    }
+    .chainsName {
+      font-size: 12px;
+    }
+  }
+
+  .url {
+    font-size: 16px;
+  }
+
+  .description {
+    font-size: 16px;
+    font-weight: 700;
+  }
+}
+

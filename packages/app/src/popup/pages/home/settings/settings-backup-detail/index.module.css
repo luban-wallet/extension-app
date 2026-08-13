@@ -1,0 +1,23 @@
+.info {
+  line-height: 1.4;
+}
+.detail {
+  position: relative;
+  margin-top: 24px;
+
+  .detailTip {
+    position: absolute;
+    z-index: 10;
+    top: 0;
+    left: 16px;
+    right: 16px;
+    height: 100%;
+    font-size: 18px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    line-height: 1.5;
+  }
+}

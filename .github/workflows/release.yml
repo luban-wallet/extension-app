@@ -1,0 +1,46 @@
+name: Auto Release on Tag Push
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  build-release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout source code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'yarn'
+
+      - name: Install dependencies
+        run: yarn workspace @luban/wallet-app install --frozen-lockfile
+
+      - name: Build wallet-app
+        run: |
+          yarn workspace @luban/wallet-app run build
+
+      - name: Move plugin files
+        run: |
+          cp -r dist_plugins luban_wallet/
+
+      - name: Archive artifacts
+        run: |
+          zip -r luban_wallet.zip luban_wallet
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: luban_wallet.zip
+          generate_release_notes: true
+          draft: false
+          prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

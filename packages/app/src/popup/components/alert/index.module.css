@@ -1,0 +1,19 @@
+.wrapper {
+  display: flex;
+  column-gap: 12px;
+  background-color: rgb(var(--color-background-warning));
+  padding: 16px 12px;
+  font-size: 14px;
+  border-radius: var(--radius);
+}
+.icon {
+  position: relative;
+  top: 2px;
+  width: 24px;
+  flex-shrink: 0;
+  color: #faad14;
+}
+.content {
+  flex: 1;
+  line-height: 1.4;
+}

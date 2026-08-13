@@ -1,0 +1,11 @@
+.labelAction {
+  font-size: 12px;
+  color: rgba(var(--color-typography-900), .6);
+}
+.feeDetail {
+  font-size: 12px;
+  text-align: right;
+  line-height: 16px;
+  font-weight: normal;
+  color: rgba(var(--color-typography-900), .6);
+}

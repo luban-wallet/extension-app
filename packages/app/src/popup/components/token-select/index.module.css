@@ -1,0 +1,40 @@
+.wrapper {
+  height: 44px;
+  justify-content: space-between;
+  padding: 0 12px;
+  border: 1px solid rgb(var(--color-outline-200));
+}
+.left, .right {
+  display: flex;
+  height: 24px;
+  align-items: center;
+  column-gap: 8px;
+}
+.tokenList {
+  display: flex;
+  flex-direction: column;
+  row-gap: 8px;
+
+  .tokenItem {
+    flex-shrink: 0;
+    display: grid;
+    grid-template-columns: 64px 1fr 40px;
+    justify-content: space-between;
+    height: 72px;
+    border-radius: var(--radius-md);
+
+    .tokenItemIcon {
+      display: flex;
+      justify-content: center;
+    }
+
+    .tokenItemName {
+      font-size: 16px;
+      text-align: left;
+
+      p {
+        font-size: 12px;
+      }
+    }
+  }
+}

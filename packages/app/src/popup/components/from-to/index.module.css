@@ -1,0 +1,53 @@
+.detail {
+  padding: 20px 12px;
+  background-color: rgb(var(--color-background-200));
+  border-radius: var(--radius-md);
+
+  .detailTop {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 50px;
+
+    .detailAccount {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      width: 42%;
+      height: 100%;
+
+      .detailAccountlabel {
+        line-height: 24px;
+        font-weight: 500;
+        color: rgba(var(--color-typography-900), .6);
+      }
+      .detailAccountAddress {
+        line-height: 24px;
+      }
+    }
+    .arrow {
+      width: 20px;
+      height: 20px;
+    }
+  }
+  .line {
+    margin: 16px 0;
+    height: 1px;
+    background-color: rgb(var(--color-background-700));
+  }
+  .detailBottom {
+    display: flex;
+    flex-direction: column;
+
+    .detailBottomlabel {
+      line-height: 24px;
+      color: rgba(var(--color-typography-900), .6);
+    }
+    .detailBottomAmount {
+      font-size: 28px;
+      font-weight: 500;
+      height: 36px;
+      line-height: 36px;
+    }
+  }
+}

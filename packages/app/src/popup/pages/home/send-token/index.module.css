@@ -1,0 +1,4 @@
+.labelAction {
+  color: rgba(var(--color-typography-900), .6);
+  font-size: 12px;
+}

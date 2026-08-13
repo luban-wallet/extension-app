@@ -1,0 +1,75 @@
+.wrapper {
+  position: relative;
+  height: 44px;
+}
+
+.input {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 44px;
+  padding: 0 12px;
+  font-size: 14px;
+  color: rgb(var(--color-typography-900));
+  background-color: transparent;
+  border: 1px solid rgb(var(--color-outline-200));
+  border-radius: var(--radius);
+  outline: 1px solid transparent;
+  transition: border-color 0.2s linear, outline-color 0.2s linear;
+
+  @media (hover: hover) {
+    &:hover {
+      border-color: rgb(var(--color-outline-500));
+    }
+  }
+
+  &:focus {
+    border-color: rgb(var(--color-outline-500));
+    outline: 1px solid rgba(var(--color-outline-500), .4);
+  }
+
+  &:disabled {
+    background-color: rgb(var(--color-background-200));
+    border-color: rgb(var(--color-outline-200));
+    color: rgb(var(--color-typography-500));
+    cursor: not-allowed;
+  }
+  &[data-invalid="1"] {
+    border-color: rgb(var(--color-error-500));
+    outline: 1px solid rgba(var(--color-error-500), .4);
+
+    &:focus {
+      border-color: rgb(var(--color-error-500));
+      outline: 1px solid rgba(var(--color-error-500), .4);
+    }
+  }
+}
+
+.suffix {
+  position: absolute;
+  top: 0;
+  right: 12px;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  column-gap: 4px;
+}
+
+.textareaWrapper {
+  position: relative;
+}
+.textarea {
+  width: 100%;
+  padding: 8px 12px;
+  resize: none;
+  color: rgb(var(--color-typography-900));
+  background-color: transparent;
+  border: 1px solid rgb(var(--color-outline-200));
+  border-radius: var(--radius);
+  outline: 1px solid transparent;
+
+  &:hover {
+    border-color: rgb(var(--color-outline-500));
+  }
+}

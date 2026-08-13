@@ -1,0 +1,45 @@
+.wrapper {
+  position: relative;
+}
+.select {
+  display: flex;
+  height: 76px;
+  column-gap: 8px;
+
+  .placeholder {
+    flex: 1;
+    height: 100%;
+    background-color: rgb(var(--color-background-200));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--radius);
+  }
+  .feeBtn {
+    flex: 1;
+    height: 100%;
+    border-radius: var(--radius);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    row-gap: 4px;
+    font-size: 13px;
+  }
+}
+.custom {
+  margin-top: 12px;
+  display: flex;
+  flex-direction: column;
+  row-gap: 8px;
+
+  .customFeelabel {
+    display: block;
+    margin-bottom: 4px;
+    line-height: 20px;
+    font-size: 12px;
+  }
+  .customFeeTip {
+    color: rgb(var(--color-typography-900), .6);
+  }
+}

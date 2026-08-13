@@ -1,0 +1,36 @@
+.wrapper {
+  display: flex;
+  height: 76px;
+  align-items: center;
+  column-gap: 16px;
+  padding: 0 16px;
+  border-radius: var(--radius-md);
+  background-color: rgb(var(--color-background-200));
+  text-decoration: none;
+  transition: background-color 0.2s linear;
+
+  &:hover {
+    background-color: rgb(var(--color-background-500));
+  }
+
+  .main {
+    flex: 1;
+    height: 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    row-gap: 4px;
+
+    .name {
+      line-height: 20px;
+      font-size: 16px;
+      font-weight: 500;
+    }
+    .amount {
+      height: 16px;
+      line-height: 16px;
+      font-size: 12px;
+      color: rgba(var(--color-typography-900), .6);
+    }
+  }
+}
