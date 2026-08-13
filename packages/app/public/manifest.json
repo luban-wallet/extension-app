@@ -12,5 +12,9 @@
   "action": {
     "default_popup": "index.html"
   },
+  "background": {
+    "type": "module",
+    "service_worker": "background.mjs"
+  },
   "permissions": ["scripting", "activeTab", "storage", "tabs"]
 }
