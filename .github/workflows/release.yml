@@ -27,10 +27,6 @@ jobs:
         run: |
           yarn workspace @luban/wallet-app run build
 
-      - name: Move plugin files
-        run: |
-          cp -r dist_plugins luban_wallet/
-
       - name: Archive artifacts
         run: |
           zip -r luban_wallet.zip luban_wallet
