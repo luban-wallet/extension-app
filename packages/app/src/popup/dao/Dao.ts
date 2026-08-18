@@ -97,10 +97,10 @@ export default class Dao<T> {
     return rs
   }
 
-  public async getAll(): Promise<T[] | null> {
+  public async getAll(): Promise<T[]> {
     this.initDB()
 
-    let rs = null
+    let rs: T[] = []
     try {
       const com = await Dao.dbInstance!.getCommand<T>()
       rs = await com.queryAll(this.store)
@@ -113,10 +113,10 @@ export default class Dao<T> {
     return rs
   }
 
-  public async getAllByIndex(indexName: string, indexValue: IDBValidKey): Promise<T[] | null> {
+  public async getAllByIndex(indexName: string, indexValue: IDBValidKey): Promise<T[]> {
     this.initDB()
 
-    let rs = null
+    let rs: T[] = []
     try {
       const com = await Dao.dbInstance!.getCommand<T>()
       rs = await com.queryAllByIndex(this.store, indexName, indexValue)
@@ -132,7 +132,7 @@ export default class Dao<T> {
   public async getOneByIndex(indexName: string, indexValue: IDBValidKey): Promise<T | null> {
     this.initDB()
 
-    let rs = null
+    let rs: T | null = null
     try {
       const com = await Dao.dbInstance!.getCommand<T>()
       rs = await com.queryOneByIndex(this.store, indexName, indexValue)

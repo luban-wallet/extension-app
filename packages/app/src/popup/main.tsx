@@ -44,10 +44,6 @@ function Wrapper() {
       versionChanged = true
       let os: IDBObjectStore
 
-      if (!db.objectStoreNames.contains('prev_chain_account')) {
-        os = db.createObjectStore('prev_chain_account', { keyPath: 'id', autoIncrement: true })
-        os.createIndex('chainType', 'chainType', { unique: false })
-      }
       if (!db.objectStoreNames.contains('accounts')) {
         os = db.createObjectStore('accounts', { keyPath: 'id', autoIncrement: true })
         os.createIndex('chainType', 'chainType', { unique: false })
@@ -65,8 +61,14 @@ function Wrapper() {
       }
       if (!db.objectStoreNames.contains('transactions')) {
         os = db.createObjectStore('transactions', { keyPath: 'id', autoIncrement: true })
+        // It is better to use the wallet address as an index
+        // Here used chainId to make it easier to check the transactions of a certain chain.
         os.createIndex('chainId', 'chainId', { unique: false })
       }
+      // if (!db.objectStoreNames.contains('locked_utxos')) {
+      //   os = db.createObjectStore('locked_utxos', { keyPath: 'id', autoIncrement: true })
+      //   os.createIndex('address', 'address', { unique: false })
+      // }
 
       log(TAG, 'init db success')
     }
@@ -78,7 +80,6 @@ function Wrapper() {
       await Storage.getInstance('local').set(LOCAL_CURRENT_CHAIN, defaultNetworks[0])
 
       // clear accounts
-      await cmd.clear('prev_chain_account')
       await cmd.clear('accounts')
       await cmd.clear('networks')
       await cmd.clear('tokens')

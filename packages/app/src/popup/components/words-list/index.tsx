@@ -57,7 +57,7 @@ export default function WordsList(props: {words: string}) {
 
   return (
     <div>
-      <SwitchTab values={TABS} value={showQr ? 2 : 1} onChange={changeTab} />
+      <SwitchTab items={TABS} value={showQr ? 2 : 1} onChange={changeTab} />
       <div style={{display: showQr ? 'block' : 'none'}} className={css.qrWrapper}>
         <canvas id="qrcanvas" width={200} height={200} className={css.qrCanvas} />
       </div>

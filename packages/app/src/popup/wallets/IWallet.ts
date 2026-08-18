@@ -1,5 +1,6 @@
 import type { INetwork } from "../configs/network"
 import type { IToken } from "../configs/token"
+import type { IUTXO } from "../configs/utxo"
 
 /**
  * Wallet offline operations interface
@@ -59,8 +60,8 @@ export default interface IWallet {
 
   encodeTokenTransfer(to: string, amount: string): string
 
-  selectUtxos(feeRate: string, amount: string, unspent: unknown[]): Promise<{
-    selected: unknown[],
+  selectUtxos(feeRate: string, amount: string, unspent: IUTXO[]): Promise<{
+    selected: IUTXO[],
     change: bigint,
     needChange: boolean
   }>
@@ -88,10 +89,10 @@ export interface BaseTransaction {
 
   /** Bitcoin */
   /** Available UTXOs */
-  unspent?: Array<{txid: string, vout: number, value: string}>
+  unspent?: Array<IUTXO>
   /** Selected UTXOs */
   selected?: {
-    selected: Array<{txid: string, vout: number, value: string}>
+    selected: Array<IUTXO>
     change: bigint
     needChange: boolean
   }

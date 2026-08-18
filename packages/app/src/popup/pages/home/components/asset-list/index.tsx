@@ -20,16 +20,11 @@ export default function AssetList() {
   const { getCachedTokens, setCachedTokens } = useContext(TokenContext)!
   const [tokens, setTokens] = useState<IToken[] | null>(null)
 
-  useEffect(() => {
-    initList()
-  }, [currentNetwork?.chainId])
-
-  const initList = async () => {
-    if(currentNetwork === null) {
+  const initList = async (chainId: string | undefined) => {
+    if(chainId === undefined) {
       return
     }
 
-    const chainId = currentNetwork.chainId
     const tokens = getCachedTokens(chainId)
     if(tokens !== null && tokens !== undefined) {
       log(TAG, 'use cached tokens')
@@ -38,11 +33,15 @@ export default function AssetList() {
       return
     }
 
-    const list = await new TokenDao().getAllByIndex('chainId', currentNetwork.chainId)
+    const list = await new TokenDao().getAllByIndex('chainId', chainId)
     setCachedTokens(chainId, list)
     setTokens(list)
     setLoading(false)
   }
+
+  useEffect(() => {
+    initList(currentNetwork?.chainId)
+  }, [currentNetwork?.chainId])
 
   return (
     <div className={css.wrapper}>

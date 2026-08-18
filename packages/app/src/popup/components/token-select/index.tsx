@@ -57,7 +57,7 @@ export default function TokenSelect(props: IProps) {
     }
 
     const tokens = await new TokenDao().getAllByIndex('chainId', currentNetwork.chainId)
-    if(tokens === null || tokens.length === 0) {
+    if(tokens.length === 0) {
       return
     }
     let token = tokens.find(t => t.id === Number(tokenId))

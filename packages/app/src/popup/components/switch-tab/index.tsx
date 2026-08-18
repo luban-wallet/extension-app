@@ -7,11 +7,11 @@ export type SwitchItem = {
 }
 interface IProps {
   value: number
-  values: SwitchItem[],
+  items: SwitchItem[],
   onChange?: (item: SwitchItem) => void
 }
 export default function SwitchTab(props: IProps) {
-  const { value, values } = props
+  const { value, items } = props
 
   const changeTab = (e: React.MouseEvent<HTMLButtonElement>) => {
     const index = e.currentTarget.dataset.index
@@ -19,14 +19,14 @@ export default function SwitchTab(props: IProps) {
       return
     }
 
-    const item = values[Number(index)]
+    const item = items[Number(index)]
     props.onChange?.(item)
   }
 
   return (
     <div className={css.wrapper}>
       {
-        values.map((item, index) => (
+        items.map((item, index) => (
           <Button
             key={item.value}
             className={css.btn + ' ' + (value === item.value ? css.active : '')}

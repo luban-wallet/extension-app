@@ -71,6 +71,7 @@
   "page.home.panel.btn.send": "Send",
   "page.home.panel.btn.receive": "Receive",
   "page.home.panel.btn.activity": "Activities",
+  "page.home.panel.btn.utxos": "UTXOs",
   "page.home.asset.title": "Asset List",
   "page.home.asset.empty": "No Assets",
   "page.home.balance.tooltip.available": "Available",
@@ -168,8 +169,9 @@
 
   "page.forgetpassword.header": "Forget Password",
   "page.forgetpassword.btn.delete": "DELETE",
-  "page.forgetpassword.info1": "If you forget your password, you can only restore your wallet using the mnemonic phrase or private key.",
-  "page.forgetpassword.info2": "If you already have your mnemonic phrase or private key, you can delete the wallet and reset the password. Otherwise, Do not delete the wallet!!!",
+  "page.forgetpassword.info1": "If you forget your password, you can only restore your wallet using the mnemonic phrase.",
+  "page.forgetpassword.info2": "If you already have your mnemonic phrase, you can delete the wallet and reset the password. Otherwise, Do not delete the wallet!!!",
+  "page.forgetpassword.info3": "If you have ever exported your wallet, you can try decrypting it using the tool in the top right corner.",
   "page.forgetpassword.confirm": "Your wallets will be deleted. Please make sure to back them up; otherwise, you will lose your wallet data.",
 
   "page.import.header": "Import Wallet",
@@ -184,6 +186,14 @@
   "page.activity.header": "Activities",
   "page.activity.text.view": "View On Explorer",
   "page.activity.text.loadmore": "Load More",
+
+  "page.utxos.header": "UTXOs",
+  "page.utxos.tabs.available": "Available",
+  "page.utxos.tabs.locked": "Locked",
+  "page.utxos.btn.confirm": "Confirm",
+  "page.utxos.btn.cancel": "Cancel",
+  "page.utxos.info.lock": "Are you sure you want to lock this UTXO?",
+  "page.utxos.info.unlock": "Are you sure you want to unlock this UTXO?",
 
   "page.addnetwork.header": "Add Network",
   "page.about.header": "About",

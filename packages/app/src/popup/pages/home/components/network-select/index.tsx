@@ -22,9 +22,7 @@ export default function NetworkSelect() {
   const [list, setList] = useState<INetwork[] | null>(null)
 
   const openDialog = async () => {
-    if(list === null) {
-      await initNetwork()
-    }
+    await initNetwork()
     setShow(true)
   }
   const closeDialog = () => {

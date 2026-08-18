@@ -31,6 +31,7 @@ const ImportWallet = lazy(() => import('../pages/import-wallet'))
 const Tool = lazy(() => import('../pages/tool'))
 const SendDone = lazy(() => import('../pages/home/send-done'))
 const Activities = lazy(() => import('../pages/home/activities'))
+const Utxos = lazy(() => import('../pages/home/utxos'))
 const NetworkAdd = lazy(() => import('../pages/home/network-add'))
 const SettingsAbout = lazy(() => import('../pages/home/settings/settings-about'))
 const ProviderAccount = lazy(() => import('../pages/provider-request/account'))
@@ -104,6 +105,10 @@ const routes = createHashRouter([
       {
         path: 'activities',
         element: <Activities />
+      },
+      {
+        path: 'utxos',
+        element: <Utxos />
       },
       {
         path: "send-coin",

@@ -3,6 +3,7 @@ import type IWallet from '../IWallet'
 import { BIP32Factory, type BIP32Interface } from 'bip32'
 import { mnemonicToSeedSync } from 'bip39'
 import { crypto, initEccLib, networks, payments, Psbt } from 'bitcoinjs-lib'
+import { ECPairFactory } from 'ecpair'
 import * as ecc from '@bitcoinerlab/secp256k1'
 import { DERIVATION_PATHS } from '../../configs/account'
 import { Storage } from "@luban/wallet-storage"
@@ -10,17 +11,10 @@ import Crypto, { type Keystore } from "@lubankit/crypto"
 import { BITCOIN_DUST_RELAY_SATS, LOCAL_KEYSTORE } from '../../configs/constant'
 import ServiceFactory from '../../services/ServiceFactory'
 import type { BaseTransaction } from '../IWallet'
-import { ECPairFactory } from 'ecpair'
+import type { IUTXO } from '../../configs/utxo'
+import type { SomeRequired } from '../../utils/type'
 
-export interface BitcoinTransaction extends BaseTransaction {
-  unspent: Array<{txid: string, vout: number, value: string}>
-}
-
-export interface BitcoinUtxo {
-  txid: string
-  vout: number
-  value: string
-}
+export type BitcoinTransaction = SomeRequired<BaseTransaction, 'value' | 'unspent'>
 
 /**
  * Bitcoin wallet implementation
@@ -57,8 +51,8 @@ export default class Wallet implements IWallet {
    * @param amount sat amount
    * @param list available UTXOs
    */
-  public async selectUtxos(feeRate: string, amount: string, unspent: BitcoinUtxo[]): Promise<{
-    selected: BitcoinUtxo[],
+  public async selectUtxos(feeRate: string, amount: string, unspent: IUTXO[]): Promise<{
+    selected: IUTXO[],
     change: bigint,
     needChange: boolean
   }> {
@@ -144,10 +138,6 @@ export default class Wallet implements IWallet {
       throw new Error('Wallet not created')
     }
 
-    if(!tx.value) {
-      throw new Error('Transaction send amount is required')
-    }
-
     const selected = tx.selected
     if(selected === undefined) {
       throw new Error('No UTXOs selected')
@@ -212,8 +202,7 @@ export default class Wallet implements IWallet {
 
   public async prepareBaseCoinTransaction(network: INetwork, tx: BitcoinTransaction): Promise<BitcoinTransaction> {
     const service = ServiceFactory.getService(network.chainType)
-    const res = await service.call(network.rpc + `/api/address/${tx.from}/utxo`, 'GET', null)
-    const list: BitcoinUtxo[] = JSON.parse(res.result as string)
+    const list = await service.getUnspentList(network.rpc, tx.from)
 
     return {
       from: tx.from,

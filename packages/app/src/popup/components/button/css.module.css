@@ -50,14 +50,23 @@
     }
   }
   &[data-variant="ghost"] {
-    /* height: unset;
-    width: unset; */
     background-color: transparent;
     color: rgb(var(--color-typography-900));
 
     @media (hover: hover) {
       &:hover {
-        background-color: rgb(var(--color-background-500));
+        background-color: rgb(var(--color-background-700));
+      }
+    }
+  }
+  &[data-variant="border"] {
+    outline: 1px solid rgb(var(--color-background-700));
+    background-color: transparent;
+    color: rgb(var(--color-typography-900));
+
+    @media (hover: hover) {
+      &:hover {
+        background-color: rgb(var(--color-background-700));
       }
     }
   }

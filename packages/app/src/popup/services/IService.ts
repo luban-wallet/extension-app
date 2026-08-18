@@ -1,3 +1,5 @@
+import type { IUTXO } from '../configs/utxo'
+
 export default interface IService {
   /**
    * Executes a new message call
@@ -7,7 +9,7 @@ export default interface IService {
   /**
    * Get coin balance of address
    */
-  getCoinBalance(rpc: string, address: string): Promise<{available: string, unconfirmed: string}>
+  getCoinBalance(rpc: string, address: string): Promise<{available: string, unconfirmed: string, locked: string}>
 
   /**
    * Get the number of transactions sent from an address
@@ -48,6 +50,11 @@ export default interface IService {
    * Get token balance of address
    */
   getTokenBalance(rpc: string, contract: string, address: string): Promise<string>
+
+  /**
+   * Bitcoin only: Get the list of unspent transaction outputs (UTXOs) for a given address
+   */
+  getUnspentList(rpc: string, address: string): Promise<IUTXO[]>
 
   /**
    * Get the status of a transaction

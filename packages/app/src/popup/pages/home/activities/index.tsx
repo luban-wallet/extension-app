@@ -61,7 +61,10 @@ export default function Activities() {
 
   return (
     <>
-      <Pageheader title={t('page.activity.header')} />
+      <Pageheader
+        title={t('page.activity.header')}
+        slot={<Tip />}
+      />
       <Container>
         <Column>
         {list.map((item) => <TxItem key={item.id} data={item} onSelect={selectItem} />)}
@@ -79,7 +82,6 @@ export default function Activities() {
         </Column>
       </Container>
       <Footer>
-        <Tip />
         <Button onClick={view}>{t('page.activity.text.view')}</Button>
       </Footer>
 

@@ -71,6 +71,7 @@
   "page.home.panel.btn.send": "轉帳",
   "page.home.panel.btn.receive": "收款",
   "page.home.panel.btn.activity": "交易紀錄",
+  "page.home.panel.btn.utxos": "UTXOs",
   "page.home.asset.title": "資產清單",
   "page.home.asset.empty": "尚無資產",
   "page.home.balance.tooltip.available": "可用餘額",
@@ -168,8 +169,9 @@
 
   "page.forgetpassword.header": "忘記密碼",
   "page.forgetpassword.btn.delete": "刪除錢包",
-  "page.forgetpassword.info1": "若忘記密碼，僅能透過助記詞或私鑰還原錢包。",
-  "page.forgetpassword.info2": "若你持有助記詞或私鑰，可刪除錢包後重設密碼；若尚未備份，請勿執行刪除！",
+  "page.forgetpassword.info1": "若忘記密碼，僅能透過助記詞還原錢包。",
+  "page.forgetpassword.info2": "若你持有助記詞，可刪除錢包後重設密碼；若尚未備份，請勿執行刪除！",
+  "page.forgetpassword.info3": "若你曾經匯出過錢包，可嘗試使用右上角的工具進行解密。",
   "page.forgetpassword.confirm": "即將刪除錢包，刪除後無法復原。請務必確認已完成錢包備份！",
 
   "page.import.header": "匯入錢包",
@@ -184,6 +186,14 @@
   "page.activity.header": "交易紀錄",
   "page.activity.text.view": "在區塊鏈瀏覽器檢視",
   "page.activity.text.loadmore": "載入更多",
+
+  "page.utxos.header": "UTXOs",
+  "page.utxos.tabs.available": "可用",
+  "page.utxos.tabs.locked": "鎖定",
+  "page.utxos.btn.confirm": "確定",
+  "page.utxos.btn.cancel": "取消",
+  "page.utxos.info.lock": "確定要鎖定此 UTXO 嗎？",
+  "page.utxos.info.unlock": "確定要解鎖此 UTXO 嗎？",
 
   "page.addnetwork.header": "新增網路",
   "page.about.header": "關於",

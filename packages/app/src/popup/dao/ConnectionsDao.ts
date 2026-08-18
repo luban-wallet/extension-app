@@ -9,7 +9,7 @@ export default class ConnectionsDao extends Dao<IConnection> {
 
   async isConnected(url: string): Promise<boolean> {
     const list = await this.getAll()
-    if(list === null) {
+    if(list.length === 0) {
       return false
     }
 

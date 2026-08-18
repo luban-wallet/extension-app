@@ -1,9 +1,10 @@
 import Loading from '../loading'
+
 import css from './css.module.css'
 
 type ButtonType = React.ComponentPropsWithoutRef<'button'> & {
   loading?: boolean
-  variant?: 'link' | 'primary' | 'secondary' | 'ghost'
+  variant?: 'link' | 'primary' | 'secondary' | 'ghost' | 'border'
   children: React.ReactNode
 }
 

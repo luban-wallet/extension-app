@@ -1,5 +1,6 @@
 import LimitedFetch from '@lubankit/utils/LimitedFetch'
 import type IService from '../IService'
+import type { IUTXO } from '../../configs/utxo'
 
 export default class Service implements IService {
   decodeHexString(hexString: string) {
@@ -157,12 +158,17 @@ export default class Service implements IService {
     return json.result
   }
 
-  async getCoinBalance(rpc: string, address: string): Promise<{available: string, unconfirmed: string}> {
+  async getCoinBalance(rpc: string, address: string): Promise<{available: string, unconfirmed: string, locked: string}> {
     const json = await this.call<string>(rpc, 'eth_getBalance', [ address, 'latest' ])
     return {
       available: json.result,
-      unconfirmed: '0x0'
+      unconfirmed: '0x0',
+      locked: '0x0'
     }
+  }
+
+  getUnspentList(): Promise<IUTXO[]> {
+    throw new Error('getUnspentList(), Method not implemented.')
   }
 
   async getTransactionStatus(rpc: string, txHash: string): Promise<{status: 'pending' | 'success' | 'failed'}> {

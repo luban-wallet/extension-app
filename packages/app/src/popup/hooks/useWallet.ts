@@ -1,13 +1,12 @@
 import { useRef, useState } from 'react'
 import { Storage } from '@luban/wallet-storage'
 import type { IAccount } from '../configs/account'
-import { LOCAL_CURRENT_ACCOUNT, LOCAL_CURRENT_CHAIN } from '../configs/constant'
+import { LOCAL_CURRENT_ACCOUNT, LOCAL_CURRENT_CHAIN, LOCAL_PREV_CHAIN_ACCOUNT } from '../configs/constant'
 import MsgHelper from '../helpers/MsgHelper'
 import type { INetwork } from '../configs/network'
 import AccountsDao from '../dao/AccountsDao'
 import { log } from '../utils/debug'
 import type { BaseTransaction } from '../wallets/IWallet'
-import PrevChainAccount from '../dao/PrevChainAccount'
 
 export type WalletData = ReturnType<typeof useWallet>
 
@@ -17,29 +16,14 @@ export default function useWallet() {
   const txMeta = useRef<BaseTransaction | null>(null)
   const tokenTxMeta = useRef<BaseTransaction | null>(null)
 
-  // const setAndCacheCurrentNetwork = async (network: INetwork, notify = true) => {
-  //   await Storage.getInstance('local').set(LOCAL_CURRENT_CHAIN, network)
-  //   setCurrentNetwork(network)
-
-  //   if(notify) {
-  //     MsgHelper.notify({
-  //       action: 'switch_network',
-  //       data: network
-  //     })
-  //   }
-  // }
-
   const setAndCacheCurrentNetworkAndAccount = async (network: INetwork) => {
-    const prevDao = new PrevChainAccount()
-    let account = await prevDao.getOneByIndex('chainType', network.chainType)
+    const prevKey = LOCAL_PREV_CHAIN_ACCOUNT + network.chainType
+    let account = await Storage.getInstance<IAccount>('local').get(prevKey)
 
     // If there is a account for the network, use it.
     // Otherwise, get or insert an account for the network.
     if(account === null) {
       account = await new AccountsDao().getOrInsertDefaultAccount(network.chainType)
-      if(account !== null) {
-        await prevDao.update(account)
-      }
     }
 
     if(account === null) {
@@ -47,8 +31,10 @@ export default function useWallet() {
       return
     }
 
-    await Storage.getInstance('local').set(LOCAL_CURRENT_CHAIN, network)
-    await Storage.getInstance('local').set(LOCAL_CURRENT_ACCOUNT, account)
+    await Storage.getInstance('local').batchSet({
+      [LOCAL_CURRENT_CHAIN]: network,
+      [LOCAL_CURRENT_ACCOUNT]: account
+    })
     setCurrentNetwork(network)
     setCurrentAccount(account)
 
@@ -59,7 +45,13 @@ export default function useWallet() {
   }
 
   const setAndCacheAccount = async (account: IAccount) => {
-    await Storage.getInstance('local').set(LOCAL_CURRENT_ACCOUNT, account)
+    const currentKey = LOCAL_CURRENT_ACCOUNT
+    const prevKey = LOCAL_PREV_CHAIN_ACCOUNT + account.chainType
+
+    await Storage.getInstance('local').batchSet({
+      [currentKey]: account,
+      [prevKey]: account
+    })
     setCurrentAccount(account)
 
     MsgHelper.notify({
@@ -76,7 +68,6 @@ export default function useWallet() {
     txMeta,
     tokenTxMeta,
     setCurrentNetwork,
-    // setAndCacheCurrentNetwork,
     setCurrentAccount,
     setAndCacheAccount,
     setAndCacheCurrentNetworkAndAccount

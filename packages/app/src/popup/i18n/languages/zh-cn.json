@@ -71,6 +71,7 @@
   "page.home.panel.btn.send": "发送",
   "page.home.panel.btn.receive": "接收",
   "page.home.panel.btn.activity": "交易记录",
+  "page.home.panel.btn.utxos": "UTXOs",
   "page.home.asset.title": "资产列表",
   "page.home.asset.empty": "无资产",
   "page.home.balance.tooltip.available": "可用",
@@ -168,8 +169,9 @@
 
   "page.forgetpassword.header": "忘记密码",
   "page.forgetpassword.btn.delete": "删除钱包",
-  "page.forgetpassword.info1": "如果您忘记密码，只能通过助记词或私钥恢复钱包。",
-  "page.forgetpassword.info2": "如果您已经拥有助记词或私钥，可以删除钱包并重置密码。否则，请勿删除钱包！",
+  "page.forgetpassword.info1": "如果您忘记密码，只能通过助记词恢复钱包。",
+  "page.forgetpassword.info2": "如果您已经拥有助记词，可以删除钱包并重置密码。否则，请勿删除钱包！",
+  "page.forgetpassword.info3": "如果您曾经导出过钱包，可以尝试使用右上角的工具进行解密。",
   "page.forgetpassword.confirm": "钱包即将被删除，删除后无法恢复。请确保您已备份钱包！",
 
   "page.import.header": "导入钱包",
@@ -184,6 +186,14 @@
   "page.activity.header": "交易记录",
   "page.activity.text.view": "在区块链浏览器查看",
   "page.activity.text.loadmore": "加载更多",
+
+  "page.utxos.header": "UTXOs",
+  "page.utxos.tabs.available": "可用",
+  "page.utxos.tabs.locked": "锁定",
+  "page.utxos.btn.confirm": "确定",
+  "page.utxos.btn.cancel": "取消",
+  "page.utxos.info.lock": "确定要锁定此 UTXO 吗？",
+  "page.utxos.info.unlock": "确定要解锁此 UTXO 吗？",
 
   "page.addnetwork.header": "添加网络",
   "page.about.header": "关于",

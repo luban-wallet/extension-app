@@ -10,6 +10,7 @@ import { ActionSheet, ActionSheetContent } from "../../components/action-sheet"
 import IconSafe from "../../components/icons/safe"
 import { LOCAL_CURRENT_ACCOUNT, LOCAL_CURRENT_CHAIN, LOCAL_KEYSTORE, WALLET_DB } from "../../configs/constant"
 import IconRepair from "../../components/icons/repair"
+import Alert from "../../components/alert"
 
 import css from './index.module.css'
 
@@ -57,6 +58,7 @@ export default function ForgetPassword() {
       <Container>
         <p className={css.info}>{t('page.forgetpassword.info1')}</p>
         <p className={css.info}>{t('page.forgetpassword.info2')}</p>
+        <Alert>{t('page.forgetpassword.info3')}</Alert>
       </Container>
 
       <Footer>

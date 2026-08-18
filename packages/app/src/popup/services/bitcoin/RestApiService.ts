@@ -1,5 +1,7 @@
 import LimitedFetch from '@lubankit/utils/LimitedFetch'
 import type IService from '../IService'
+import type { IUTXO } from '../../configs/utxo'
+// import LockedUtxosDao from '../../dao/LockedUtxosDao'
 
 /**
  * Provides methods to interact with a REST API.
@@ -66,7 +68,7 @@ export default class RestApiService implements IService {
     throw new Error('getTokenBalance(), Method not implemented.')
   }
 
-  async getCoinBalance(rpc: string, address: string): Promise<{available: string, unconfirmed: string}> {
+  async getCoinBalance(rpc: string, address: string): Promise<{available: string, unconfirmed: string, locked: string}> {
     const res = await this.call(rpc + '/api/address/' + address, 'GET', null)
     const json = JSON.parse(res.result)
 
@@ -84,8 +86,30 @@ export default class RestApiService implements IService {
 
     return {
       available: available.toString(),
-      unconfirmed: unconfirmed.toString()
+      unconfirmed: unconfirmed.toString(),
+      locked: '0'
     }
+  }
+
+  async getUnspentList(rpc: string, address: string): Promise<IUTXO[]> {
+    const res = await this.call(rpc + '/api/address/' + address + '/utxo', 'GET', null)
+    const all = JSON.parse(res.result) as IUTXO[]
+
+    return all
+
+    // // locked data
+    // const map: Record<string, number> = {}
+    // const locked = await new LockedUtxosDao().getAllByIndex('address', address)
+    // for(const lock of locked) {
+    //   map[lock.txid + ':' + lock.vout] = 1
+    // }
+
+    // // filter out the locked utxos
+    // const availables = all.filter((utxo) => {
+    //   return map[utxo.txid + ':' + utxo.vout] === undefined
+    // })
+
+    // return availables
   }
 
   async getTransactionStatus(rpc: string, txHash: string): Promise<{status: 'pending' | 'success' | 'failed'}> {

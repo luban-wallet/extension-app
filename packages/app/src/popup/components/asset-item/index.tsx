@@ -58,6 +58,11 @@ export default function AssetItem(props: {token: IToken}) {
       return
     }
 
+    if(token.chainId !== network.chainId) {
+      log(TAG, 'token chainId not match network chainId')
+      return
+    }
+
     try {
       setLoading(true)
       const service = ServiceFactory.getService(network.chainType)

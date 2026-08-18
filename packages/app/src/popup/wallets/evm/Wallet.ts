@@ -6,24 +6,10 @@ import { DERIVATION_PATHS } from '../../configs/account'
 import { LOCAL_KEYSTORE } from '../../configs/constant'
 import type { INetwork } from '../../configs/network'
 import type { BaseTransaction } from '../IWallet'
+import type { IUTXO } from '../../configs/utxo'
+import type { SomeRequired } from '../../utils/type'
 
-export interface EthereumTransaction extends BaseTransaction {
-  type: number
-  /** A decimal chain id in ethereum or empty string */
-  chainId: string
-  value: string
-  data: string
-
-  // EIP-1559 parameters
-  gasLimit: string
-  maxPriorityFeePerGas: string
-  /**
-   * @example
-   *
-   * `gasPrice = min(baseFee + maxPriorityFeePerGas, maxFeePerGas)`
-   */
-  maxFeePerGas: string
-}
+export type EthereumTransaction = SomeRequired<BaseTransaction, 'type' | 'chainId' | 'value' | 'data' | 'gasLimit' | 'maxPriorityFeePerGas' | 'maxFeePerGas'>
 
 /**
  * EVM HDNode Wallet implementation
@@ -179,7 +165,7 @@ export default class Wallet implements IWallet {
   }
 
   public selectUtxos(): Promise<{
-    selected: unknown[],
+    selected: IUTXO[],
     change: bigint,
     needChange: boolean
   }> {

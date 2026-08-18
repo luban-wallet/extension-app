@@ -23,9 +23,7 @@ export default function AccountSelect() {
   const [list, setList] = useState<IAccount[] | null>(null)
 
   const openList = async () => {
-    if(list === null) {
-      await initList()
-    }
+    await initList()
     setShow(true)
   }
 

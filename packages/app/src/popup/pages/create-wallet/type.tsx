@@ -40,7 +40,7 @@ export default function GenerateType() {
         <Title >{t('page.create.type.wordstype.title')}</Title>
         <SwitchTab
           value={count}
-          values={[
+          items={[
             {label: t('page.create.type.wordstype.type24'), value: 24},
             {label: t('page.create.type.wordstype.type12'), value: 12}
           ]}

@@ -1,0 +1,32 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  row-gap: 12px;
+  padding: 16px 16px;
+  border-radius: var(--radius);
+  background-color: rgb(var(--color-background-200));
+  transition: background-color 0.2s linear;
+
+  .mask {
+    inset: 0;
+    /* cursor: pointer; */
+  }
+
+  .link {
+    display: flex;
+    align-items: center;
+    column-gap: 2px;
+    height: 16px;
+    font-size: 12px;
+    text-decoration: underline;
+
+    &:hover {
+      color: rgb(var(--color-primary-900));
+    }
+  }
+
+  .lockBtn {
+    height: 32px;
+    font-size: 14px;
+  }
+}

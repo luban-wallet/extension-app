@@ -36,13 +36,11 @@ export default function AccountAdd() {
 
     let index = nextIndex
     const accounts = await new AccountsDao().getAllByIndex('chainType', currentNetwork.chainType)
-    if(accounts !== null) {
-      accounts.forEach((v) => {
-        if(v.index > index) {
-          index = v.index
-        }
-      })
-    }
+    accounts.forEach((v) => {
+      if(v.index > index) {
+        index = v.index
+      }
+    })
     index++
 
     setNextIndex(index)
