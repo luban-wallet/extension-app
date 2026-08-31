@@ -15,7 +15,7 @@ export const WALLET_DB_VER = 1
 export const EVENT_REFRESH_BALANCE = 'e.refresh.balance'
 export const EVENT_REFRESH_FEE = 'e.refresh.fee'
 
-export const BITCOIN_DUST_RELAY_SATS = 330n
+export const BITCOIN_DUST_RELAY_SATS = 546n
 export const EVM_GAS_LIMIT_RATE = 2.5
 
 export const DEBUG_TEST_PASSWORD = 'dev'

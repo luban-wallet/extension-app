@@ -10,7 +10,7 @@ import Badge from '../../../../../components/badge'
 import css from './index.module.css'
 
 interface IProps {
-  onSelect: (data: ITransaction) => void
+  onSelect: (id: number) => void
   data: ITransaction
 }
 
@@ -36,7 +36,7 @@ export default function TxItem(props: IProps) {
 
   return (
     <div className={css.wrapper}>
-      <div className={css.mask} onClick={() => props.onSelect(data)} />
+      <div className={css.mask} onClick={() => props.onSelect(data.id!)} />
       <div className={css.left}>
         {
           data.type === 'in'

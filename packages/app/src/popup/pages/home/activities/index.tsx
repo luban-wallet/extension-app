@@ -20,7 +20,7 @@ export default function Activities() {
   const [hasMore, setHasMore] = useState(true)
   const [page, setPage] = useState(1)
   const [list, setList] = useState<ITransaction[]>([])
-  const [selectedItem, setSelectedItem] = useState<ITransaction | null>(null)
+  const [selectedItem, setSelectedItem] = useState<number>(0)
 
   const loadList = async (page: number) => {
     const json = await new TransactionDao().getListByPageAndIndex(
@@ -55,10 +55,6 @@ export default function Activities() {
     globalThis.open(to, '_blank')
   }
 
-  const selectItem = (data: ITransaction) => {
-    setSelectedItem(data)
-  }
-
   return (
     <>
       <Pageheader
@@ -67,7 +63,7 @@ export default function Activities() {
       />
       <Container>
         <Column>
-        {list.map((item) => <TxItem key={item.id} data={item} onSelect={selectItem} />)}
+        {list.map((item) => <TxItem key={item.id} data={item} onSelect={setSelectedItem} />)}
 
         {
           !loading && list.length === 0 ? (
@@ -87,10 +83,10 @@ export default function Activities() {
 
       {/* Detail Dialog */}
       {
-        selectedItem === null ? null : (
+        selectedItem === 0 ? null : (
           <DetailDialog
-            data={selectedItem}
-            onClose={() => setSelectedItem(null)}
+            id={selectedItem}
+            onClose={() => setSelectedItem(0)}
           />
         )
       }

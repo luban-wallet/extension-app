@@ -64,7 +64,7 @@ export default function Token() {
           <div className={css.tokenInfoMain}>
             <h4 className={css.tokenInfoName}>{token?.symbol ?? ''}</h4>
             <div className={css.tokenInfoAddress}>
-              <span>{formatAddress(token?.contract ?? '')}</span>
+              <span>ID: {formatAddress(token?.contract ?? '')}</span>
               <CopyText size={16} value={token?.contract ?? ''} />
             </div>
           </div>
