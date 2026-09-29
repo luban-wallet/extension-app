@@ -9,9 +9,10 @@ const CONFIG = {
       copyPublicDir: false,
       lib: {
         entry: path.resolve(__dirname, 'src/plugins/background_scripts/index.ts'),
-        formats: ['es'],
+        formats: ['umd'],
+        name: 'LBService',
         fileName: () => {
-          return 'background.mjs'
+          return 'background.js'
         }
       }
     }

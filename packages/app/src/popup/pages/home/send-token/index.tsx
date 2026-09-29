@@ -51,7 +51,7 @@ export default function SendToken() {
       setNonce(BigInt(nonce).toString())
       setLoading(false)
     } catch(e) {
-      console.error(e)
+      log(TAG, e)
     }
   }
 
@@ -101,7 +101,7 @@ export default function SendToken() {
         replace: true
       })
     } catch(e) {
-      console.error(e)
+      log(TAG, e)
     } finally {
       setLoading(false)
     }

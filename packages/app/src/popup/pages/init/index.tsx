@@ -39,7 +39,7 @@ export default function Init() {
       }
       setLoading(false)
     } catch(e) {
-      console.error('init error: ', e)
+      log(TAG, e)
     }
   }
 

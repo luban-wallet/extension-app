@@ -16,7 +16,9 @@ import MsgHelper from "../../helpers/MsgHelper"
 import WalletFactory from "../../wallets/WalletFactory"
 import { WalletContext } from "../../contexts/WalletContext"
 import AccountsDao from "../../dao/AccountsDao"
+import { log } from "../../utils/debug"
 
+const TAG = '[CREATE_WALLET_DONE]'
 export default function Done() {
   const [showTip, setShowTip] = useState(false)
   const [words, setWords] = useState<string>('')
@@ -51,7 +53,7 @@ export default function Done() {
 
       setWords(words)
     } catch(e) {
-      console.error(e)
+      log(TAG, e)
     }
   }
 

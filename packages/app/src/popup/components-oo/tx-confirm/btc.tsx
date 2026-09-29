@@ -8,7 +8,9 @@ import Row from "../../components/row"
 import Button from "../../components/button"
 import WalletFactory from "../../wallets/WalletFactory"
 import { I18nContext } from "../../contexts/I18nContext"
+import { log } from "../../utils/debug"
 
+const TAG = '[BTC_TX_CONFIRM]'
 export default function Btc(props: IProps) {
   const { to, amount, symbol, feeUnitPrice } = props
   const [loading, setLoading] = useState(true)
@@ -39,7 +41,7 @@ export default function Btc(props: IProps) {
 
       setGasLimit(quantity)
     } catch(e) {
-      console.error(e)
+      log(TAG, e)
     } finally {
       setLoading(false)
     }

@@ -139,7 +139,7 @@ function Wrapper() {
 
       setLoading(false)
     } catch (e) {
-      console.error('init db error: ', e)
+      log(TAG, e)
     }
   }
 

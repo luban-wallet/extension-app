@@ -11,6 +11,7 @@ import { I18nContext } from "../../contexts/I18nContext"
 import { EVM_GAS_LIMIT_RATE } from "../../configs/constant"
 import IconEdit from "../../components/icons/edit"
 import Input from "../../components/input"
+import { log } from "../../utils/debug"
 
 const advanced = {
   fontSize: '12px',
@@ -20,6 +21,7 @@ const advanced = {
   padding: '0px 8px'
 }
 
+const TAG = '[EVM_TX_CONFIRM]'
 export default function Evm(props: IProps) {
   const { isToken, from, to, amount, symbol, baseFee, feeUnitPrice } = props
   const [showAdvanced, setShowAdvanced] = useState(false)
@@ -62,7 +64,7 @@ export default function Evm(props: IProps) {
 
       setGasLimit(BigInt(quantity).toString())
     } catch(e) {
-      console.error(e)
+      log(TAG, e)
     } finally {
       setLoading(false)
     }

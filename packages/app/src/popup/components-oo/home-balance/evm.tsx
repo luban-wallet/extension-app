@@ -64,7 +64,7 @@ export default function Evm() {
       setBalance(coin.available)
       setLoading(false)
     } catch(e) {
-      console.error('get balance error', e)
+      log(TAG, e)
     }
   }
 

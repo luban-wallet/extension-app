@@ -13,7 +13,9 @@ import Tip from "./components/tip"
 import LockedUtxosDao from "../../../dao/LockedUtxosDao"
 import { Dialog, DialogContent } from "../../../components/dialog"
 import Button from "../../../components/button"
+import { log } from "../../../utils/debug"
 
+const TAG = '[Utxos]'
 export default function Utxos() {
   const [loading, setLoading] = useState(true)
   const [posting, setPosting] = useState(false)
@@ -34,7 +36,7 @@ export default function Utxos() {
       const json = await service.getUnspentList(currentNetwork.rpc, currentAccount.address)
       setList(json)
     } catch(e) {
-      console.error(e)
+      log(TAG, e)
     } finally {
       setLoading(false)
     }
@@ -50,7 +52,7 @@ export default function Utxos() {
       const locked = await new LockedUtxosDao().getAllByIndex('address', currentAccount.address)
       setList(locked)
     } catch(e) {
-      console.error(e)
+      log(TAG, e)
     } finally {
       setLoading(false)
     }
@@ -85,7 +87,7 @@ export default function Utxos() {
       // Reload list
       loadAvailableList()
     } catch(e) {
-      console.error(e)
+      log(TAG, e)
     } finally {
       setPosting(false)
     }
@@ -103,7 +105,7 @@ export default function Utxos() {
       // Reload list
       loadLockedList()
     } catch(e) {
-      console.error(e)
+      log(TAG, e)
     } finally {
       setPosting(false)
     }

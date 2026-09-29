@@ -14,7 +14,16 @@
   },
   "background": {
     "type": "module",
-    "service_worker": "background.mjs"
+    "service_worker": "dist_plugins/background.js"
   },
-  "permissions": ["scripting", "activeTab", "storage", "tabs"]
+  "content_scripts": [{
+    "js": ["dist_plugins/content.js"],
+    "matches": ["file://*/*", "http://*/*", "https://*/*"],
+    "run_at": "document_idle"
+  }],
+  "permissions": ["scripting", "activeTab", "storage", "tabs"],
+  "web_accessible_resources": [{
+    "matches": ["file://*/*", "http://*/*", "https://*/*"],
+    "resources": ["dist_plugins/inpage.js"]
+  }]
 }

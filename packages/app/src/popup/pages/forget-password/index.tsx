@@ -11,9 +11,11 @@ import IconSafe from "../../components/icons/safe"
 import { LOCAL_CURRENT_ACCOUNT, LOCAL_CURRENT_CHAIN, LOCAL_KEYSTORE, WALLET_DB } from "../../configs/constant"
 import IconRepair from "../../components/icons/repair"
 import Alert from "../../components/alert"
+import { log } from "../../utils/debug"
 
 import css from './index.module.css'
 
+const TAG = '[FORGET_PASSWORD]'
 export default function ForgetPassword() {
   const [loading, setLoading] = useState(false)
   const [showTip, setShowTip] = useState(false)
@@ -37,7 +39,7 @@ export default function ForgetPassword() {
       }, 1000);
 
     } catch(e) {
-      console.error(e)
+      log(TAG, e)
     }
   }
 

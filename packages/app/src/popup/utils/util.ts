@@ -5,7 +5,7 @@ export async function copyText(text: string): Promise<void> {
   try {
     await globalThis.navigator.clipboard.writeText(text)
   } catch(e) {
-    console.error('Copy failed', e)
+    console.log('Copy failed', e)
   }
 }
 

@@ -27,7 +27,7 @@ export default function useI18n() {
       await Storage.getInstance('local').set(LOCAL_LANG, key)
       setLang(key)
     } catch(e) {
-      console.error(e)
+      console.log(e)
     }
   }
 

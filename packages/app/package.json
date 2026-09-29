@@ -6,10 +6,10 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
-    "build:background": "export FLAG=background && tsc && vite build -c vite.config.plugin.ts",
+    "build:plugins": "npm run build:content && npm run build:inpage && npm run build:background",
     "build:content": "export FLAG=content && tsc && vite build -c vite.config.plugin.ts",
     "build:inpage": "export FLAG=inpage && tsc && vite build -c vite.config.plugin.ts",
-    "build:plugins": "npm run build:content && npm run build:inpage && npm run build:background",
+    "build:background": "export FLAG=background && tsc && vite build -c vite.config.plugin.ts",
     "lint": "eslint .",
     "preview": "vite preview"
   },
@@ -22,7 +22,7 @@
     "@luban/wallet-storage": "1.0.0",
     "@lubankit/crypto": "^1.0.2",
     "@lubankit/indexeddb": "^1.0.3",
-    "@lubankit/msg-channel": "^1.0.1",
+    "@lubankit/msg-channel": "^1.0.2",
     "@lubankit/utils": "^1.0.0",
     "@radix-ui/react-dialog": "^1.1.15",
     "@radix-ui/react-dropdown-menu": "^2.1.16",

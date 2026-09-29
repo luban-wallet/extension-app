@@ -87,7 +87,7 @@ export default function Evm(props: IProps) {
         priorityFee: bigintPriorityFee
       })
     } catch(e) {
-      console.error('load fee failed: ', e)
+      log(TAG, e)
       toast.error('Failed to obtain fee data, please refresh transaction fee.')
     }
   }

@@ -25,7 +25,7 @@ export default class Dao<T> {
       const com = await Dao.dbInstance!.getCommand<T>()
       rs = await com.add(this.store, data)
     } catch(e) {
-      console.error(e)
+      console.log(e)
     }
 
     this.close()
@@ -41,7 +41,7 @@ export default class Dao<T> {
       const com = await Dao.dbInstance!.getCommand<T>()
       rs = await com.delete(this.store, pk)
     } catch(e) {
-      console.error(e)
+      console.log(e)
     }
 
     this.close()
@@ -57,7 +57,7 @@ export default class Dao<T> {
       const com = await Dao.dbInstance!.getCommand<T>()
       rs = await com.clear(this.store)
     } catch(e) {
-      console.error(e)
+      console.log(e)
     }
 
     this.close()
@@ -73,7 +73,7 @@ export default class Dao<T> {
       const com = await Dao.dbInstance!.getCommand<T>()
       rs = await com.update(this.store, data)
     } catch(e) {
-      console.error(e)
+      console.log(e)
     }
 
     this.close()
@@ -89,7 +89,7 @@ export default class Dao<T> {
       const com = await Dao.dbInstance!.getCommand<T>()
       rs = await com.queryOne(this.store, pk)
     } catch(e) {
-      console.error(e)
+      console.log(e)
     }
 
     this.close()
@@ -105,7 +105,7 @@ export default class Dao<T> {
       const com = await Dao.dbInstance!.getCommand<T>()
       rs = await com.queryAll(this.store)
     } catch(e) {
-      console.error(e)
+      console.log(e)
     }
 
     this.close()
@@ -121,7 +121,7 @@ export default class Dao<T> {
       const com = await Dao.dbInstance!.getCommand<T>()
       rs = await com.queryAllByIndex(this.store, indexName, indexValue)
     } catch(e) {
-      console.error(e)
+      console.log(e)
     }
 
     this.close()
@@ -137,7 +137,7 @@ export default class Dao<T> {
       const com = await Dao.dbInstance!.getCommand<T>()
       rs = await com.queryOneByIndex(this.store, indexName, indexValue)
     } catch(e) {
-      console.error(e)
+      console.log(e)
     }
 
     this.close()
@@ -155,7 +155,7 @@ export default class Dao<T> {
       total = await com.count(this.store)
       rs = await com.queryListByPage(this.store, page, pageSize)
     } catch(e) {
-      console.error(e)
+      console.log(e)
     }
 
     this.close()
@@ -176,7 +176,7 @@ export default class Dao<T> {
       total = await com.countByIndex(this.store, indexName, indexValue)
       rs = await com.queryListByPageAndIndex(this.store, page, pageSize, indexName, indexValue)
     } catch(e) {
-      console.error(e)
+      console.log(e)
     }
 
     this.close()

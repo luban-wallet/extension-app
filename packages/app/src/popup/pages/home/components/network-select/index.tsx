@@ -10,10 +10,12 @@ import LinkButton from "../../../../components/link-button"
 import IconAdd from "../../../../components/icons/add"
 import NetworkItem from "../../../../components/network-item"
 import { WalletContext } from "../../../../contexts/WalletContext"
+import { toast } from "sonner"
+import { log } from "../../../../utils/debug"
 
 import css from './index.module.css'
-import { toast } from "sonner"
 
+const TAG = '[NetworkSelect]'
 export default function NetworkSelect() {
   const [loading, setLoading] = useState(false)
   const [show, setShow] = useState(false)
@@ -63,7 +65,7 @@ export default function NetworkSelect() {
       await setAndCacheCurrentNetworkAndAccount(network)
       closeDialog()
     } catch(e) {
-      console.error(e)
+      log(TAG, e)
     } finally {
       setLoading(false)
     }

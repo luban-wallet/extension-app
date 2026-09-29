@@ -10,7 +10,9 @@ import Alert from "../../components/alert"
 import { MEM_PWD } from "../../configs/constant"
 import Container from "../../components/container"
 import MsgHelper from "../../helpers/MsgHelper"
+import { log } from "../../utils/debug"
 
+const TAG = '[CREATE_WALLET_PASSWORD]'
 export default function Password() {
   const nav = useNavigate()
   const { t } = useContext(I18nContext)!
@@ -36,7 +38,7 @@ export default function Password() {
       await MsgHelper.memSet(MEM_PWD, password)
       nav('/create-wallet/type')
     } catch(e) {
-      console.error(e)
+      log(TAG, e)
     }
   }
 

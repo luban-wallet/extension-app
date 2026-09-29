@@ -9,9 +9,11 @@ import HaloShader from '../../components/shader'
 import Input from '../../components/input'
 import { LOCAL_KEYSTORE, MEM_PWD } from '../../configs/constant'
 import MsgHelper from '../../helpers/MsgHelper'
+import { log } from '../../utils/debug'
 
 import css from './index.module.css'
 
+const TAG = '[Unlock]'
 export default function Unlock() {
   const [loading, setLoading] = useState(false)
   const nav = useNavigate()
@@ -40,7 +42,7 @@ export default function Unlock() {
       MsgHelper.memSet(MEM_PWD, password)
       nav(backUrl === null ? '/home' : backUrl)
     } catch (e) {
-      console.error(e)
+      log(TAG, e)
     } finally {
       setLoading(false)
     }

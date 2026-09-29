@@ -51,7 +51,7 @@ export default function SendCoinSign() {
       const coin = await service.getCoinBalance(currentNetwork.rpc, currentAccount.address)
       setCoinBalance(coin.available)
     } catch(e) {
-      console.error(e)
+      log(TAG, e)
     } finally {
       setLoading(false)
     }

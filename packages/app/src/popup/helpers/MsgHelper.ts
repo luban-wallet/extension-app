@@ -5,7 +5,7 @@ import type { ProviderResponse } from '../configs/provider'
 const DEV = import.meta.env.DEV
 
 export default class MsgHelper {
-  static async notify(payload: { action: string, data: unknown }): Promise<void> {
+  static notify(payload: { action: string, data: unknown }): void {
     if(DEV) {
       return
     }
@@ -15,7 +15,9 @@ export default class MsgHelper {
       data: payload,
     }
 
-    await MessageChannelExtensionDom.sendMessageToContent<void>(message)
+    MessageChannelExtensionDom.sendMessageToContent<void>(message).catch((e) => {
+      console.log(e)
+    })
   }
 
   static async memSet<T>(key: string, value: T): Promise<void> {

@@ -10,6 +10,7 @@ import { toMaximalUnit } from "../../utils/util"
 import Tooltip from "../../components/tooltip"
 import Row from "../../components/row"
 import { I18nContext } from "../../contexts/I18nContext"
+import { log } from "../../utils/debug"
 
 const wrapper = {
   display: 'grid',
@@ -26,6 +27,7 @@ const balanceInner = {
   width: 'max-content',
 }
 
+const TAG = '[BTC_BALANCE]'
 export default function Btc() {
   const [loading, setLoading] = useState(false)
   const [showTooltip, setShowTooltip] = useState(false)
@@ -60,7 +62,7 @@ export default function Btc() {
       setUnconfirm(coin.unconfirmed)
       setLoading(false)
     } catch(e) {
-      console.error('get balance error', e)
+      log(TAG, e)
     }
   }
 

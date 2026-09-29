@@ -71,7 +71,7 @@ export default function AssetItem(props: {token: IToken}) {
       setBalance(balance)
       setLoading(false)
     } catch(e) {
-      console.error(e)
+      log(TAG, e)
     }
   }, [token.id])
 

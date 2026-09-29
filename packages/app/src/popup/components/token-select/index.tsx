@@ -11,6 +11,7 @@ import { formatUnits } from "../../utils/util"
 import CheckIcon from "../check-icon"
 import ServiceFactory from "../../services/ServiceFactory"
 import { WalletContext } from "../../contexts/WalletContext"
+import { log } from "../../utils/debug"
 
 import css from './index.module.css'
 
@@ -19,6 +20,7 @@ interface IProps {
   onSelect: (token: IToken, balance: string) => void
 }
 
+const TAG = '[TokenSelect]'
 export default function TokenSelect(props: IProps) {
   const [showDialog, setShowDialog] = useState(false)
   const [currentToken, setCurrentToken] = useState<IToken | null>(null)
@@ -47,7 +49,7 @@ export default function TokenSelect(props: IProps) {
       setBalance(balance)
       props.onSelect(token, balance)
     } catch(e) {
-      console.error(e)
+      log(TAG, e)
     }
   }
 

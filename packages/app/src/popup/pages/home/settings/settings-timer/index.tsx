@@ -6,8 +6,11 @@ import { I18nContext } from "../../../../contexts/I18nContext"
 import CheckIcon from "../../../../components/check-icon"
 import { LOCAL_LIFE_MS } from "../../../../configs/constant"
 import { Storage } from "@luban/wallet-storage"
+import { log } from "../../../../utils/debug"
 
 import css from './index.module.css'
+
+const TAG = '[SettingsTimer]'
 
 // Minutes list
 const LIST = ['1', '5', '10']
@@ -27,7 +30,7 @@ export default function SettingsTimer() {
       }
       setTimer((BigInt(ms) / 60n / 1000n).toString())
     } catch(e) {
-      console.error(e)
+      log(TAG, e)
     }
   }
 

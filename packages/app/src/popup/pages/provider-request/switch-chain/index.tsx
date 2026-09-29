@@ -10,6 +10,7 @@ import NetworkDao from '../../../dao/NetworkDao'
 import MsgHelper from '../../../helpers/MsgHelper'
 import { WalletContext } from '../../../contexts/WalletContext'
 import type { INetwork } from '../../../configs/network'
+import { log } from '../../../utils/debug'
 
 import css from './index.module.css'
 
@@ -17,6 +18,7 @@ type SwitchChainPayload = [{
   chainId: string
 }]
 
+const TAG = '[ProviderRequestSwitchChain]'
 export default function SwitchChain() {
   const { request } = useContext(ProviderRequestContext)!
   const { currentNetwork, setAndCacheCurrentNetworkAndAccount } = useContext(WalletContext)!
@@ -44,7 +46,7 @@ export default function SwitchChain() {
       const find = await new NetworkDao().getOneByIndex('chainId', chainId)
       setTargetNetwork(find)
     } catch(e) {
-      console.error(e)
+      log(TAG, e)
     }
   }
 

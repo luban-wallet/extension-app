@@ -10,7 +10,9 @@ import Pageheader from '../../../../components/page-header'
 import { I18nContext } from '../../../../contexts/I18nContext'
 import { LOCAL_KEYSTORE } from '../../../../configs/constant'
 import Container from '../../../../components/container'
+import { log } from '../../../../utils/debug'
 
+const TAG = '[ExportWallet]'
 export default function ExportWallet() {
   const [loading, setLoading] = useState(false)
   const { t } = useContext(I18nContext)!
@@ -42,7 +44,7 @@ export default function ExportWallet() {
 
       setPassword('')
     } catch (e) {
-      console.error(e)
+      log(TAG, e)
       toast.error((e as Error).message)
     } finally {
       setLoading(false)

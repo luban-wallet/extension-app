@@ -16,7 +16,7 @@ interface IProps {
   onClose: () => void
 }
 
-const TAG = '[TransactionDetailDialog]'
+const TAG = '[Transaction_DetailDialog]'
 export default function DetailDialog(props: IProps) {
   const { id } = props
   const { t } = useContext(I18nContext)!
@@ -47,7 +47,7 @@ export default function DetailDialog(props: IProps) {
         }
       }
     } catch(e) {
-      console.error(e)
+      log(TAG, e)
     }
   }
 

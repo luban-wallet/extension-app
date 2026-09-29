@@ -28,7 +28,7 @@ export default function Wrapper() {
       request.current = data
       setLoading(false)
     } catch(e) {
-      console.error(e)
+      log(TAG, e)
     }
   }
 

@@ -11,7 +11,9 @@ import ServiceFactory from "../../../services/ServiceFactory"
 import { WalletContext } from "../../../contexts/WalletContext"
 import WalletFactory from "../../../wallets/WalletFactory"
 import SendNonce from "../../../components-oo/send-nonce"
+import { log } from "../../../utils/debug"
 
+const TAG = '[SendCoin]'
 export default function SendCoin() {
   const [loading, setLoading] = useState(false)
   const nav = useNavigate()
@@ -41,7 +43,7 @@ export default function SendCoin() {
       }
       setLoading(false)
     } catch(e) {
-      console.error(e)
+      log(TAG, e)
     }
   }
 
@@ -73,7 +75,7 @@ export default function SendCoin() {
         replace: true
       })
     } catch(e) {
-      console.error(e)
+      log(TAG, e)
     } finally {
       setLoading(false)
     }

@@ -16,9 +16,11 @@ import Container from '../../../components/container'
 import TokenDao from '../../../dao/TokenDao'
 import ServiceFactory from '../../../services/ServiceFactory'
 import { WalletContext } from '../../../contexts/WalletContext'
+import { log } from '../../../utils/debug'
 
 import css from './index.module.css'
 
+const TAG = '[TokenDetail]'
 const TABS = ['Info']
 
 export default function Token() {
@@ -51,7 +53,7 @@ export default function Token() {
       setCachedBalance(token.id!, currentAccount.address, balance)
       setBalance(balance)
     } catch(e) {
-      console.error(e)
+      log(TAG, e)
     }
   }
 

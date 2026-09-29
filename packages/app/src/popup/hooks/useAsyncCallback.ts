@@ -16,7 +16,7 @@ export default function useAsyncCallback<D, F extends (...args: unknown[]) => Pr
       const res = await fun(...args)
       setData(res)
     } catch(e) {
-      console.error(e)
+      console.log(e)
     } finally {
       ref.current = false
       setLoading(false)
