@@ -72,7 +72,7 @@ export default class Wallet implements IWallet {
       value += BigInt(sorted[i].value)
 
       feeQuantity = await service.estimateGas('', [{input: utxos.length, output: 2}])
-      cost =  BigInt(amount) + BigInt(feeQuantity) * BigInt(feeRate)
+      cost = BigInt(amount) + BigInt(feeQuantity) * BigInt(feeRate)
 
       if(value >= cost) {
         break

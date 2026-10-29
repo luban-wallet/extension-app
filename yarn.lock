@@ -1324,6 +1324,11 @@ chalk@^4.0.0:
     ansi-styles "^4.1.0"
     supports-color "^7.1.0"
 
+chrome-types@^0.1.452:
+  version "0.1.452"
+  resolved "https://registry.yarnpkg.com/chrome-types/-/chrome-types-0.1.452.tgz#cdd01d74b8cac0072a2ac450df361c8b489d0c4e"
+  integrity sha512-gGhfH1Ynmp3Lj4C9y+mo7Zf38mAtuubNVQH6jgExExXu6WQm01Q4VOWE8Eafu9RogfUuspRLvEIoqzETxlwcng==
+
 cliui@^6.0.0:
   version "6.0.0"
   resolved "https://registry.yarnpkg.com/cliui/-/cliui-6.0.0.tgz#511d702c0c4e41ca156d7d0e96021f23e13225b1"

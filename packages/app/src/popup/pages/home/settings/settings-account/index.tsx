@@ -4,7 +4,7 @@ import ColorIcon from "../../../../components/color-icon"
 import Container, { Column } from "../../../../components/container"
 import Pageheader from "../../../../components/page-header"
 import type { IAccount } from "../../../../configs/account"
-import AccountsDao from "../../../../dao/AccountsDao"
+import AccountDao from "../../../../dao/AccountDao"
 import { formatAddress } from "../../../../utils/util"
 import { Dialog, DialogContent } from "../../../../components/dialog"
 import Input from "../../../../components/input"
@@ -30,7 +30,7 @@ export default function SettingsAccount() {
       return
     }
 
-    const json = await new AccountsDao().getAllByIndex('chainType', currentNetwork.chainType)
+    const json = await new AccountDao().getAllByIndex('chainType', currentNetwork.chainType)
     setList(json)
   }
 
@@ -46,9 +46,9 @@ export default function SettingsAccount() {
     setDeleting(account)
   }
 
-  const submitEdit = async (e: React.FormEvent) => {
+  const submitEdit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    const form = e.target as HTMLFormElement
+    const form = e.currentTarget
     const alias = new FormData(form).get('alias') as string
     if(alias === '') {
       return
@@ -58,7 +58,7 @@ export default function SettingsAccount() {
       ...current!,
       alias
     }
-    await new AccountsDao().update(data)
+    await new AccountDao().update(data)
     // If it's the current account, update the context
     if(currentAccount?.address === data.address) {
       setAndCacheAccount(data)
@@ -70,7 +70,7 @@ export default function SettingsAccount() {
   }
 
   const deleteAccount = async () => {
-    await new AccountsDao().delete(deleting?.id ?? 0)
+    await new AccountDao().delete(deleting?.id ?? 0)
     closeDialog()
     loadList()
   }
@@ -92,7 +92,13 @@ export default function SettingsAccount() {
                 <p className={css.addr}>{formatAddress(item.address)}</p>
               </div>
               <div>
-                <ActionBtn canDel={currentAccount?.address !== item.address} data={item} onEdit={edit} onDel={del} />
+                <ActionBtn
+                  canEdit
+                  canDel={currentAccount?.address !== item.address}
+                  data={item}
+                  onEdit={edit}
+                  onDel={del}
+                />
               </div>
             </div>
           ))
@@ -104,7 +110,7 @@ export default function SettingsAccount() {
         <DialogContent title={t('page.settings.account.edit.header')}>
           <form onSubmit={submitEdit}>
             <Input name="alias" defaultValue={current?.alias} />
-            <div style={{marginTop: '12px'}}>
+            <div style={{marginTop: '24px'}}>
               <Button type="submit" variant="primary">{t('page.settings.account.edit.btn')}</Button>
             </div>
           </form>

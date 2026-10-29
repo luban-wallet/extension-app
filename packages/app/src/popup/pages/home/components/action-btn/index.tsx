@@ -8,6 +8,7 @@ import IconDelete from "../../../../components/icons/delete"
 import css from './index.module.css'
 
 export default function ActionBtn<T>(props: {
+  canEdit: boolean,
   canDel: boolean,
   data: T,
   onEdit: (data: T) => void,
@@ -27,10 +28,14 @@ export default function ActionBtn<T>(props: {
     <Button variant='ghost' className={css.more} >
       <IconMore width={18} hanging={18} />
       <ul className={css.menu}>
-        <li className={css.menuItem} onClick={edit}>
-          <IconEdit width={14} hanging={14} />
-          <span>{t('page.settings.account.edit.text.edit')}</span>
-        </li>
+        {
+          props.canEdit ? (
+            <li className={css.menuItem} onClick={edit}>
+              <IconEdit width={14} hanging={14} />
+              <span>{t('page.settings.account.edit.text.edit')}</span>
+            </li>
+          ) : null
+        }
         {
           props.canDel ? (
           <li className={css.menuItem} onClick={del}>

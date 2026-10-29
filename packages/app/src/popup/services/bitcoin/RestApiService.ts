@@ -1,7 +1,7 @@
 import LimitedFetch from '@lubankit/utils/LimitedFetch'
 import type IService from '../IService'
 import type { IUTXO } from '../../configs/utxo'
-// import LockedUtxosDao from '../../dao/LockedUtxosDao'
+// import LockedUtxoDao from '../../dao/LockedUtxoDao'
 
 /**
  * Provides methods to interact with a REST API.
@@ -14,12 +14,8 @@ export default class RestApiService implements IService {
     })
     const text = await res.text()
 
-    if(text.includes('error')) {
-      throw new Error(text)
-    }
-
     return {
-      result: text
+      result: text.trim()
     }
   }
 
@@ -94,12 +90,11 @@ export default class RestApiService implements IService {
   async getUnspentList(rpc: string, address: string): Promise<IUTXO[]> {
     const res = await this.call(rpc + '/api/address/' + address + '/utxo', 'GET', null)
     const all = JSON.parse(res.result) as IUTXO[]
-
     return all
 
     // // locked data
     // const map: Record<string, number> = {}
-    // const locked = await new LockedUtxosDao().getAllByIndex('address', address)
+    // const locked = await new LockedUtxoDao().getAllByIndex('address', address)
     // for(const lock of locked) {
     //   map[lock.txid + ':' + lock.vout] = 1
     // }
@@ -112,12 +107,15 @@ export default class RestApiService implements IService {
     // return availables
   }
 
-  async getTransactionStatus(rpc: string, txHash: string): Promise<{status: 'pending' | 'success' | 'failed'}> {
-    const res = await this.call(rpc + '/api/tx/' + txHash + '/status', 'GET', null)
-    const json = JSON.parse(res.result)
+  async getTransactionStatus(rpc: string, txHash: string): Promise<null | {status: 'pending' | 'success' | 'failed'}> {
+    const res = await this.call(rpc + '/api/tx/' + txHash, 'GET', null)
+    if(!res.result.startsWith('{')) {
+      return null
+    }
 
-    if(json.confirmed) {
-      return { status: 'success' }
+    const json = JSON.parse(res.result)
+    if(json.status) {
+      return { status: json.status.confirmed ? 'success' : 'pending' }
     }
     return { status: 'pending' }
   }

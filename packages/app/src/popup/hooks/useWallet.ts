@@ -4,7 +4,7 @@ import type { IAccount } from '../configs/account'
 import { LOCAL_CURRENT_ACCOUNT, LOCAL_CURRENT_CHAIN, LOCAL_PREV_CHAIN_ACCOUNT } from '../configs/constant'
 import MsgHelper from '../helpers/MsgHelper'
 import type { INetwork } from '../configs/network'
-import AccountsDao from '../dao/AccountsDao'
+import AccountDao from '../dao/AccountDao'
 import { log } from '../utils/debug'
 import type { BaseTransaction } from '../wallets/IWallet'
 
@@ -21,9 +21,9 @@ export default function useWallet() {
     let account = await Storage.getInstance<IAccount>('local').get(prevKey)
 
     // If there is a account for the network, use it.
-    // Otherwise, get or insert an account for the network.
+    // If there is no account for the network, insert a default account.
     if(account === null) {
-      account = await new AccountsDao().getOrInsertDefaultAccount(network.chainType)
+      account = await new AccountDao().getOrInsertDefaultAccount(network.chainType)
     }
 
     if(account === null) {
@@ -33,7 +33,8 @@ export default function useWallet() {
 
     await Storage.getInstance('local').batchSet({
       [LOCAL_CURRENT_CHAIN]: network,
-      [LOCAL_CURRENT_ACCOUNT]: account
+      [LOCAL_CURRENT_ACCOUNT]: account,
+      [prevKey]: account
     })
     setCurrentNetwork(network)
     setCurrentAccount(account)
@@ -45,11 +46,11 @@ export default function useWallet() {
   }
 
   const setAndCacheAccount = async (account: IAccount) => {
-    const currentKey = LOCAL_CURRENT_ACCOUNT
     const prevKey = LOCAL_PREV_CHAIN_ACCOUNT + account.chainType
 
+    // Save current and previous account for the network.
     await Storage.getInstance('local').batchSet({
-      [currentKey]: account,
+      [LOCAL_CURRENT_ACCOUNT]: account,
       [prevKey]: account
     })
     setCurrentAccount(account)

@@ -8,7 +8,7 @@ import Input from "../../../components/input"
 import Pageheader from "../../../components/page-header"
 import { I18nContext } from "../../../contexts/I18nContext"
 import { MEM_PWD } from "../../../configs/constant"
-import AccountsDao from "../../../dao/AccountsDao"
+import AccountDao from "../../../dao/AccountDao"
 import MsgHelper from "../../../helpers/MsgHelper"
 import Container from "../../../components/container"
 import WalletFactory from "../../../wallets/WalletFactory"
@@ -35,7 +35,7 @@ export default function AccountAdd() {
     setLoading(true)
 
     let index = nextIndex
-    const accounts = await new AccountsDao().getAllByIndex('chainType', currentNetwork.chainType)
+    const accounts = await new AccountDao().getAllByIndex('chainType', currentNetwork.chainType)
     accounts.forEach((v) => {
       if(v.index > index) {
         index = v.index
@@ -68,7 +68,7 @@ export default function AccountAdd() {
       const wallet = await WalletFactory.getLazyWallet(currentNetwork.chainType)
       await wallet.restore(pwd, nextIndex)
 
-      await new AccountsDao().insert({
+      await new AccountDao().insert({
         index: nextIndex,
         alias: name,
         address: wallet.address(),

@@ -12,10 +12,13 @@ import { WalletContext } from "../../../contexts/WalletContext"
 import WalletFactory from "../../../wallets/WalletFactory"
 import SendNonce from "../../../components-oo/send-nonce"
 import { log } from "../../../utils/debug"
+import IconContact from "../../../components/icons/contact"
+import ContactDialog from "../components/contact/dialog"
 
 const TAG = '[SendCoin]'
 export default function SendCoin() {
   const [loading, setLoading] = useState(false)
+  const [showContact, setShowContact] = useState(false)
   const nav = useNavigate()
   const { t } = useContext(I18nContext)!
   const { currentAccount, currentNetwork, txMeta } = useContext(WalletContext)!
@@ -91,6 +94,15 @@ export default function SendCoin() {
               type="text"
               value={to}
               onChange={changeTo}
+              suffix={
+                <Button
+                  variant="ghost"
+                  style={{width: '28px', height: '28px'}}
+                  onClick={() => setShowContact(true)}
+                >
+                  <IconContact width={16} height={16} />
+                </Button>
+              }
             />
           </FormItem>
           <SendNonce
@@ -107,6 +119,14 @@ export default function SendCoin() {
           onClick={handleNext}
         >{t('common.text.next')}</Button>
       </Footer>
+
+      {showContact ? (
+        <ContactDialog
+          show={showContact}
+          onClose={() => setShowContact(false)}
+          onSelect={(address) => setTo(address)}
+        />
+      ) : null}
     </>
   )
 }

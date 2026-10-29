@@ -10,7 +10,7 @@ import { Form, FormItem } from "../../components/form"
 import Input, { Textarea } from "../../components/input"
 import Footer from "../../components/footer"
 import Button from "../../components/button"
-import AccountsDao from "../../dao/AccountsDao"
+import AccountDao from "../../dao/AccountDao"
 import { LOCAL_CURRENT_ACCOUNT, LOCAL_KEYSTORE, MEM_PWD } from "../../configs/constant"
 import MsgHelper from "../../helpers/MsgHelper"
 import WalletFactory from "../../wallets/WalletFactory"
@@ -49,7 +49,7 @@ export default function ImportWallet() {
     try {
       setLoading(true)
 
-      const dao = new AccountsDao()
+      const dao = new AccountDao()
       const wallet = (await WalletFactory.getLazyWallet('EVM')).create(mnemonic)
       const account = dao.makeDefaultAccount(wallet.address(), 'EVM')
       const valut = await Crypto.getInstance().encrypt(mnemonic, password)

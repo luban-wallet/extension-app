@@ -43,9 +43,9 @@ export default function SettingsNetwork() {
     setDeleting(account)
   }
 
-  const submitEdit = async (e: React.FormEvent) => {
+  const submitEdit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    const form = e.target as HTMLFormElement
+    const form = e.currentTarget
     const formData = new FormData(form)
 
     const data = {
@@ -84,7 +84,13 @@ export default function SettingsNetwork() {
               <div>
                 {
                   currentNetwork?.chainId === item.chainId ? null : (
-                    <ActionBtn canDel data={item} onEdit={edit} onDel={del} />
+                    <ActionBtn
+                      canDel
+                      canEdit
+                      data={item}
+                      onEdit={edit}
+                      onDel={del}
+                    />
                   )
                 }
               </div>
@@ -126,10 +132,7 @@ export default function SettingsNetwork() {
                 <SelectItem value="EVM">EVM</SelectItem>
               </Select>
             </FormItem>
-
-            <div style={{marginTop: '12px'}}>
-              <Button type="submit" variant="primary" onClick={deleteAccount}>{t('page.settings.network.edit.btn')}</Button>
-            </div>
+            <Button type="submit" variant="primary">{t('page.settings.network.edit.btn')}</Button>
           </Form>
         </DialogContent>
       </Dialog>

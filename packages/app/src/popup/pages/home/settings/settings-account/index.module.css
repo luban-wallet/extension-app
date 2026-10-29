@@ -21,8 +21,8 @@
   line-height: 20px;
 }
 .addr {
-  font-size: 12px;
-  line-height: 20px;
+  font-size: 14px;
+  line-height: 24px;
   color: rgba(var(--color-typography-900), 0.6);
 }
 

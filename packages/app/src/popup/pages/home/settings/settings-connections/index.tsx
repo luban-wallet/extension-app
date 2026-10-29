@@ -3,7 +3,7 @@ import { toast } from 'sonner'
 import Pageheader from '../../../../components/page-header'
 import { I18nContext } from '../../../../contexts/I18nContext'
 import Container, { Column } from '../../../../components/container'
-import ConnectionsDao from '../../../../dao/ConnectionsDao'
+import ConnectionDao from '../../../../dao/ConnectionDao'
 import type { IConnection } from '../../../../configs/connections'
 import ColorIcon from '../../../../components/color-icon'
 import Button from '../../../../components/button'
@@ -23,7 +23,7 @@ export default function SettingsConnections() {
   }, [])
 
   const loadList = async () => {
-    const json = await new ConnectionsDao().getAll()
+    const json = await new ConnectionDao().getAll()
     setList(json)
     setLoading(false)
   }
@@ -34,14 +34,14 @@ export default function SettingsConnections() {
       return
     }
 
-    await new ConnectionsDao().delete(Number(id))
+    await new ConnectionDao().delete(Number(id))
     const filtered = list!.filter(item => item.id !== Number(id))
     setList(filtered)
     toast.success(t('common.msg.op.success'))
   }
 
   const disconnectAll = async () => {
-    await new ConnectionsDao().clear()
+    await new ConnectionDao().clear()
     setList([])
     toast.success(t('common.msg.op.success'))
   }

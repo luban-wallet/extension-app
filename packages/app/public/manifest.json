@@ -13,7 +13,6 @@
     "default_popup": "index.html"
   },
   "background": {
-    "type": "module",
     "service_worker": "dist_plugins/background.js"
   },
   "content_scripts": [{
@@ -21,7 +20,7 @@
     "matches": ["file://*/*", "http://*/*", "https://*/*"],
     "run_at": "document_idle"
   }],
-  "permissions": ["scripting", "activeTab", "storage", "tabs"],
+  "permissions": ["alarms", "scripting", "activeTab", "storage", "tabs"],
   "web_accessible_resources": [{
     "matches": ["file://*/*", "http://*/*", "https://*/*"],
     "resources": ["dist_plugins/inpage.js"]

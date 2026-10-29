@@ -1,0 +1,34 @@
+.item {
+  position: relative;
+  display: grid;
+  grid-template-columns: 60px 1fr;
+  height: 68px;
+  align-items: center;
+  column-gap: 8px;
+  background-color: rgb(var(--color-background-200));
+  border-radius: var(--radius);
+  transition: background-color 0.2s linear;
+
+  &:hover {
+    background-color: rgb(var(--color-background-500));
+  }
+}
+.mask {
+  position: absolute;
+  inset: 0;
+  z-index: 3005;
+}
+.avatar {
+  display: flex;
+  justify-content: center;
+}
+.name {
+  font-size: 14px;
+  line-height: 20px;
+}
+.addr {
+  font-size: 14px;
+  line-height: 24px;
+  color: rgba(var(--color-typography-900), 0.6);
+}
+

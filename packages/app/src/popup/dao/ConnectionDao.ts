@@ -1,7 +1,7 @@
 import type { IConnection } from '../configs/connections'
 import Dao from './Dao'
 
-export default class ConnectionsDao extends Dao<IConnection> {
+export default class ConnectionDao extends Dao<IConnection> {
   constructor() {
     super()
     this.store = 'connections'

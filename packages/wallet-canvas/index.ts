@@ -25,8 +25,17 @@ export default class WalletCanvas {
       throw new Error('entropyLength must be a multiple of 32')
     }
 
-    let base64 = this.canvas.toDataURL()
-    let u8 = new TextEncoder().encode(base64)
+    let imageData = this.context?.getImageData(0, 0, this.canvas.width, this.canvas.height)
+    let pixels = imageData?.data
+    if(!pixels) {
+      throw new Error('Failed to get image data from canvas')
+    }
+
+    let randomBytes = this.randomBytes(entropyLength / 8)
+    let u8 = new Uint8Array(pixels.buffer.byteLength + randomBytes.byteLength)
+    u8.set(new Uint8Array(pixels.buffer), 0)
+    u8.set(randomBytes, pixels.buffer.byteLength)
+
     let hashBuffer = await WalletCanvas.crypto.subtle.digest('SHA-256', u8)
     let total = Array.from(new Uint8Array(hashBuffer))
 

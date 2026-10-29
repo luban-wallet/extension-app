@@ -8,7 +8,7 @@ import IconAdd from '../../../../components/icons/add'
 import LinkButton from '../../../../components/link-button'
 import { I18nContext } from '../../../../contexts/I18nContext'
 import { formatAddress } from '../../../../utils/util'
-import AccountsDao from '../../../../dao/AccountsDao'
+import AccountDao from '../../../../dao/AccountDao'
 import type { IAccount } from '../../../../configs/account'
 import CheckIcon from '../../../../components/check-icon'
 import { WalletContext } from '../../../../contexts/WalletContext'
@@ -36,7 +36,7 @@ export default function AccountSelect() {
       return
     }
 
-    const list = await new AccountsDao().getAllByIndex('chainType', currentNetwork.chainType)
+    const list = await new AccountDao().getAllByIndex('chainType', currentNetwork.chainType)
     setList(list)
   }
 

@@ -58,6 +58,8 @@ export default interface IService {
 
   /**
    * Get the status of a transaction
+   *
+   * @returns The status of the transaction, or null if the transaction is not found.
    */
-  getTransactionStatus(rpc: string, txHash: string): Promise<{status: 'pending' | 'success' | 'failed'}>
+  getTransactionStatus(rpc: string, txHash: string): Promise<null | {status: 'pending' | 'success' | 'failed'}>
 }

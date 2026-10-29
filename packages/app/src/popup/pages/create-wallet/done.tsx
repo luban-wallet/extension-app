@@ -15,7 +15,7 @@ import Container from "../../components/container"
 import MsgHelper from "../../helpers/MsgHelper"
 import WalletFactory from "../../wallets/WalletFactory"
 import { WalletContext } from "../../contexts/WalletContext"
-import AccountsDao from "../../dao/AccountsDao"
+import AccountDao from "../../dao/AccountDao"
 import { log } from "../../utils/debug"
 
 const TAG = '[CREATE_WALLET_DONE]'
@@ -39,7 +39,7 @@ export default function Done() {
         return
       }
       const valut = await Crypto.getInstance().encrypt(words, pwd)
-      const dao = new AccountsDao()
+      const dao = new AccountDao()
       const wallet = (await WalletFactory.getLazyWallet('EVM')).create(words)
       const account = dao.makeDefaultAccount(wallet.address(), 'EVM')
 

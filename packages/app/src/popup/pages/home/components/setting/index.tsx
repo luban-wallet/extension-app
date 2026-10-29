@@ -6,11 +6,9 @@ import IconMenu from "../../../../components/icons/menu"
 import IconRight from "../../../../components/icons/right"
 import IconSafe from "../../../../components/icons/safe"
 import IconSetting from "../../../../components/icons/setting"
-import IconExpand from "../../../../components/icons/expand"
 import IconLock from "../../../../components/icons/lock"
 import { I18nContext } from "../../../../contexts/I18nContext"
 import MsgHelper from "../../../../helpers/MsgHelper"
-import NavHelper from "../../../../helpers/NavHelper"
 
 import css from "./index.module.css"
 
@@ -18,16 +16,7 @@ export default function Setting() {
   const nav = useNavigate()
   const { t } = useContext(I18nContext)!
 
-  const goFull = () => {
-    NavHelper.nav(nav, '/home')
-  }
-  const goBackup = () => {
-    nav('/home/settings/backup')
-  }
-  const goSettings = () => {
-    nav('/home/settings')
-  }
-  const goUnlock = async () => {
+  const lock = async () => {
     await MsgHelper.lock()
     nav('/unlock')
   }
@@ -36,23 +25,16 @@ export default function Setting() {
     {
       id: 1,
       type: 1,
-      icon: <IconExpand width={18} height={18} />,
-      label: t('page.home.panel.setting.expand'),
-      onSelect: goFull
+      icon: <IconSafe width={18} height={18} />,
+      label: t('page.home.panel.setting.backup'),
+      onSelect: () => nav('/home/settings/backup')
     },
     {
       id: 2,
       type: 1,
-      icon: <IconSafe width={18} height={18} />,
-      label: t('page.home.panel.setting.backup'),
-      onSelect: goBackup
-    },
-    {
-      id: 3,
-      type: 1,
       icon: <IconSetting width={18} height={18} />,
       label: t('page.home.panel.setting.settings'),
-      onSelect: goSettings
+      onSelect: () => nav('/home/settings')
     }
   ]
 
@@ -78,7 +60,7 @@ export default function Setting() {
             ))
           }
           <DropdownMenuSeparator />
-          <DropdownMenuItem onSelect={goUnlock}>
+          <DropdownMenuItem onSelect={lock}>
             <IconLock width={18} height={18} />
             <span>{t('page.home.panel.setting.lock')}</span>
           </DropdownMenuItem>

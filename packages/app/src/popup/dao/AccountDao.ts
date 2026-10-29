@@ -5,7 +5,7 @@ import MsgHelper from '../helpers/MsgHelper'
 import WalletFactory from '../wallets/WalletFactory'
 import Dao from './Dao'
 
-export default class AccountsDao extends Dao<IAccount> {
+export default class AccountDao extends Dao<IAccount> {
   constructor() {
     super()
     this.store = 'accounts'

@@ -58,9 +58,8 @@ export default class Service implements IService {
     const json = await res.json()
 
     if(typeof json.error !== 'undefined') {
-      throw new Error(`RPC Error ${json.error.code}: ${json.error.message}`)
+      throw new Error(json.error.message)
     }
-
     return json
   }
 
@@ -171,12 +170,12 @@ export default class Service implements IService {
     throw new Error('getUnspentList(), Method not implemented.')
   }
 
-  async getTransactionStatus(rpc: string, txHash: string): Promise<{status: 'pending' | 'success' | 'failed'}> {
+  async getTransactionStatus(rpc: string, txHash: string): Promise<null | {status: 'pending' | 'success' | 'failed'}> {
     const json = await this.call<{status: string}>(rpc, 'eth_getTransactionReceipt', [ txHash ])
     const data = json.result
 
     if(!data) {
-      return { status: 'pending' }
+      return null
     }
     return { status: data.status === '0x1' ? 'success' : 'failed' }
   }

@@ -42,6 +42,7 @@ const ProviderSignTypedData = lazy(() => import('../pages/provider-request/sign-
 const ProviderSendTransaction = lazy(() => import('../pages/provider-request/send-transaction'))
 const ExportWallet = lazy(() => import('../pages/home/settings/settings-export-wallet'))
 const SettingsTimer = lazy(() => import('../pages/home/settings/settings-timer'))
+const SettingsContact = lazy(() => import('../pages/home/settings/settings-contact'))
 
 const routes = createHashRouter([
   {
@@ -189,6 +190,8 @@ const routes = createHashRouter([
             element: <ExportWallet />
           },
           {
+            path: 'contact',
+            element: <SettingsContact />
           },
           {
             path: 'about',

@@ -10,7 +10,7 @@ import Loading from "../../../components/loading"
 import type { IUTXO } from "../../../configs/utxo"
 import SwitchTab, { type SwitchItem } from "../../../components/switch-tab"
 import Tip from "./components/tip"
-import LockedUtxosDao from "../../../dao/LockedUtxosDao"
+import LockedUtxoDao from "../../../dao/LockedUtxoDao"
 import { Dialog, DialogContent } from "../../../components/dialog"
 import Button from "../../../components/button"
 import { log } from "../../../utils/debug"
@@ -49,7 +49,7 @@ export default function Utxos() {
 
     try {
       setLoading(true)
-      const locked = await new LockedUtxosDao().getAllByIndex('address', currentAccount.address)
+      const locked = await new LockedUtxoDao().getAllByIndex('address', currentAccount.address)
       setList(locked)
     } catch(e) {
       log(TAG, e)
@@ -79,7 +79,7 @@ export default function Utxos() {
 
     try {
       setPosting(true)
-      await new LockedUtxosDao().insert({
+      await new LockedUtxoDao().insert({
         address: currentAccount.address,
         ...editingItem
       })
@@ -100,7 +100,7 @@ export default function Utxos() {
 
     try {
       setPosting(true)
-      await new LockedUtxosDao().delete(editingItem.id)
+      await new LockedUtxoDao().delete(editingItem.id)
 
       // Reload list
       loadLockedList()

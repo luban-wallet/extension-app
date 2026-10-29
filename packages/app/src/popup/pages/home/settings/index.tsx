@@ -12,6 +12,7 @@ import IconWarn from "../../../components/icons/warn"
 import IconLink from "../../../components/icons/link"
 import IconLockFile from "../../../components/icons/lockfile"
 import IconTimer from "../../../components/icons/timer"
+import IconContact from "../../../components/icons/contact"
 
 import css from './index.module.css'
 
@@ -78,6 +79,13 @@ export default function Settings() {
             link="/home/settings/theme"
             icon={<IconMoon width={20} height={20} />}
             label={t('page.settings.label.theme')}
+            showArrow
+          />
+          <Divider />
+          <LinkItem
+            link="/home/settings/contact"
+            icon={<IconContact width={20} height={20} />}
+            label={t('page.settings.label.contact')}
             showArrow
           />
         </LinkGroup>

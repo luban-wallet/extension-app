@@ -38,13 +38,14 @@ export default function DetailDialog(props: IProps) {
       setData(tx)
 
       const json = await service.getTransactionStatus(currentNetwork.rpc, tx.hash)
+      if(json === null || tx.status === json.status) {
+        return
+      }
       if(json.status === 'success' || json.status === 'failed') {
-        if(tx.status !== json.status) {
-          const payload = {...tx, status: json.status}
-          await dao.update(payload)
-          setData(payload)
-          log(TAG, 'update status', payload)
-        }
+        const payload = {...tx, status: json.status}
+        await dao.update(payload)
+        setData(payload)
+        log(TAG, 'update status', payload)
       }
     } catch(e) {
       log(TAG, e)

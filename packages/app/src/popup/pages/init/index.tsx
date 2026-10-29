@@ -6,7 +6,6 @@ import { I18nContext } from '../../contexts/I18nContext'
 import HaloShader from '../../components/shader'
 import { LOCAL_CURRENT_ACCOUNT, MEM_PWD } from '../../configs/constant'
 import MsgHelper from '../../helpers/MsgHelper'
-import NavHelper from '../../helpers/NavHelper'
 import { log } from '../../utils/debug'
 
 import css from './init.module.css'
@@ -44,7 +43,7 @@ export default function Init() {
   }
 
   const goCreate = () => {
-    NavHelper.nav(nav, '/create-wallet')
+    nav('/create-wallet')
   }
   const goImport = () => {
     nav('/import-wallet')

@@ -3,17 +3,14 @@ import Button from '../../../components/button'
 import Divider from '../../../components/divider'
 import Footer from '../../../components/footer'
 import IconSuccess from '../../../components/icons/success'
-import ConnectionsDao from '../../../dao/ConnectionsDao'
+import ConnectionDao from '../../../dao/ConnectionDao'
 import MsgHelper from '../../../helpers/MsgHelper'
 import useAsyncCallback from '../../../hooks/useAsyncCallback'
-import { log } from '../../../utils/debug'
 import { ProviderRequestContext } from '../../../contexts/ProviderRequestContext'
 import { I18nContext } from '../../../contexts/I18nContext'
 import { WalletContext } from '../../../contexts/WalletContext'
 
 import css from './index.module.css'
-
-const TAG = '[ProviderRequestAccount]'
 
 export default function Account() {
   const { request } = useContext(ProviderRequestContext)!
@@ -25,7 +22,7 @@ export default function Account() {
       return
     }
 
-    await new ConnectionsDao().insert({
+    await new ConnectionDao().insert({
       name: request.current.metadata.name,
       icon: request.current.metadata.icon,
       url: request.current.metadata.url,
@@ -47,7 +44,6 @@ export default function Account() {
     })
   }
 
-  log(TAG, 'render account page: ', request.current)
   if(request.current === null) {
     return null
   }
