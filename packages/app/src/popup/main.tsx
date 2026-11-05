@@ -8,7 +8,7 @@ import useI18n from './hooks/useI18N'
 import { I18nContext } from './contexts/I18nContext'
 import Toast from './components/toast'
 import SplashScreen from './components/splash-screen'
-import { LOCAL_CURRENT_ACCOUNT, LOCAL_CURRENT_CHAIN, LOCAL_LANG, LOCAL_LIFE_MS, LOCAL_THEME, WALLET_DB, WALLET_DB_VER } from './configs/constant'
+import { LOCAL_CURRENT_ACCOUNT, LOCAL_CURRENT_CHAIN, LOCAL_LANG, LOCAL_THEME, WALLET_DB, WALLET_DB_VER } from './configs/constant'
 import { defaultNetworks, type INetwork } from './configs/network'
 import type { IAccount } from './configs/account'
 import { TokenContext } from './contexts/TokenContext'
@@ -116,11 +116,6 @@ function Wrapper() {
     return network
   }
 
-  const updateActiveTime = async () => {
-    const now = BigInt(Date.now()).toString()
-    await Storage.getInstance('local').set(LOCAL_LIFE_MS, now)
-  }
-
   const init = async () => {
     try {
       // db
@@ -144,7 +139,6 @@ function Wrapper() {
       if (network !== null) {
         walletData.setCurrentNetwork(network)
       }
-      updateActiveTime()
 
       setLoading(false)
     } catch (e) {

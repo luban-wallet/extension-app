@@ -31,9 +31,10 @@ export default function Init() {
         const pwd = await MsgHelper.memGet<string>(MEM_PWD)
         if(pwd === '') {
           nav('/unlock')
-        } else {
-          nav('/home')
+          return
         }
+
+        nav('/home')
         return
       }
       setLoading(false)

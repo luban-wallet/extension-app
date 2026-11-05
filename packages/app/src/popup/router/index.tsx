@@ -1,7 +1,6 @@
 import { lazy, Suspense } from 'react'
 import { createHashRouter } from 'react-router'
 import Layout from '../Layout'
-import Wrapper from '../pages/provider-request/wrapper'
 
 const Init = lazy(() => import('../pages/init'))
 const CreatePassword = lazy(() => import('../pages/create-wallet/index'))
@@ -43,6 +42,7 @@ const ProviderSendTransaction = lazy(() => import('../pages/provider-request/sen
 const ExportWallet = lazy(() => import('../pages/home/settings/settings-export-wallet'))
 const SettingsTimer = lazy(() => import('../pages/home/settings/settings-timer'))
 const SettingsContact = lazy(() => import('../pages/home/settings/settings-contact'))
+const ProviderWrapper = lazy(() => import('../pages/provider-request/wrapper'))
 
 const routes = createHashRouter([
   {
@@ -203,7 +203,7 @@ const routes = createHashRouter([
   },
   {
     path: "/provider-request",
-    element: <Wrapper />,
+    element: <ProviderWrapper />,
     children: [
       {
         path: 'account',
