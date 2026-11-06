@@ -473,10 +473,10 @@
   resolved "https://registry.yarnpkg.com/@lubankit/indexeddb/-/indexeddb-1.0.3.tgz#ccc9b53228c844aef97fc0da7eb7cd4ea9be41b3"
   integrity sha512-hXDULfdiGoPPH+ZvCoIIICEnzR3Q0mMw+eTqLuVJrT2aQKNGWgAxSuJI95KhCgCtlPC26ZShJl+lPXJTtVKgwg==
 
-"@lubankit/msg-channel@^1.0.2":
-  version "1.0.2"
-  resolved "https://registry.yarnpkg.com/@lubankit/msg-channel/-/msg-channel-1.0.2.tgz#78275cb1efee5836ddd5dfefaadc5ea4eb971a62"
-  integrity sha512-9O/TE2xQTa9JdCFU5gXMA7yD7+aAsuC5ctiWS3L0mUKY5a3vfM1zujUhLochKQGOOzAPgbj90HO2wSBCcQ5fAA==
+"@lubankit/msg-channel@^1.0.3":
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/@lubankit/msg-channel/-/msg-channel-1.0.3.tgz#5e5b6cf0f77b8fba274045d71492616f9a1cd28d"
+  integrity sha512-Jkp5BpYjP4ggBWNhn6VFLn30krux54tOfXJYJnxrEBta9fzUfkAtLHrMYHw5XAt9hSVQhLJGo26cDhrTGNM2qg==
 
 "@lubankit/utils@^1.0.0":
   version "1.0.0"
