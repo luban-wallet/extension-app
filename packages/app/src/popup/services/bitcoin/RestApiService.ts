@@ -7,7 +7,7 @@ import type { IUTXO } from '../../configs/utxo'
  * Provides methods to interact with a REST API.
  */
 export default class RestApiService implements IService {
-  async call(rpc: string, method: string, params: unknown): Promise<{ result: string; }> {
+  async call(rpc: string, method: string, params: unknown): Promise<{ result: string }> {
     const res = await LimitedFetch.request(rpc, {
       method: method,
       body: params as string
@@ -42,7 +42,7 @@ export default class RestApiService implements IService {
     return Promise.resolve(BigInt(Math.ceil(size)).toString())
   }
 
-  async getRecommendTransactionFees(rpc: string): Promise<{ baseFee: string; priorityFees: string[]; }> {
+  async getRecommendTransactionFees(rpc: string): Promise<{ baseFee: string, priorityFees: string[] }> {
     const res = await this.call(rpc + '/api/v1/fees/recommended', 'GET', null)
     const json = JSON.parse(res.result)
 
@@ -56,7 +56,7 @@ export default class RestApiService implements IService {
     }
   }
 
-  getTokenMetadata(): Promise<{ name: string; symbol: string; decimals: string; totalSupply: string; }> {
+  getTokenMetadata(): Promise<{ name: string, symbol: string, decimals: string, totalSupply: string }> {
     throw new Error('getTokenMetadata(), Method not implemented.')
   }
 

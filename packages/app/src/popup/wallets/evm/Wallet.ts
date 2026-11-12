@@ -1,7 +1,8 @@
 import type IWallet from '../IWallet'
-import { ethers } from 'ethers'
 import Crypto, { type Keystore } from "@lubankit/crypto"
 import { Storage } from "@luban/wallet-storage"
+import { HDNodeWallet } from 'ethers/wallet'
+import { AbiCoder } from 'ethers/abi'
 import { DERIVATION_PATHS } from '../../configs/account'
 import { LOCAL_KEYSTORE } from '../../configs/constant'
 import type { INetwork } from '../../configs/network'
@@ -15,11 +16,11 @@ export type EthereumTransaction = SomeRequired<BaseTransaction, 'type' | 'chainI
  * EVM HDNode Wallet implementation
  */
 export default class Wallet implements IWallet {
-  nativeWallet: ethers.HDNodeWallet | null = null
+  nativeWallet: HDNodeWallet | null = null
 
   public create(words: string, index: number = 0): IWallet {
     const path = DERIVATION_PATHS['EVM'] + index
-    this.nativeWallet = ethers.HDNodeWallet.fromPhrase(words, '', path)
+    this.nativeWallet = HDNodeWallet.fromPhrase(words, '', path)
     return this
   }
 
@@ -155,7 +156,7 @@ export default class Wallet implements IWallet {
 
   public encodeTokenTransfer(to: string, amount: string): string {
     // ERC20 transfer function signature: `transfer(address,uint256)`
-    const abiCoder = new ethers.AbiCoder()
+    const abiCoder = new AbiCoder()
     let encodedParam = abiCoder.encode(['address', 'uint256'], [to, amount])
     if(encodedParam.startsWith('0x')) {
       encodedParam = encodedParam.substring(2)
@@ -164,11 +165,7 @@ export default class Wallet implements IWallet {
     return '0xa9059cbb' + encodedParam
   }
 
-  public selectUtxos(): Promise<{
-    selected: IUTXO[],
-    change: bigint,
-    needChange: boolean
-  }> {
+  public selectUtxos(): Promise<{selected: IUTXO[], change: bigint, needChange: boolean}> {
     throw new Error('selectUtxos is not supported for EVM wallets')
   }
 }

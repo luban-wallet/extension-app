@@ -60,11 +60,10 @@ export default interface IWallet {
 
   encodeTokenTransfer(to: string, amount: string): string
 
-  selectUtxos(feeRate: string, amount: string, unspent: IUTXO[]): Promise<{
-    selected: IUTXO[],
-    change: bigint,
-    needChange: boolean
-  }>
+  /**
+   * Select UTXOs for a transaction
+   */
+  selectUtxos(feeRate: string, amount: string, unspent: IUTXO[]): Promise<{selected: IUTXO[], change: bigint, needChange: boolean}>
 }
 
 export interface BaseTransaction {
@@ -100,5 +99,3 @@ export interface BaseTransaction {
   /** Others */
   contract?: IToken
 }
-
-

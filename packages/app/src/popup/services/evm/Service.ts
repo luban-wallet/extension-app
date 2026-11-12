@@ -4,44 +4,44 @@ import type { IUTXO } from '../../configs/utxo'
 
 export default class Service implements IService {
   decodeHexString(hexString: string) {
-    // 1. Remove the '0x' prefix and convert to lowercase
-    const hex = hexString.startsWith('0x') ? hexString.substring(2) : hexString;
+    // 1. Remove the '0x' prefix
+    const hex = hexString.startsWith('0x') ? hexString.substring(2) : hexString
     if (hex.length < 192) {
-      throw new Error('Invalid hex string: too short to be ABI-encoded string');
+      throw new Error('Invalid hex string: too short to be ABI-encoded string')
     }
 
     // 3. ABI encoding rules:
     // - The first 32 bytes (64 hex): represent the offset of the data, usually 0x20 (indicating that the data starts from the 32nd byte)
     // - The next 32 bytes: indicate the length of the string
     // - And then the actual data comes after
-    const offsetHex = hex.substring(0, 64);
-    const offset = parseInt(offsetHex, 16);
+    const offsetHex = hex.substring(0, 64)
+    const offset = parseInt(offsetHex, 16)
     if (offset < 32) {
-      throw new Error('Invalid offset in ABI encoding');
+      throw new Error('Invalid offset in ABI encoding')
     }
 
     // 4. Calculate the length of the string
-    const lengthHex = hex.substring(64, 128);
-    const strLength = parseInt(lengthHex, 16);
+    const lengthHex = hex.substring(64, 128)
+    const strLength = parseInt(lengthHex, 16)
     if (strLength <= 0) {
-      throw new Error('Invalid string length in ABI encoding');
+      throw new Error('Invalid string length in ABI encoding')
     }
 
     // console.log(offset * 2 * 2, strLength * 2)
     // 5. Calculate the starting position of the actual string data
-    const raw = hex.substring(offset * 2 * 2, offset * 2 * 2 + strLength * 2);
+    const raw = hex.substring(offset * 2 * 2, offset * 2 * 2 + strLength * 2)
 
     // 6. Convert hex to UTF-8 string
-    let result = '';
+    let result = ''
     for (let i = 0; i < raw.length; i += 2) {
-      const byte = raw.substring(i, i+2);
-      result += String.fromCharCode(parseInt(byte, 16));
+      const byte = raw.substring(i, i+2)
+      result += String.fromCharCode(parseInt(byte, 16))
     }
 
-    return result;
+    return result
   }
 
-  async call<R>(rpc: string, method: string, params: unknown): Promise<{ result: R; }> {
+  async call<R>(rpc: string, method: string, params: unknown): Promise<{ result: R }> {
     const config = {
       method: 'POST',
       headers: {
@@ -83,7 +83,7 @@ export default class Service implements IService {
     return json.result
   }
 
-  async getRecommendTransactionFees(rpc: string): Promise<{ baseFee: string; priorityFees: string[]; }> {
+  async getRecommendTransactionFees(rpc: string): Promise<{ baseFee: string, priorityFees: string[] }> {
     const historyData = await this.call<{baseFeePerGas: string[], reward: string[][]}>(rpc, 'eth_feeHistory', [
       '0x1',
       'latest',
@@ -107,7 +107,7 @@ export default class Service implements IService {
     }
   }
 
-  async getTokenMetadata(rpc: string, contract: string): Promise<{ name: string; symbol: string; decimals: string; totalSupply: string; }> {
+  async getTokenMetadata(rpc: string, contract: string): Promise<{ name: string, symbol: string, decimals: string, totalSupply: string }> {
     const nameSig = '0x06fdde03'
     const symbolSig = '0x95d89b41'
     const decimalsSig = '0x313ce567'
@@ -135,20 +135,16 @@ export default class Service implements IService {
 
   async getTokenBalance(rpc: string, contract: string, address: string): Promise<string> {
     const balanceSig = '0x70a08231'
-    const makeErc20InputParam = (value: string) => {
-      if(value.indexOf('0x') === 0) {
-        value = value.substring(2)
-      }
-      while(value.length < 64) {
-        value = '0' + value
-      }
-      return value
+    let data = address.startsWith('0x') ? address.substring(2) : address
+    while(data.length < 64) {
+      data = '0' + data
     }
+
     const params = [
       {
         from: address,
         to: contract,
-        data: balanceSig + makeErc20InputParam(address)
+        data: balanceSig + data
       },
       'latest'
     ]

@@ -28,7 +28,7 @@ export default class Wallet implements IWallet {
   }
 
   static schnorrValidator(pubkey: Uint8Array, msgHash: Uint8Array, signature: Uint8Array): boolean {
-    return ecc.verifySchnorr(msgHash, pubkey, signature);
+    return ecc.verifySchnorr(msgHash, pubkey, signature)
   }
 
   static getBitcoinNetwork(chainType: ChainType): networks.Network {
@@ -51,11 +51,7 @@ export default class Wallet implements IWallet {
    * @param amount sat amount
    * @param list available UTXOs
    */
-  public async selectUtxos(feeRate: string, amount: string, unspent: IUTXO[]): Promise<{
-    selected: IUTXO[],
-    change: bigint,
-    needChange: boolean
-  }> {
+  public async selectUtxos(feeRate: string, amount: string, unspent: IUTXO[]): Promise<{selected: IUTXO[], change: bigint, needChange: boolean}> {
     const service = ServiceFactory.getService(this.chainType)
 
     // Sort utxos by value ascending
@@ -144,7 +140,7 @@ export default class Wallet implements IWallet {
     }
 
     const ECPair = ECPairFactory(ecc)
-    const tweakHash = crypto.taggedHash('TapTweak', this.nativeWallet.p2tr.internalPubkey!);
+    const tweakHash = crypto.taggedHash('TapTweak', this.nativeWallet.p2tr.internalPubkey!)
     const tweakedSigner = ECPair.fromPrivateKey(this.nativeWallet.child.privateKey!).tweak(tweakHash)
 
     const net = Wallet.getBitcoinNetwork(this.chainType)
@@ -182,7 +178,7 @@ export default class Wallet implements IWallet {
     }
     // for(let i = 0; i < selected.selected.length; i++) {
     //   if (!psbt.validateSignaturesOfInput(i, Wallet.schnorrValidator)) {
-    //     throw new Error(`Input ${i} signature verification failed`);
+    //     throw new Error(`Input ${i} signature verification failed`)
     //   }
     // }
 

@@ -1,4 +1,4 @@
-import { ethers } from 'ethers'
+import { formatUnits as ethersFormatUnits, parseUnits as ethersParseUnits } from 'ethers/utils'
 import { networkUnits, type ChainType } from '../configs/network'
 
 export async function copyText(text: string): Promise<void> {
@@ -41,7 +41,7 @@ export function toMinimalUnit(value?: string, chainType?: ChainType): bigint {
   }
 
   const unit = networkUnits[chainType].valueDecimal
-  return ethers.parseUnits(value, unit)
+  return ethersParseUnits(value, unit)
 }
 
 /**
@@ -53,7 +53,7 @@ export function toMaximalUnit(value?: string, chainType?: ChainType): string {
   }
 
   const unit = networkUnits[chainType].valueDecimal
-  return ethers.formatUnits(value, unit)
+  return ethersFormatUnits(value, unit)
 }
 
 /**
@@ -63,7 +63,7 @@ export function formatUnits(value?: string, decimals?: number): string {
   if(!value || !decimals) {
     return ''
   }
-  return ethers.formatUnits(value, decimals)
+  return ethersFormatUnits(value, decimals)
 }
 
 /**
@@ -73,7 +73,7 @@ export function parseUnits(balance: string, decimals: number): bigint {
   if(!balance || !decimals) {
     return 0n
   }
-  return ethers.parseUnits(balance, decimals)
+  return ethersParseUnits(balance, decimals)
 }
 
 export function formatAddress(address?: string, show = 16): string {
