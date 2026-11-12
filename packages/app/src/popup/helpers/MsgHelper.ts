@@ -41,7 +41,7 @@ export default class MsgHelper {
       data: key
     })
 
-    return value
+    return value as T
   }
 
   static async providerRequestGrabData<T>(): Promise<T> {
@@ -50,7 +50,7 @@ export default class MsgHelper {
       data: null
     })
 
-    return value
+    return value as T
   }
 
   static async providerResponse(data: ProviderResponse<unknown>): Promise<boolean> {
@@ -59,7 +59,7 @@ export default class MsgHelper {
       data
     })
 
-    return value
+    return value as boolean
   }
 
   static async lock(): Promise<void> {
