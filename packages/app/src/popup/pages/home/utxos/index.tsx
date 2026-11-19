@@ -32,7 +32,7 @@ export default function Utxos() {
 
     try {
       setLoading(true)
-      const service = ServiceFactory.getService(currentNetwork.chainType)
+      const service = ServiceFactory.getService(currentNetwork)
       const json = await service.getUnspentList(currentNetwork.rpc, currentAccount.address)
       setList(json)
     } catch(e) {

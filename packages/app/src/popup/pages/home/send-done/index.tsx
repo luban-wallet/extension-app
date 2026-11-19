@@ -35,7 +35,7 @@ export default function SendDone() {
     }
 
     try {
-      const data = await ServiceFactory.getService(currentNetwork.chainType)
+      const data = await ServiceFactory.getService(currentNetwork)
         .getTransactionStatus(currentNetwork.rpc, hash)
       if(data !== null) {
         setLoading(false)

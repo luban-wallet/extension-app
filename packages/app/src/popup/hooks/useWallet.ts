@@ -23,7 +23,7 @@ export default function useWallet() {
     // If there is a account for the network, use it.
     // If there is no account for the network, insert a default account.
     if(account === null) {
-      account = await new AccountDao().getOrInsertDefaultAccount(network.chainType)
+      account = await new AccountDao().getOrInsertDefaultAccount(network)
     }
 
     if(account === null) {

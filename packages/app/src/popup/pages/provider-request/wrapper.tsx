@@ -9,7 +9,6 @@ import { ProviderRequestContext } from '../../contexts/ProviderRequestContext'
 import { LOCAL_LAST_ACTIVE_MS, MEM_PWD } from '../../configs/constant'
 
 const TAG = '[ProviderRequestWrapper]'
-
 export default function Wrapper() {
   const [loading, setLoading] = useState(true)
   const { request } = useContext(ProviderRequestContext)!
@@ -27,7 +26,7 @@ export default function Wrapper() {
 
   const grabData = async () => {
     try {
-      const pwd = await MsgHelper.memGet(MEM_PWD)
+      const pwd = await MsgHelper.memGet<string>(MEM_PWD)
       if(!pwd) {
         nav('/unlock?url=' + loc.pathname)
         return

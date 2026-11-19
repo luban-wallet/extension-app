@@ -12,7 +12,8 @@ export default abstract class Base<T> extends Component<T> {
     'EVM': LayzComponent,
     'BITCOIN': LayzComponent,
     'BITCOIN_TESTNET': LayzComponent,
-    'BITCOIN_REGTEST': LayzComponent
+    'BITCOIN_REGTEST': LayzComponent,
+    'SVM': LayzComponent
   }
 
   render() {

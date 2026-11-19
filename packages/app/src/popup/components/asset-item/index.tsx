@@ -65,7 +65,7 @@ export default function AssetItem(props: {token: IToken}) {
 
     try {
       setLoading(true)
-      const service = ServiceFactory.getService(network.chainType)
+      const service = ServiceFactory.getService(network)
       const balance = await service.getTokenBalance(network.rpc, token.contract, account.address)
       setCachedBalance(token.id!, account.address, balance)
       setBalance(balance)

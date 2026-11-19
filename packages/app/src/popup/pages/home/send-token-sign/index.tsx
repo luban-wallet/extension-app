@@ -44,7 +44,7 @@ export default function SendTokenSign() {
 
     try {
       setLoading(true)
-      const service = ServiceFactory.getService(currentNetwork.chainType)
+      const service = ServiceFactory.getService(currentNetwork)
       const coin = await service.getCoinBalance(currentNetwork.rpc, currentAccount.address)
       setCoinBalance(coin.available)
     } catch(e) {
@@ -97,8 +97,10 @@ export default function SendTokenSign() {
     try {
       setLoading(true)
 
-      const service = ServiceFactory.getService(currentNetwork.chainType)
-      const wallet = await WalletFactory.getLazyWallet(currentNetwork.chainType)
+      const service = ServiceFactory.getService(currentNetwork)
+      let wallet = await WalletFactory.getLazyWallet(currentNetwork)
+      wallet = await wallet.restore(pwd, currentAccount.index)
+
       const tx = await wallet.prepareTokenTransaction(
         {
           ...tokenTx,
@@ -112,9 +114,8 @@ export default function SendTokenSign() {
         }
       )
       log(TAG, 'token tx: ', tx)
-
-      const signWallet = await wallet.restore(pwd, currentAccount.index)
-      const raw = await signWallet.signTransaction(tx)
+      
+      const raw = await wallet.signTransaction(tx)
       const hash = await service.sendRawTransaction(currentNetwork.rpc, [raw])
 
       // Save tx

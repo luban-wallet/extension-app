@@ -42,7 +42,7 @@ export default function TokenSelect(props: IProps) {
 
     try {
       setBalance('')
-      const service = ServiceFactory.getService(currentNetwork.chainType)
+      const service = ServiceFactory.getService(currentNetwork)
       const balance = await service.getTokenBalance(currentNetwork.rpc, token.contract, currentAccount.address)
 
       setCachedBalance(token.id!, currentAccount.address, balance)

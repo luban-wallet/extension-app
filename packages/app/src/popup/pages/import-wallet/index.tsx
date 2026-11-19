@@ -19,10 +19,14 @@ import { WalletContext } from "../../contexts/WalletContext"
 export default function ImportWallet() {
   const [loading, setLoading] = useState(false)
   const {t} = useContext(I18nContext)!
-  const { setAndCacheAccount } = useContext(WalletContext)!
+  const { currentNetwork, setAndCacheAccount } = useContext(WalletContext)!
   const nav = useNavigate()
 
   const createWallet = async () => {
+    if(currentNetwork === null) {
+      return
+    }
+
     const form = document.getElementById('import_form') as HTMLFormElement
     const formData = new FormData(form)
     const password = formData.get('password') as string
@@ -50,7 +54,7 @@ export default function ImportWallet() {
       setLoading(true)
 
       const dao = new AccountDao()
-      const wallet = (await WalletFactory.getLazyWallet('EVM')).create(mnemonic)
+      const wallet = (await WalletFactory.getLazyWallet(currentNetwork)).create(mnemonic)
       const account = dao.makeDefaultAccount(wallet.address(), 'EVM')
       const valut = await Crypto.getInstance().encrypt(mnemonic, password)
 

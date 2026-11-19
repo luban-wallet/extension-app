@@ -58,7 +58,7 @@ export default function Evm() {
 
     try {
       setLoading(true)
-      const service = ServiceFactory.getService(network.chainType)
+      const service = ServiceFactory.getService(network)
       const coin = await service.getCoinBalance(network.rpc, account.address)
       setCachedCoinBalance(network.chainId, account.address, coin.available)
       setBalance(coin.available)

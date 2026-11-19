@@ -38,26 +38,32 @@ yarn workspace @luban/wallet-app install
 yarn workspace @luban/wallet-app dev
 ```
 
+## Development progress
+
+| Network | Native Token | Token |
+|-|-|-|
+| Ethereum | ✅ | ✅ |
+| Bitcoin | ✅ | ❌ |
+| Solana | ✅ | ❌ |
 
 ## Error Codes
 
 | Code | Description |
 |-|-|
-| 4000 | Not support |
-| 4001 | User reject |
-| 4002 | Account not connected |
-| 4004 | Address mismatch |
-| 4006 | Processing another request |
-| 4007 | Wallet error |
-| 4008 | Event processor not found |
-| 5000 | Internal error |
+| `4000` | Not support |
+| `4001` | User reject |
+| `4002` | Account not connected |
+| `4004` | Address mismatch |
+| `4006` | Processing another request |
+| `4007` | Wallet error |
+| `4008` | Event processor not found |
+| `5000` | Internal error |
 
 ## Layering
 
-| Layer     | Purpose             |
-| --------- | ------------------- |
-| 0-1999    | Page Element Layout |
-| 2000-2999 | Dialogs             |
-| 3000-3999 | Component Popups    |
-| 4000-4999 | Toast               |
-
+| Layer | Purpose |
+|-|-|
+| `0-1999` | Page Element Layout |
+| `2000-2999` | Dialogs |
+| `3000-3999` | Component Popups |
+| `4000-4999` | Toast |

@@ -4,6 +4,7 @@ import type { IProps } from "./type"
 
 const Evm = lazy(() => import('./evm'))
 const Btc = lazy(() => import('./btc'))
+const Svm = lazy(() => import('./svm'))
 
 export default class FeeSelect<T extends IProps> extends Base<T> {
   protected Components = {
@@ -11,5 +12,6 @@ export default class FeeSelect<T extends IProps> extends Base<T> {
     BITCOIN: Btc,
     BITCOIN_TESTNET: Btc,
     BITCOIN_REGTEST: Btc,
+    SVM: Svm
   }
 }

@@ -51,7 +51,7 @@ export default function SignTypedDataV4() {
     }
 
     // sign message
-    const wallet = await WalletFactory.getLazyWallet(currentNetwork.chainType)
+    const wallet = await WalletFactory.getLazyWallet(currentNetwork)
     await wallet.restore(pwd, currentAccount.index)
 
     const signature = await wallet.signTypedData(data)

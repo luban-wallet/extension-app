@@ -81,7 +81,7 @@ export default function SendTransaction() {
       return
     }
 
-    const service = ServiceFactory.getService(currentNetwork.chainType)
+    const service = ServiceFactory.getService(currentNetwork)
     const nonce = await service.getTransactionCount(currentNetwork.rpc, currentAccount.address)
 
     const tx = {
@@ -97,7 +97,7 @@ export default function SendTransaction() {
     Reflect.deleteProperty(tx, 'gas')
     log(TAG, 'coin tx: ', tx)
 
-    const wallet = await WalletFactory.getLazyWallet(currentNetwork.chainType)
+    const wallet = await WalletFactory.getLazyWallet(currentNetwork)
     await wallet.restore(pwd, currentAccount.index)
 
     const raw = await wallet.signTransaction(tx)

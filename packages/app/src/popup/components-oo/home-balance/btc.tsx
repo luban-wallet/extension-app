@@ -55,7 +55,7 @@ export default function Btc() {
 
     try {
       setLoading(true)
-      const service = ServiceFactory.getService(network.chainType)
+      const service = ServiceFactory.getService(network)
       const coin = await service.getCoinBalance(network.rpc, account.address)
 
       setBalance(coin.available)

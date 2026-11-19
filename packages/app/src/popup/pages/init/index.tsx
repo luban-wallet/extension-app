@@ -7,6 +7,7 @@ import HaloShader from '../../components/shader'
 import { LOCAL_CURRENT_ACCOUNT, MEM_PWD } from '../../configs/constant'
 import MsgHelper from '../../helpers/MsgHelper'
 import { log } from '../../utils/debug'
+import type { IAccount } from '../../configs/account'
 
 import css from './init.module.css'
 
@@ -25,11 +26,10 @@ export default function Init() {
 
   const init = async () => {
     try {
-      const inited = await Storage.getInstance('local').get(LOCAL_CURRENT_ACCOUNT)
-      log(TAG, 'check inited: ', inited)
+      const inited = await Storage.getInstance<IAccount>('local').get(LOCAL_CURRENT_ACCOUNT)
       if(inited) {
         const pwd = await MsgHelper.memGet<string>(MEM_PWD)
-        if(pwd === '') {
+        if(!pwd) {
           nav('/unlock')
           return
         }
@@ -53,7 +53,7 @@ export default function Init() {
   log(TAG, 'init page render')
 
   if(loading) {
-    return null;
+    return null
   }
 
   return (

@@ -55,7 +55,7 @@ export default function Btc(props: IProps) {
 
     try {
       setLoading(true)
-      const service = ServiceFactory.getService(network.chainType)
+      const service = ServiceFactory.getService(network)
       const data = await service.getRecommendTransactionFees(network.rpc)
       const baseFee = data.baseFee
       const priorityFees = data.priorityFees
@@ -172,7 +172,7 @@ export default function Btc(props: IProps) {
               className={css.feeBtn}
               onClick={openCustomFee}
             >
-              Custome
+              Custom
             </Button>
           )
         }

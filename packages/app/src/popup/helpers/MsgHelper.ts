@@ -36,6 +36,7 @@ export default class MsgHelper {
       return DEBUG_TEST_PASSWORD as unknown as T
     }
 
+    // Non null
     const value = await MessageChannelExtensionDom.sendMessageToService<T>({
       type: 'memGet',
       data: key
@@ -45,6 +46,7 @@ export default class MsgHelper {
   }
 
   static async providerRequestGrabData<T>(): Promise<T> {
+    // Non null
     const value = await MessageChannelExtensionDom.sendMessageToService<T>({
       type: '@providerRequestGrabData',
       data: null

@@ -1,11 +1,15 @@
 import type { INetwork } from "../configs/network"
 import type { IToken } from "../configs/token"
-import type { IUTXO } from "../configs/utxo"
 
 /**
  * Wallet offline operations interface
  */
 export default interface IWallet {
+  /**
+   * Current network
+   */
+  network: INetwork
+
   /**
    * Create a wallet from mnemonic words
    *
@@ -49,21 +53,16 @@ export default interface IWallet {
   /**
    * Prepare a coin transfer transaction
    */
-  prepareBaseCoinTransaction(network: INetwork, tx: BaseTransaction): Promise<BaseTransaction>
+  prepareBaseCoinTransaction(tx: BaseTransaction): Promise<BaseTransaction>
   prepareCoinTransaction(tx: BaseTransaction, metaData: {baseFee: string, feeUnitPrice: string}): Promise<BaseTransaction>
 
   /**
    * Prepare a token transfer transaction
    */
-  prepareBaseTokenTransaction(network: INetwork, tx: BaseTransaction): Promise<BaseTransaction>
+  prepareBaseTokenTransaction(tx: BaseTransaction): Promise<BaseTransaction>
   prepareTokenTransaction(tx: BaseTransaction, metaData: {baseFee: string, feeUnitPrice: string}): Promise<BaseTransaction>
 
   encodeTokenTransfer(to: string, amount: string): string
-
-  /**
-   * Select UTXOs for a transaction
-   */
-  selectUtxos(feeRate: string, amount: string, unspent: IUTXO[]): Promise<{selected: IUTXO[], change: bigint, needChange: boolean}>
 }
 
 export interface BaseTransaction {
@@ -85,16 +84,6 @@ export interface BaseTransaction {
    * `gasPrice = min(baseFee + maxPriorityFeePerGas, maxFeePerGas)`
    */
   maxFeePerGas?: string
-
-  /** Bitcoin */
-  /** Available UTXOs */
-  unspent?: Array<IUTXO>
-  /** Selected UTXOs */
-  selected?: {
-    selected: Array<IUTXO>
-    change: bigint
-    needChange: boolean
-  }
 
   /** Others */
   contract?: IToken

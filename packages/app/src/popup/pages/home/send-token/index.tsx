@@ -46,7 +46,7 @@ export default function SendToken() {
 
     try {
       setLoading(true)
-      const service = ServiceFactory.getService(currentNetwork.chainType)
+      const service = ServiceFactory.getService(currentNetwork)
       const nonce = await service.getTransactionCount(currentNetwork.rpc, currentAccount.address)
       setNonce(BigInt(nonce).toString())
       setLoading(false)
@@ -84,17 +84,14 @@ export default function SendToken() {
 
     try {
       setLoading(true)
-      const wallet = await WalletFactory.getLazyWallet(currentNetwork.chainType)
-      tokenTxMeta.current = await wallet.prepareBaseTokenTransaction(
-        currentNetwork,
-        {
-          from: currentAccount.address,
-          to: to,
-          nonce: Number(nonce),
-          value: realAmount.toString(),
-          contract: currentToken,
-        }
-      )
+      const wallet = await WalletFactory.getLazyWallet(currentNetwork)
+      tokenTxMeta.current = await wallet.prepareBaseTokenTransaction({
+        from: currentAccount.address,
+        to: to,
+        nonce: Number(nonce),
+        value: realAmount.toString(),
+        contract: currentToken,
+      })
       log(TAG, 'tx', tokenTxMeta.current)
 
       nav('/home/send-token-sign', {

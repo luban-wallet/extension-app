@@ -65,7 +65,7 @@ export default function AccountAdd() {
       }
 
       setLoading(true)
-      const wallet = await WalletFactory.getLazyWallet(currentNetwork.chainType)
+      const wallet = await WalletFactory.getLazyWallet(currentNetwork)
       await wallet.restore(pwd, nextIndex)
 
       await new AccountDao().insert({
@@ -73,7 +73,7 @@ export default function AccountAdd() {
         alias: name,
         address: wallet.address(),
         chainType: currentNetwork.chainType,
-        derivationPath: DERIVATION_PATHS[currentNetwork.chainType] + nextIndex
+        derivationPath: DERIVATION_PATHS[currentNetwork.chainType].replace('{i}', BigInt(nextIndex).toString())
       })
 
       toast.success(t('page.addaccount.msg.success'))

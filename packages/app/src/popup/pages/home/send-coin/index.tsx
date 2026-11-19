@@ -38,7 +38,7 @@ export default function SendCoin() {
     try {
       setLoading(true)
       const address = search.get('address')
-      const service = ServiceFactory.getService(currentNetwork.chainType)
+      const service = ServiceFactory.getService(currentNetwork)
       const nonce = await service.getTransactionCount(currentNetwork.rpc, currentAccount.address)
       setNonce(BigInt(nonce).toString())
       if(address !== null) {
@@ -65,15 +65,12 @@ export default function SendCoin() {
 
     try {
       setLoading(true)
-      const wallet = await WalletFactory.getLazyWallet(currentNetwork.chainType)
-      txMeta.current = await wallet.prepareBaseCoinTransaction(
-        currentNetwork,
-        {
-          from: currentAccount.address,
-          to: to,
-          nonce: nonce !== '' ? Number(nonce) : undefined,
-        }
-      )
+      const wallet = await WalletFactory.getLazyWallet(currentNetwork)
+      txMeta.current = await wallet.prepareBaseCoinTransaction({
+        from: currentAccount.address,
+        to: to,
+        nonce: nonce !== '' ? Number(nonce) : undefined,
+      })
       nav('/home/send-coin-sign', {
         replace: true
       })

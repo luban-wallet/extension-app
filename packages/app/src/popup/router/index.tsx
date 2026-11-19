@@ -91,6 +91,7 @@ const routes = createHashRouter([
       }
     ]
   },
+
   {
     path: "/home",
     element: <Layout />,

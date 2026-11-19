@@ -48,7 +48,7 @@ export default function Token() {
     setToken(token)
 
     try {
-      const service = ServiceFactory.getService(currentNetwork.chainType)
+      const service = ServiceFactory.getService(currentNetwork)
       const balance = await service.getTokenBalance(currentNetwork.rpc, token.contract, currentAccount.address)
       setCachedBalance(token.id!, currentAccount.address, balance)
       setBalance(balance)

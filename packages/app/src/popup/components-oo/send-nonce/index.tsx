@@ -10,5 +10,6 @@ export default class SendNonce<T extends IProps> extends Base<T> {
     BITCOIN: null,
     BITCOIN_TESTNET: null,
     BITCOIN_REGTEST: null,
+    SVM: null,
   }
 }

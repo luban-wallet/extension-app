@@ -24,13 +24,17 @@ export default function Done() {
   const [words, setWords] = useState<string>('')
   const nav = useNavigate()
   const { t } = useContext(I18nContext)!
-  const { setAndCacheAccount } = useContext(WalletContext)!
+  const { currentNetwork, setAndCacheAccount } = useContext(WalletContext)!
 
   useEffect(() => {
     init()
   }, [])
 
   const init = async () => {
+    if(currentNetwork === null) {
+      return
+    }
+
     try {
       const pwd = await MsgHelper.memGet<string>(MEM_PWD)
       const words = await Storage.getInstance<string>('mem').remove(MEM_WORDS)
@@ -38,10 +42,12 @@ export default function Done() {
         toast.error(t('common.msg.params.error'))
         return
       }
-      const valut = await Crypto.getInstance().encrypt(words, pwd)
+
       const dao = new AccountDao()
-      const wallet = (await WalletFactory.getLazyWallet('EVM')).create(words)
-      const account = dao.makeDefaultAccount(wallet.address(), 'EVM')
+      const valut = await Crypto.getInstance().encrypt(words, pwd)
+      let wallet = await WalletFactory.getLazyWallet(currentNetwork)
+      wallet = wallet.create(words)
+      const account = dao.makeDefaultAccount(wallet.address(), currentNetwork.chainType)
 
       // save wallet
       await dao.insert(account)
@@ -65,6 +71,10 @@ export default function Done() {
     nav('/home', {
       replace: true,
     })
+  }
+
+  if(currentNetwork === null) {
+    return null
   }
 
   return (

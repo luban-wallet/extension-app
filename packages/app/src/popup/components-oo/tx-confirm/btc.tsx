@@ -10,6 +10,11 @@ import WalletFactory from "../../wallets/WalletFactory"
 import { I18nContext } from "../../contexts/I18nContext"
 import { log } from "../../utils/debug"
 
+const calculateTotalFee = (props: { feeUnitPrice: string, gasLimit: string }) => {
+  const { feeUnitPrice, gasLimit } = props
+  return BigInt(feeUnitPrice) * BigInt(gasLimit)
+}
+
 const TAG = '[BTC_TX_CONFIRM]'
 export default function Btc(props: IProps) {
   const { to, amount, symbol, feeUnitPrice } = props
@@ -17,10 +22,6 @@ export default function Btc(props: IProps) {
   const { currentNetwork, txMeta } = useContext(WalletContext)!
   const [gasLimit, setGasLimit] = useState('0')
   const { t } = useContext(I18nContext)!
-
-  const calculateTotalFee = () => {
-    return BigInt(feeUnitPrice) * BigInt(gasLimit)
-  }
 
   const init = async () => {
     if(currentNetwork === null) {
@@ -30,10 +31,10 @@ export default function Btc(props: IProps) {
     try {
       setLoading(true)
       const unspent = txMeta.current?.unspent ?? []
+      const service = ServiceFactory.getService(currentNetwork)
       const amountSats = toMinimalUnit(amount, currentNetwork.chainType)
-      const wallet = await WalletFactory.getLazyWallet(currentNetwork.chainType)
+      const wallet = await WalletFactory.getLazyWallet(currentNetwork)
       const utxos = await wallet.selectUtxos(feeUnitPrice, amountSats.toString(), unspent)
-      const service = ServiceFactory.getService(currentNetwork.chainType)
       const quantity = await service.estimateGas(currentNetwork.rpc, [{
         input: utxos.selected.length,
         output: utxos.needChange ? 2 : 1
@@ -48,7 +49,7 @@ export default function Btc(props: IProps) {
   }
 
   const send = () => {
-    const totalFee = calculateTotalFee()
+    const totalFee = calculateTotalFee({ feeUnitPrice, gasLimit })
     props.onConfirm(totalFee.toString(), gasLimit)
   }
 
@@ -67,8 +68,8 @@ export default function Btc(props: IProps) {
     )
   }
 
-  const fee = calculateTotalFee()
-  const result = toMaximalUnit(fee.toString(), currentNetwork.chainType) + ' ' + currentNetwork.symbol
+  const fee = calculateTotalFee({ feeUnitPrice, gasLimit })
+  const result = toMaximalUnit(fee.toString(), currentNetwork.chainType)
   const formula = `${feeUnitPrice} sat/VB * ${gasLimit} VB`
 
   return (
@@ -81,7 +82,7 @@ export default function Btc(props: IProps) {
           <p>{amount} {symbol}</p>
         </Row>
         <Row label={t('page.send.tx.confirm.txfee')}>
-          <p>≈ {result}</p>
+          <p>≈ {result} {currentNetwork.symbol}</p>
           <p>{formula}</p>
         </Row>
       </div>

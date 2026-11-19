@@ -166,7 +166,7 @@ export default class Service implements IService {
     throw new Error('getUnspentList(), Method not implemented.')
   }
 
-  async getTransactionStatus(rpc: string, txHash: string): Promise<null | {status: 'pending' | 'success' | 'failed'}> {
+  async getTransactionStatus(rpc: string, txHash: string): Promise<{status: 'pending' | 'success' | 'failed'} | null> {
     const json = await this.call<{status: string}>(rpc, 'eth_getTransactionReceipt', [ txHash ])
     const data = json.result
 

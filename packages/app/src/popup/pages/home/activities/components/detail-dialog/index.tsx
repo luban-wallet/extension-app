@@ -30,7 +30,7 @@ export default function DetailDialog(props: IProps) {
 
     try {
       const dao = new TransactionDao()
-      const service = ServiceFactory.getService(currentNetwork.chainType)
+      const service = ServiceFactory.getService(currentNetwork)
       const tx = await dao.getOne(id)
       if(tx === null) {
         throw new Error('Transaction not found')

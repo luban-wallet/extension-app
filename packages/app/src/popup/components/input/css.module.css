@@ -48,12 +48,13 @@
 
 .suffix {
   position: absolute;
-  top: 0;
+  top: 1px;
   right: 12px;
-  height: 100%;
+  bottom: 1px;
   display: flex;
   align-items: center;
   column-gap: 4px;
+  background-color: rgb(var(--color-background-0));
 }
 
 .textareaWrapper {

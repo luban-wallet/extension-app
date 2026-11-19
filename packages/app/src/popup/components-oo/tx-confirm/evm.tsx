@@ -21,6 +21,11 @@ const advanced = {
   padding: '0px 8px'
 }
 
+const calculateTotalFee = (props: { baseFee: string, feeUnitPrice: string, gasLimit: string }) => {
+  const { baseFee, feeUnitPrice, gasLimit } = props
+  return (BigInt(baseFee) + BigInt(feeUnitPrice)) * BigInt(gasLimit)
+}
+
 const TAG = '[EVM_TX_CONFIRM]'
 export default function Evm(props: IProps) {
   const { isToken, from, to, amount, symbol, baseFee, feeUnitPrice } = props
@@ -34,10 +39,6 @@ export default function Evm(props: IProps) {
     setShowAdvanced(!showAdvanced)
   }
 
-  const calculateTotalFee = () => {
-    return (BigInt(baseFee) + BigInt(feeUnitPrice)) * BigInt(gasLimit)
-  }
-
   const init = async () => {
     if(currentNetwork === null) {
       return
@@ -45,14 +46,14 @@ export default function Evm(props: IProps) {
 
     try {
       setLoading(true)
-      const service = ServiceFactory.getService(currentNetwork.chainType)
+      const service = ServiceFactory.getService(currentNetwork)
       const payload: Record<string, string> = {
         from,
         to,
         value: '0x0',
       }
       if(isToken) {
-        const wallet = await WalletFactory.getLazyWallet(currentNetwork.chainType)
+        const wallet = await WalletFactory.getLazyWallet(currentNetwork)
         payload.data = wallet.encodeTokenTransfer(to, '0')
       }
 
@@ -71,7 +72,7 @@ export default function Evm(props: IProps) {
   }
 
   const send = () => {
-    const totalFee = calculateTotalFee()
+    const totalFee = calculateTotalFee({ baseFee, feeUnitPrice, gasLimit })
     props.onConfirm(totalFee.toString(), gasLimit)
   }
 
@@ -90,8 +91,8 @@ export default function Evm(props: IProps) {
     )
   }
 
-  const fee = calculateTotalFee()
-  const result = toMaximalUnit(fee.toString(), currentNetwork.chainType) + ' ' + currentNetwork.symbol
+  const fee = calculateTotalFee({ baseFee, feeUnitPrice, gasLimit })
+  const result = toMaximalUnit(fee.toString(), currentNetwork.chainType)
   const formula = `(${formatUnits(baseFee, 9)} gwei + ${formatUnits(feeUnitPrice, 9)} gwei) * ${BigInt(gasLimit).toString()}`
 
   return (
@@ -104,7 +105,7 @@ export default function Evm(props: IProps) {
           <p>{amount} {symbol}</p>
         </Row>
         <Row label={t('page.send.tx.confirm.txfee')}>
-          <p>≈ {result}</p>
+          <p>≈ {result} {currentNetwork.symbol}</p>
           <p>{formula}</p>
         </Row>
         <Row label="">

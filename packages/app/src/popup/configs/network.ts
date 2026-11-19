@@ -1,4 +1,4 @@
-export type ChainType = 'EVM' | 'BITCOIN' | 'BITCOIN_TESTNET' | 'BITCOIN_REGTEST'
+export type ChainType = 'EVM' | 'BITCOIN' | 'BITCOIN_TESTNET' | 'BITCOIN_REGTEST' | 'SVM'
 
 export interface INetwork {
   id?: number
@@ -31,6 +31,10 @@ export const networkUnits: Record<ChainType, {valueDecimal: number, valueSymbol:
   'BITCOIN_REGTEST': {
     valueDecimal: 8,
     valueSymbol: 'sat',
+  },
+  'SVM': {
+    valueDecimal: 9,
+    valueSymbol: 'lamport',
   }
 }
 
@@ -64,6 +68,16 @@ export const defaultNetworks: INetwork[] = [
     explorer: 'https://mempool.space',
     testnet: '0',
     chainType: 'BITCOIN'
+  },
+  {
+    name: 'Solana Mainnet',
+    icon: '/images/token-sol.png',
+    chainId: '-11',
+    symbol: 'SOL',
+    rpc: 'https://api.mainnet.solana.com',
+    explorer: 'https://explorer.solana.com',
+    testnet: '0',
+    chainType: 'SVM'
   },
   {
     name: 'Ethereum Classic',
@@ -114,5 +128,15 @@ export const defaultNetworks: INetwork[] = [
     explorer: '',
     testnet: '1',
     chainType: 'BITCOIN_REGTEST'
+  },
+  {
+    name: 'Solana Testnet',
+    icon: '/images/token-sol.png',
+    chainId: '-12',
+    symbol: 'SOL',
+    rpc: 'https://api.testnet.solana.com',
+    explorer: 'https://explorer.solana.com?cluster=testnet',
+    testnet: '1',
+    chainType: 'SVM'
   }
 ]

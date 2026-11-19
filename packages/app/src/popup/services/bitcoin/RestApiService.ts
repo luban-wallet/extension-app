@@ -107,7 +107,7 @@ export default class RestApiService implements IService {
     // return availables
   }
 
-  async getTransactionStatus(rpc: string, txHash: string): Promise<null | {status: 'pending' | 'success' | 'failed'}> {
+  async getTransactionStatus(rpc: string, txHash: string): Promise<{status: 'pending' | 'success' | 'failed'} | null> {
     const res = await this.call(rpc + '/api/tx/' + txHash, 'GET', null)
     if(!res.result.startsWith('{')) {
       return null

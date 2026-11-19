@@ -37,7 +37,7 @@ export default function TokenAdd() {
 
     try {
       setLoading(true)
-      const service = ServiceFactory.getService(currentNetwork.chainType)
+      const service = ServiceFactory.getService(currentNetwork)
       const data = await service.getTokenMetadata(currentNetwork.rpc, v)
       // console.log(data)
 

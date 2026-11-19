@@ -7,7 +7,6 @@ import { DERIVATION_PATHS } from '../../configs/account'
 import { LOCAL_KEYSTORE } from '../../configs/constant'
 import type { INetwork } from '../../configs/network'
 import type { BaseTransaction } from '../IWallet'
-import type { IUTXO } from '../../configs/utxo'
 import type { SomeRequired } from '../../utils/type'
 
 export type EthereumTransaction = SomeRequired<BaseTransaction, 'type' | 'chainId' | 'value' | 'data' | 'gasLimit' | 'maxPriorityFeePerGas' | 'maxFeePerGas'>
@@ -16,10 +15,15 @@ export type EthereumTransaction = SomeRequired<BaseTransaction, 'type' | 'chainI
  * EVM HDNode Wallet implementation
  */
 export default class Wallet implements IWallet {
+  network: INetwork
   nativeWallet: HDNodeWallet | null = null
 
+  constructor(network: INetwork) {
+    this.network = network
+  }
+
   public create(words: string, index: number = 0): IWallet {
-    const path = DERIVATION_PATHS['EVM'] + index
+    const path = DERIVATION_PATHS.EVM.replace('{i}', BigInt(index).toString())
     this.nativeWallet = HDNodeWallet.fromPhrase(words, '', path)
     return this
   }
@@ -31,7 +35,7 @@ export default class Wallet implements IWallet {
     }
 
     const phrase = await Crypto.getInstance().decrypt(vault, password)
-    if(phrase === null) {
+    if(phrase === '') {
       throw new Error('Restore wallet failed')
     }
 
@@ -84,13 +88,13 @@ export default class Wallet implements IWallet {
     return this.nativeWallet.signTypedData(data.domain, data.types, data.message)
   }
 
-  public async prepareBaseCoinTransaction(network: INetwork, transaction: BaseTransaction): Promise<EthereumTransaction> {
+  public async prepareBaseCoinTransaction(transaction: BaseTransaction): Promise<EthereumTransaction> {
     return {
       type: 2,
       from: transaction.from,
       to: transaction.to,
       nonce: transaction.nonce,
-      chainId: network.chainId,
+      chainId: this.network.chainId,
       value: '0x0',
       // Coin transaction has no data
       data: '0x',
@@ -104,17 +108,17 @@ export default class Wallet implements IWallet {
     transaction.maxPriorityFeePerGas = metaData.feeUnitPrice
     transaction.maxFeePerGas = (BigInt(metaData.baseFee) + BigInt(metaData.feeUnitPrice)).toString()
 
-    if(BigInt(transaction.value) === 0n) {
+    if(transaction.value === '') {
       throw new Error('Value is required for coin transaction')
     }
-    if(BigInt(transaction.gasLimit) === 0n) {
+    if(transaction.gasLimit === '') {
       throw new Error('Gas limit is required for coin transaction')
     }
 
     return transaction
   }
 
-  public async prepareBaseTokenTransaction(network: INetwork, transaction: BaseTransaction): Promise<EthereumTransaction> {
+  public async prepareBaseTokenTransaction(transaction: BaseTransaction): Promise<EthereumTransaction> {
     if(transaction.contract === undefined) {
       throw new Error('Contract address is required for token transaction')
     }
@@ -124,7 +128,7 @@ export default class Wallet implements IWallet {
       from: transaction.from,
       to: transaction.to,
       nonce: transaction.nonce,
-      chainId: network.chainId,
+      chainId: this.network.chainId,
       value: transaction.value ?? '0x0',
       data: '0x',
       gasLimit: '0',
@@ -163,9 +167,5 @@ export default class Wallet implements IWallet {
     }
 
     return '0xa9059cbb' + encodedParam
-  }
-
-  public selectUtxos(): Promise<{selected: IUTXO[], change: bigint, needChange: boolean}> {
-    throw new Error('selectUtxos is not supported for EVM wallets')
   }
 }

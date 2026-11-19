@@ -22,4 +22,6 @@ export const EVM_GAS_LIMIT_RATE = 2.5
 export const CHROME_ALARM_DELAY = 0.5
 export const CHROME_ALARM_PERIOD = 0.5
 
+export const SOLANA_BASE_FEE = 5000n
+
 export const DEBUG_TEST_PASSWORD = 'dev'

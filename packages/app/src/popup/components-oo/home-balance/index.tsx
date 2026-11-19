@@ -10,5 +10,6 @@ export default class HomeBalance<T> extends Base<T> {
     BITCOIN: Btc,
     BITCOIN_TESTNET: Btc,
     BITCOIN_REGTEST: Btc,
+    SVM: Evm
   }
 }

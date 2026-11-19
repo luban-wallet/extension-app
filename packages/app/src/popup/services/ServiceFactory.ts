@@ -1,13 +1,14 @@
 import type IService from './IService'
-import type { ChainType } from '../configs/network'
+import type { INetwork } from '../configs/network'
 import ServiceLocator from '@lopan/utils/ioc/ServiceLocator'
 import EVMService from './evm/Service'
 import BitcoinRestApiService from './bitcoin/RestApiService'
+import SVMService from './svm/Service'
 
 export default class ServiceFactory {
   private static services: ServiceLocator<IService> | null = null
 
-  static getService(type: ChainType): IService {
+  static getService(network: INetwork): IService {
     if(ServiceFactory.services === null) {
       ServiceFactory.services = new ServiceLocator<IService>()
       ServiceFactory.services.setServicesAsDefinition({
@@ -23,12 +24,15 @@ export default class ServiceFactory {
         'BITCOIN_REGTEST': {
           classType: BitcoinRestApiService,
         },
+        'SVM': {
+          classType: SVMService,
+        }
       })
     }
 
-    const service = ServiceFactory.services.getService(type)
+    const service = ServiceFactory.services.getService(network.chainType)
     if(service === null) {
-      throw new Error(`Service for chain type ${type} not found`)
+      throw new Error(`Service for chain type ${network.chainType} not found`)
     }
 
     return service

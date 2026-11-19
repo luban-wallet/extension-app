@@ -1,6 +1,6 @@
 import { DERIVATION_PATHS, type IAccount } from '../configs/account'
 import { MEM_PWD } from '../configs/constant'
-import type { ChainType } from '../configs/network'
+import type { ChainType, INetwork } from '../configs/network'
 import MsgHelper from '../helpers/MsgHelper'
 import WalletFactory from '../wallets/WalletFactory'
 import Dao from './Dao'
@@ -17,22 +17,22 @@ export default class AccountDao extends Dao<IAccount> {
       alias: 'Default',
       address: address,
       chainType: chainType,
-      derivationPath: DERIVATION_PATHS[chainType] + '0'
+      derivationPath: DERIVATION_PATHS[chainType].replace('{i}', '0')
     }
   }
 
-  async getOrInsertDefaultAccount(chainType: ChainType): Promise<IAccount | null> {
-    let account = await this.getOneByIndex('chainType', chainType)
+  async getOrInsertDefaultAccount(network: INetwork): Promise<IAccount | null> {
+    let account = await this.getOneByIndex('chainType', network.chainType)
     if(account !== null) {
       return account
     }
 
     // Insert a default account
     const pwd = await MsgHelper.memGet<string>(MEM_PWD)
-    const wallet = await WalletFactory.getLazyWallet(chainType)
+    const wallet = await WalletFactory.getLazyWallet(network)
     await wallet.restore(pwd, 0)
 
-    account = this.makeDefaultAccount(wallet.address(), chainType)
+    account = this.makeDefaultAccount(wallet.address(), network.chainType)
     await this.insert(account)
 
     return account

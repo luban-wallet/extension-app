@@ -14,17 +14,38 @@ import type { BaseTransaction } from '../IWallet'
 import type { IUTXO } from '../../configs/utxo'
 import type { SomeRequired } from '../../utils/type'
 
-export type BitcoinTransaction = SomeRequired<BaseTransaction, 'value' | 'unspent'>
+export interface IBitcoinWallet extends IWallet {
+  /**
+   * Select UTXOs for a transaction
+   */
+  selectUtxos(feeRate: string, amount: string, unspent: IUTXO[]): Promise<{selected: IUTXO[], change: bigint, needChange: boolean}>
+}
+
+export type BitcoinTransaction = SomeRequired<BaseTransaction, 'value'> & {
+  /**
+   * Available UTXOs
+   */
+  unspent: Array<IUTXO>
+
+  /**
+   * Selected UTXOs
+   */
+  selected?: {
+    selected: Array<IUTXO>
+    change: bigint
+    needChange: boolean
+  }
+}
 
 /**
  * Bitcoin wallet implementation
  */
-export default class Wallet implements IWallet {
-  chainType: ChainType
+export default class Wallet implements IBitcoinWallet {
+  network: INetwork
   nativeWallet: {p2tr: payments.Payment, child: BIP32Interface} | null = null
 
-  constructor(chainType: ChainType) {
-    this.chainType = chainType
+  constructor(network: INetwork) {
+    this.network = network
   }
 
   static schnorrValidator(pubkey: Uint8Array, msgHash: Uint8Array, signature: Uint8Array): boolean {
@@ -52,7 +73,7 @@ export default class Wallet implements IWallet {
    * @param list available UTXOs
    */
   public async selectUtxos(feeRate: string, amount: string, unspent: IUTXO[]): Promise<{selected: IUTXO[], change: bigint, needChange: boolean}> {
-    const service = ServiceFactory.getService(this.chainType)
+    const service = ServiceFactory.getService(this.network)
 
     // Sort utxos by value ascending
     const sorted = unspent.sort((a, b) => BigInt(a.value) - BigInt(b.value) >= 0n ? 1 : -1)
@@ -89,12 +110,13 @@ export default class Wallet implements IWallet {
 
   public create(words: string, index = 0): IWallet {
     initEccLib(ecc)
-    const net = Wallet.getBitcoinNetwork(this.chainType)
+    const chainType = this.network.chainType
+    const net = Wallet.getBitcoinNetwork(chainType)
     const bip32 = BIP32Factory(ecc)
     const seed = mnemonicToSeedSync(words)
     const root = bip32.fromSeed(seed, net)
 
-    const path = DERIVATION_PATHS[this.chainType] + index
+    const path = DERIVATION_PATHS[chainType].replace('{i}', BigInt(index).toString())
     const child = root.derivePath(path)
     const xOnlyPubkey = child.publicKey.slice(1, 33)
     const p2tr = payments.p2tr({ internalPubkey: xOnlyPubkey, network: net })
@@ -114,7 +136,7 @@ export default class Wallet implements IWallet {
     }
 
     const phrase = await Crypto.getInstance().decrypt(vault, password)
-    if(phrase === null) {
+    if(phrase === '') {
       throw new Error('Restore wallet failed')
     }
 
@@ -143,7 +165,7 @@ export default class Wallet implements IWallet {
     const tweakHash = crypto.taggedHash('TapTweak', this.nativeWallet.p2tr.internalPubkey!)
     const tweakedSigner = ECPair.fromPrivateKey(this.nativeWallet.child.privateKey!).tweak(tweakHash)
 
-    const net = Wallet.getBitcoinNetwork(this.chainType)
+    const net = Wallet.getBitcoinNetwork(this.network.chainType)
     const psbt = new Psbt({ network: net })
 
     // input
@@ -196,9 +218,9 @@ export default class Wallet implements IWallet {
     throw new Error('signTypedData(), Method not implemented.')
   }
 
-  public async prepareBaseCoinTransaction(network: INetwork, tx: BitcoinTransaction): Promise<BitcoinTransaction> {
-    const service = ServiceFactory.getService(network.chainType)
-    const list = await service.getUnspentList(network.rpc, tx.from)
+  public async prepareBaseCoinTransaction(tx: BitcoinTransaction): Promise<BitcoinTransaction> {
+    const service = ServiceFactory.getService(this.network)
+    const list = await service.getUnspentList(this.network.rpc, tx.from)
 
     return {
       from: tx.from,
