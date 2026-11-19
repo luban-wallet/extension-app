@@ -9,6 +9,7 @@ import Button from "../../components/button"
 import WalletFactory from "../../wallets/WalletFactory"
 import { I18nContext } from "../../contexts/I18nContext"
 import { log } from "../../utils/debug"
+import type { IBitcoinWallet } from "../../wallets/IWallet"
 
 const calculateTotalFee = (props: { feeUnitPrice: string, gasLimit: string }) => {
   const { feeUnitPrice, gasLimit } = props
@@ -33,7 +34,7 @@ export default function Btc(props: IProps) {
       const unspent = txMeta.current?.unspent ?? []
       const service = ServiceFactory.getService(currentNetwork)
       const amountSats = toMinimalUnit(amount, currentNetwork.chainType)
-      const wallet = await WalletFactory.getLazyWallet(currentNetwork)
+      const wallet = await WalletFactory.getLazyWallet(currentNetwork) as IBitcoinWallet
       const utxos = await wallet.selectUtxos(feeUnitPrice, amountSats.toString(), unspent)
       const quantity = await service.estimateGas(currentNetwork.rpc, [{
         input: utxos.selected.length,

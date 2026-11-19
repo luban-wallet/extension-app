@@ -10,32 +10,11 @@ import { Storage } from "@luban/wallet-storage"
 import Crypto, { type Keystore } from "@lubankit/crypto"
 import { BITCOIN_DUST_RELAY_SATS, LOCAL_KEYSTORE } from '../../configs/constant'
 import ServiceFactory from '../../services/ServiceFactory'
-import type { BaseTransaction } from '../IWallet'
+import type { BaseTransaction, IBitcoinWallet } from '../IWallet'
 import type { IUTXO } from '../../configs/utxo'
 import type { SomeRequired } from '../../utils/type'
 
-export interface IBitcoinWallet extends IWallet {
-  /**
-   * Select UTXOs for a transaction
-   */
-  selectUtxos(feeRate: string, amount: string, unspent: IUTXO[]): Promise<{selected: IUTXO[], change: bigint, needChange: boolean}>
-}
-
-export type BitcoinTransaction = SomeRequired<BaseTransaction, 'value'> & {
-  /**
-   * Available UTXOs
-   */
-  unspent: Array<IUTXO>
-
-  /**
-   * Selected UTXOs
-   */
-  selected?: {
-    selected: Array<IUTXO>
-    change: bigint
-    needChange: boolean
-  }
-}
+export type BitcoinTransaction = SomeRequired<BaseTransaction, 'value' | 'unspent'>
 
 /**
  * Bitcoin wallet implementation
@@ -64,14 +43,6 @@ export default class Wallet implements IBitcoinWallet {
     return networks.regtest
   }
 
-  /**
-   * Select UTXOs for a Bitcoin transaction
-   *
-   * @param network
-   * @param feeRate
-   * @param amount sat amount
-   * @param list available UTXOs
-   */
   public async selectUtxos(feeRate: string, amount: string, unspent: IUTXO[]): Promise<{selected: IUTXO[], change: bigint, needChange: boolean}> {
     const service = ServiceFactory.getService(this.network)
 
@@ -218,7 +189,7 @@ export default class Wallet implements IBitcoinWallet {
     throw new Error('signTypedData(), Method not implemented.')
   }
 
-  public async prepareBaseCoinTransaction(tx: BitcoinTransaction): Promise<BitcoinTransaction> {
+  public async prepareBaseCoinTransaction(tx: BaseTransaction): Promise<BitcoinTransaction> {
     const service = ServiceFactory.getService(this.network)
     const list = await service.getUnspentList(this.network.rpc, tx.from)
 
