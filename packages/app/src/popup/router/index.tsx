@@ -43,6 +43,7 @@ const ExportWallet = lazy(() => import('../pages/home/settings/settings-export-w
 const SettingsTimer = lazy(() => import('../pages/home/settings/settings-timer'))
 const SettingsContact = lazy(() => import('../pages/home/settings/settings-contact'))
 const ProviderWrapper = lazy(() => import('../pages/provider-request/wrapper'))
+const SendCoinAll = lazy(() => import('../pages/home/send-coin-all'))
 
 const routes = createHashRouter([
   {
@@ -111,6 +112,10 @@ const routes = createHashRouter([
       {
         path: 'utxos',
         element: <Utxos />
+      },
+      {
+        path: "send-coin-all",
+        element: <SendCoinAll />
       },
       {
         path: "send-coin",

@@ -69,6 +69,7 @@
   "page.home.panel.setting.settings": "設定",
   "page.home.panel.setting.lock": "鎖定錢包",
   "page.home.panel.btn.send": "轉帳",
+  "page.home.panel.btn.sendall": "全部轉帳",
   "page.home.panel.btn.receive": "收款",
   "page.home.panel.btn.activity": "交易紀錄",
   "page.home.panel.btn.utxos": "UTXOs",
@@ -172,6 +173,9 @@
   "page.send.tx.confirm.sendamount": "轉帳數量",
   "page.send.tx.confirm.txfee": "交易手續費",
   "page.send.tx.confirm.gaslimit": "Gas 上限",
+
+  "page.send.txsendcoinall.confirm.receive": "接收數量",
+  "page.send.txsendcoinall.confirm.notice": "由於網路費用有波動，所以不能保證剛好將錢包餘額用完",
 
   "page.forgetpassword.header": "忘記密碼",
   "page.forgetpassword.btn.delete": "刪除錢包",

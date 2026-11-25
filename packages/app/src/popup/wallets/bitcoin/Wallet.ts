@@ -196,13 +196,13 @@ export default class Wallet implements IBitcoinWallet {
     return {
       from: tx.from,
       to: tx.to,
-      value: '0',
+      value: '',
       unspent: list
     }
   }
 
   public async prepareCoinTransaction(tx: BitcoinTransaction, metaData: {feeUnitPrice: string}): Promise<BitcoinTransaction> {
-    if(!tx.value) {
+    if(tx.value === '') {
       throw new Error('Transaction send amount is required')
     }
 

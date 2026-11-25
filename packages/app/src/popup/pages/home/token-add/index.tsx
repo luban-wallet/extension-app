@@ -19,6 +19,7 @@ export default function TokenAdd() {
   const timer = useRef<unknown>(0)
   const { t } = useContext(I18nContext)!
   const [meta, setMeta] = useState<IToken | null>(null)
+  const [tokenSymbol, setTokenSymbol] = useState('')
   const { currentNetwork } = useContext(WalletContext)!
   const { setCachedTokens } = useContext(TokenContext)!
   const nav = useNavigate()
@@ -47,6 +48,7 @@ export default function TokenAdd() {
         contract: v
       }
       setMeta(token)
+      setTokenSymbol(data.symbol)
     } catch(e) {
       toast.error((e as Error).message)
     } finally {
@@ -60,7 +62,10 @@ export default function TokenAdd() {
     }
 
     setLoading(true)
-    await new TokenDao().insert(meta)
+    await new TokenDao().insert({
+      ...meta,
+      symbol: tokenSymbol
+    })
     setCachedTokens(currentNetwork!.chainId, null)
     setLoading(false)
     nav(-1)
@@ -78,7 +83,7 @@ export default function TokenAdd() {
           {
             meta !== null ? (
               <FormItem label={t('page.addtoken.label.symbol')}>
-                <Input disabled value={meta.symbol} />
+                <Input value={tokenSymbol} onChange={e => setTokenSymbol(e.target.value)} />
               </FormItem>
             ) : null
           }
@@ -93,7 +98,12 @@ export default function TokenAdd() {
       </Container>
 
       <Footer>
-        <Button loading={loading} disabled={meta === null || loading} variant="primary" onClick={addToken}>{t('page.addtoken.btn')}</Button>
+        <Button
+          loading={loading}
+          disabled={meta === null || loading}
+          variant="primary"
+          onClick={addToken}
+        >{t('page.addtoken.btn')}</Button>
       </Footer>
     </>
   )

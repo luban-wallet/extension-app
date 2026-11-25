@@ -95,10 +95,10 @@ export default class Wallet implements IWallet {
       to: transaction.to,
       nonce: transaction.nonce,
       chainId: this.network.chainId,
-      value: '0x0',
+      value: '',
       // Coin transaction has no data
       data: '0x',
-      gasLimit: '0',
+      gasLimit: '',
       maxPriorityFeePerGas: '',
       maxFeePerGas: '',
     }
@@ -129,9 +129,9 @@ export default class Wallet implements IWallet {
       to: transaction.to,
       nonce: transaction.nonce,
       chainId: this.network.chainId,
-      value: transaction.value ?? '0x0',
+      value: transaction.value ?? '',
       data: '0x',
-      gasLimit: '0',
+      gasLimit: '',
       maxPriorityFeePerGas: '',
       maxFeePerGas: '',
 
@@ -142,7 +142,7 @@ export default class Wallet implements IWallet {
   public async prepareTokenTransaction(transaction: EthereumTransaction, fees: {baseFee: string, feeUnitPrice: string}): Promise<EthereumTransaction> {
     const data = this.encodeTokenTransfer(transaction.to, transaction.value)
 
-    // Token transaction has no value
+    // Token transaction set value to 0x0
     transaction.value = '0x0'
     transaction.data = data
     transaction.maxPriorityFeePerGas = fees.feeUnitPrice
@@ -151,7 +151,7 @@ export default class Wallet implements IWallet {
     // Remove unused fields
     delete transaction.contract
 
-    if(BigInt(transaction.gasLimit) === 0n) {
+    if(transaction.gasLimit === '') {
       throw new Error('Gas limit is required for token transaction')
     }
 

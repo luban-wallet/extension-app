@@ -1,7 +1,14 @@
 import LimitedFetch from "@lubankit/utils/LimitedFetch"
 import type { IUTXO } from "../../configs/utxo"
 import type IService from "../IService"
-import { SOLANA_BASE_FEE } from "../../configs/constant"
+import { SOLANA_ASSOCIATED_TOKEN_PROGRAM_ID, SOLANA_BASE_FEE, SOLANA_SPL_TOKEN_PROGRAM_ID, SOLANA_TOKEN_2022_PROGRAM_ID } from "../../configs/constant"
+import {
+  type AccountInfoBase,
+  type AccountInfoWithBase64EncodedData,
+  type Address,
+  getAddressEncoder,
+  getProgramDerivedAddress
+} from "@solana/kit"
 
 export default class Service implements IService {
   async call<R>(rpc: string, method: string, params: unknown): Promise<{ result: R }> {
@@ -81,12 +88,89 @@ export default class Service implements IService {
     }
   }
 
-  getTokenMetadata(): Promise<{ name: string; symbol: string; decimals: string; totalSupply: string; }> {
-    throw new Error("Method not implemented.")
+  async getTokenMetadata(rpc: string, contract: string): Promise<{ name: string; symbol: string; decimals: string; totalSupply: string; }> {
+    // const encoder = getAddressEncoder()
+    // const program = encoder.encode(SOLANA_METADATA_PROGRAM_ID as Address)
+    // const address = encoder.encode(contract as Address)
+
+    // const pda = await getProgramDerivedAddress({
+    //   programAddress: SOLANA_METADATA_PROGRAM_ID as Address,
+    //   seeds: [
+    //     new TextEncoder().encode("metadata"),
+    //     program,
+    //     address
+    //   ]
+    // })
+
+    const res = await this.call<{value: AccountInfoBase & AccountInfoWithBase64EncodedData}>(rpc, 'getAccountInfo', [
+      contract,
+      {
+        "commitment": "finalized",
+        "encoding": "base64"
+      }
+    ])
+
+    const value = res.result.value
+    if(!value) {
+      throw new Error("Account not found")
+    }
+
+    const owner = value.owner
+    let parsed: { supply: bigint; decimals: bigint } | null = null
+
+    // Parse SPL Token
+    if(owner === SOLANA_SPL_TOKEN_PROGRAM_ID || owner === SOLANA_TOKEN_2022_PROGRAM_ID) {
+      parsed = parseTokenMint(value.data[0])
+    }
+
+    if(parsed === null) {
+      throw new Error("Failed to parse token info")
+    }
+
+    return {
+      name: '',
+      symbol: '',
+      decimals: parsed.decimals.toString(),
+      totalSupply: parsed.supply.toString()
+    }
   }
 
-  getTokenBalance(): Promise<string> {
-    throw new Error("Method not implemented.")
+  async getTokenBalance(rpc: string, contract: string, address: string): Promise<string> {
+    const info = await this.call<{value: AccountInfoBase & AccountInfoWithBase64EncodedData}>(rpc, 'getAccountInfo', [
+      contract,
+      {
+        "commitment": "finalized",
+        "encoding": "base64"
+      }
+    ])
+    const value = info.result.value
+    if(!value) {
+      throw new Error("Mint account not found")
+    }
+
+    const pda = await getProgramDerivedAddress({
+      programAddress: SOLANA_ASSOCIATED_TOKEN_PROGRAM_ID as Address,
+      seeds: [
+        getAddressEncoder().encode(address as Address),
+        getAddressEncoder().encode(value.owner as Address),
+        getAddressEncoder().encode(contract as Address),
+      ]
+    })
+
+    let amount = '0'
+    try {
+      const res = await this.call<{value: {amount: string}}>(rpc, 'getTokenAccountBalance', [
+        pda[0],
+        {
+          "commitment": "finalized",
+        }
+      ])
+      amount = res.result.value.amount
+    } catch(e) {
+      console.log(e)
+    }
+
+    return amount
   }
 
   getUnspentList(): Promise<IUTXO[]> {
@@ -106,5 +190,18 @@ export default class Service implements IService {
       return null
     }
     return { status: 'success' }
+  }
+}
+
+function parseTokenMint(bytes: string) {
+  const buf = Buffer.from(bytes, 'base64')
+
+  const supply = buf.readBigUInt64LE(36)
+  // decimals: offset 44, u8
+  const decimals = BigInt(buf.readUInt8(44))
+
+  return {
+    supply,
+    decimals,
   }
 }

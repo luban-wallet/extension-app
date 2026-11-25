@@ -8,7 +8,7 @@ import Row from "../../components/row"
 import Button from "../../components/button"
 import WalletFactory from "../../wallets/WalletFactory"
 import { I18nContext } from "../../contexts/I18nContext"
-import { EVM_GAS_LIMIT_RATE } from "../../configs/constant"
+import { ESTIMATE_GAS_VALUE, EVM_GAS_LIMIT_RATE } from "../../configs/constant"
 import IconEdit from "../../components/icons/edit"
 import Input from "../../components/input"
 import { log } from "../../utils/debug"
@@ -50,7 +50,7 @@ export default function Evm(props: IProps) {
       const payload: Record<string, string> = {
         from,
         to,
-        value: '0x0',
+        value: ESTIMATE_GAS_VALUE,
       }
       if(isToken) {
         const wallet = await WalletFactory.getLazyWallet(currentNetwork)
@@ -105,8 +105,8 @@ export default function Evm(props: IProps) {
           <p>{amount} {symbol}</p>
         </Row>
         <Row label={t('page.send.tx.confirm.txfee')}>
-          <p>≈ {result} {currentNetwork.symbol}</p>
           <p>{formula}</p>
+          <p>≈ {result} {currentNetwork.symbol}</p>
         </Row>
         <Row label="">
           <Button

@@ -21,7 +21,7 @@ import {
   estimateAndSetResourceLimitsFactory,
 } from '@solana/kit'
 import {
-  getTransferSolInstruction
+  getTransferSolInstruction,
 } from '@solana-program/system'
 import type {
   KeyPairSigner,
@@ -121,7 +121,7 @@ export default class Wallet implements IWallet {
     return {
       from: transaction.from,
       to: transaction.to,
-      value: '0',
+      value: '',
     }
   }
 
@@ -160,11 +160,23 @@ export default class Wallet implements IWallet {
   }
 
   public async prepareBaseTokenTransaction(): Promise<SolanaTransaction> {
-    throw new Error('prepareBaseTokenTransaction is not supported for SVM wallets')
+    throw new Error('prepareBaseTokenTransaction is not implemented')
+
+    // if(transaction.contract === undefined) {
+    //   throw new Error('Contract address is required for token transaction')
+    // }
+
+    // return {
+    //   from: transaction.from,
+    //   to: transaction.to,
+    //   value: transaction.value ?? '',
+
+    //   contract: transaction.contract,
+    // }
   }
 
   public async prepareTokenTransaction(): Promise<SolanaTransaction> {
-    throw new Error('prepareTokenTransaction is not supported for SVM wallets')
+    throw new Error('prepareTokenTransaction is not implemented')
   }
 
   public encodeTokenTransfer(): string {

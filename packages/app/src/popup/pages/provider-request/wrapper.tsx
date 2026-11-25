@@ -32,6 +32,7 @@ export default function Wrapper() {
         return
       }
 
+      await updateActiveTime()
       const data = await MsgHelper.providerRequestGrabData<ProviderRequest>()
       log(TAG, 'Wrapper grabData: ', data)
       request.current = data
@@ -42,7 +43,6 @@ export default function Wrapper() {
   }
 
   useEffect(() => {
-    updateActiveTime()
     grabData()
   }, [])
 

@@ -69,6 +69,7 @@
   "page.home.panel.setting.settings": "设置",
   "page.home.panel.setting.lock": "锁定钱包",
   "page.home.panel.btn.send": "发送",
+  "page.home.panel.btn.sendall": "发送全部",
   "page.home.panel.btn.receive": "接收",
   "page.home.panel.btn.activity": "交易记录",
   "page.home.panel.btn.utxos": "UTXOs",
@@ -172,6 +173,9 @@
   "page.send.tx.confirm.sendamount": "数量",
   "page.send.tx.confirm.txfee": "交易费",
   "page.send.tx.confirm.gaslimit": "Gas 上限",
+
+  "page.send.txsendcoinall.confirm.receive": "接收数量",
+  "page.send.txsendcoinall.confirm.notice": "由于网络费用有波动，所以不能保证刚好将钱包余额用完",
 
   "page.forgetpassword.header": "忘记密码",
   "page.forgetpassword.btn.delete": "删除钱包",

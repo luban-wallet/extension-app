@@ -130,12 +130,12 @@ export const defaultNetworks: INetwork[] = [
     chainType: 'BITCOIN_REGTEST'
   },
   {
-    name: 'Solana Testnet',
+    name: 'Solana Devnet',
     icon: '/images/token-sol.png',
     chainId: '-12',
     symbol: 'SOL',
-    rpc: 'https://api.testnet.solana.com',
-    explorer: 'https://explorer.solana.com?cluster=testnet',
+    rpc: 'https://api.devnet.solana.com',
+    explorer: 'https://explorer.solana.com?cluster=devnet',
     testnet: '1',
     chainType: 'SVM'
   }

@@ -22,6 +22,12 @@ export const EVM_GAS_LIMIT_RATE = 2.5
 export const CHROME_ALARM_DELAY = 0.5
 export const CHROME_ALARM_PERIOD = 0.5
 
+export const ESTIMATE_GAS_VALUE = '0x400'
+
 export const SOLANA_BASE_FEE = 5000n
+export const SOLANA_METADATA_PROGRAM_ID = 'metaqbxxUerdq28cj1RbAWkYQm3ybzjb6a8bt518x1s'
+export const SOLANA_TOKEN_2022_PROGRAM_ID = 'TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb'
+export const SOLANA_SPL_TOKEN_PROGRAM_ID = 'TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA'
+export const SOLANA_ASSOCIATED_TOKEN_PROGRAM_ID = 'ATokenGPvbdGVxr1b2hvZbsiqW5xWH25efTNsLJA8knL'
 
 export const DEBUG_TEST_PASSWORD = 'dev'

@@ -40,8 +40,8 @@ export default function Svm(props: IProps) {
           <p>{amount} {symbol}</p>
         </Row>
         <Row label={t('page.send.tx.confirm.txfee')}>
-          <p>≈ {result} {currentNetwork.symbol}</p>
           <p>{formula}</p>
+          <p>≈ {result} {currentNetwork.symbol}</p>
         </Row>
       </div>
 

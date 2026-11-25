@@ -69,6 +69,7 @@
   "page.home.panel.setting.settings": "Settings",
   "page.home.panel.setting.lock": "Lock",
   "page.home.panel.btn.send": "Send",
+  "page.home.panel.btn.sendall": "Send All",
   "page.home.panel.btn.receive": "Receive",
   "page.home.panel.btn.activity": "Activities",
   "page.home.panel.btn.utxos": "UTXOs",
@@ -172,6 +173,9 @@
   "page.send.tx.confirm.sendamount": "Send Amount",
   "page.send.tx.confirm.txfee": "Transaction Fee",
   "page.send.tx.confirm.gaslimit": "Gas Limit",
+
+  "page.send.txsendcoinall.confirm.receive": "Receive Amount",
+  "page.send.txsendcoinall.confirm.notice": "Due to fluctuations in network fees, it cannot be guaranteed that the wallet balance will be exactly used up",
 
   "page.forgetpassword.header": "Forget Password",
   "page.forgetpassword.btn.delete": "DELETE",

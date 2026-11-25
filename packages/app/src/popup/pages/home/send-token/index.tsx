@@ -99,6 +99,7 @@ export default function SendToken() {
       })
     } catch(e) {
       log(TAG, e)
+      toast.error((e as Error).message)
     } finally {
       setLoading(false)
     }

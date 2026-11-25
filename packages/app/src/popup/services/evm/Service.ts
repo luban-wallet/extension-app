@@ -91,14 +91,15 @@ export default class Service implements IService {
     ])
 
     const history = historyData.result
-    const fees = history.reward.length > 0 ? history.reward[0] : ['0x0', '0x0', '0x0']
-    let nextBaseFee = history.baseFeePerGas.length > 0
+    const nextBaseFee = history.baseFeePerGas.length > 0
       ? history.baseFeePerGas[history.baseFeePerGas.length - 1]
       : '0x0'
+    let fees = history.reward.length > 0 ? history.reward[0] : ['0x0', '0x0', '0x0']
 
-    // Use legacy gas price as baseFee if EIP-1559 is not supported
+    // Use legacy gas price as priorityFees if EIP-1559 is not supported
     if(nextBaseFee === '0x0') {
-      nextBaseFee = await this.gasPrice(rpc)
+      const price = await this.gasPrice(rpc)
+      fees = [price, price, price]
     }
 
     return {
