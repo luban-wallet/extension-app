@@ -60,7 +60,7 @@ export default function ReceiveCoin() {
           <div className={css.accountTip}>{t('page.receive.tip')}</div>
         </div>
         <div className={css.qrcode}>
-          <canvas id="qrcanvas" width={200} height={200} className={css.qrcanvas} />
+          <canvas id="qrcanvas" width={200} height={200} />
         </div>
         <div className={css.address}>
           <div className={css.addressLeft}>

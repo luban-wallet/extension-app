@@ -60,9 +60,10 @@ export default function Btc() {
 
       setBalance(coin.available)
       setUnconfirm(coin.unconfirmed)
-      setLoading(false)
     } catch(e) {
       log(TAG, e)
+    } finally {
+      setLoading(false)
     }
   }
 

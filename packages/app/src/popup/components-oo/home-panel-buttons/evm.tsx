@@ -3,7 +3,7 @@ import ActionButton from "./action-button"
 import { I18nContext } from "../../contexts/I18nContext"
 import IconList from "../../components/icons/list"
 import { IconIn, IconOut } from "../../components/icons/inout"
-import IconClear from "../../components/icons/clear"
+import IconTrans from "../../components/icons/trans"
 
 export default function Evm() {
   const { t } = useContext(I18nContext)!
@@ -21,7 +21,7 @@ export default function Evm() {
         to="/home/receive"
       />
       <ActionButton
-        icon={<IconClear width={20} height={20} />}
+        icon={<IconTrans width={20} height={20} />}
         label={t('page.home.panel.btn.sendall')}
         to="/home/send-coin-all"
       />

@@ -4,6 +4,8 @@ This is an open source browser extension wallet supporting both Ethereum and Bit
 
 The wallet is developed based on `ethers` and `bitcoinjs-lib`, with all network configurations customizable by users. Moreover, this program does not collect any local data.
 
+> **Note:** This wallet is still in development and do not use it on mainnet.
+
 ![Screen](./screen.png)
 
 ## Download

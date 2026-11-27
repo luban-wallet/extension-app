@@ -4,9 +4,8 @@ import { I18nContext } from "../../contexts/I18nContext"
 import IconReceive from "../../components/icons/receive"
 import IconSend from "../../components/icons/send"
 import IconList from "../../components/icons/list"
-// import IconCoin from "../../components/icons/coin"
 
-export default function Btc() {
+export default function Svm() {
   const { t } = useContext(I18nContext)!
 
   return (
@@ -26,11 +25,6 @@ export default function Btc() {
         label={t('page.home.panel.btn.activity')}
         to="/home/activities"
       />
-      {/* <ActionButton
-        icon={<IconCoin width={20} height={20} />}
-        label={t('page.home.panel.btn.utxos')}
-        to="/home/utxos"
-      /> */}
     </div>
   )
 }

@@ -32,7 +32,7 @@ import type {
 import { DERIVATION_PATHS } from '../../configs/account'
 import { LOCAL_KEYSTORE } from '../../configs/constant'
 import type { INetwork } from '../../configs/network'
-import type { BaseTransaction } from '../IWallet'
+import type { BaseTransaction, FeeMeta } from '../IWallet'
 import type { SomeRequired } from '../../utils/type'
 
 export type SolanaTransaction = SomeRequired<BaseTransaction, 'value'>
@@ -55,7 +55,7 @@ export default class Wallet implements IWallet {
     }
 
     const keyPair = await createKeyPairFromPrivateKeyBytes(this.nativeWallet.privateKey)
-    return createSignerFromKeyPair(keyPair)
+    return await createSignerFromKeyPair(keyPair)
   }
 
   public create(words: string, index: number = 0): IWallet {
@@ -113,8 +113,16 @@ export default class Wallet implements IWallet {
     return getBase58Decoder().decode(bytes)
   }
 
-  public signTypedData(): Promise<string> {
+  public async signTypedData(): Promise<string> {
     throw new Error('signTypedData is not supported for SVM wallets')
+  }
+
+  public async prepareSweepBaseCoinTransaction(): Promise<SolanaTransaction> {
+    throw new Error('prepareSweepBaseCoinTransaction is not implemented')
+  }
+
+  public async prepareSweepCoinTransaction(): Promise<SolanaTransaction> {
+    throw new Error('prepareSweepCoinTransaction is not implemented')
   }
 
   public async prepareBaseCoinTransaction(transaction: BaseTransaction): Promise<SolanaTransaction> {
@@ -125,7 +133,7 @@ export default class Wallet implements IWallet {
     }
   }
 
-  public async prepareCoinTransaction(transaction: SolanaTransaction, metaData: {baseFee: string, feeUnitPrice: string}): Promise<SolanaTransaction> {
+  public async prepareCoinTransaction(transaction: SolanaTransaction, metaData: FeeMeta): Promise<SolanaTransaction> {
     if(transaction.value === '') {
       throw new Error('Value is required for coin transaction')
     }
@@ -161,18 +169,6 @@ export default class Wallet implements IWallet {
 
   public async prepareBaseTokenTransaction(): Promise<SolanaTransaction> {
     throw new Error('prepareBaseTokenTransaction is not implemented')
-
-    // if(transaction.contract === undefined) {
-    //   throw new Error('Contract address is required for token transaction')
-    // }
-
-    // return {
-    //   from: transaction.from,
-    //   to: transaction.to,
-    //   value: transaction.value ?? '',
-
-    //   contract: transaction.contract,
-    // }
   }
 
   public async prepareTokenTransaction(): Promise<SolanaTransaction> {

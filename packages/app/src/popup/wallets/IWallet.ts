@@ -52,18 +52,29 @@ export default interface IWallet {
   signTypedData(data: unknown): Promise<string>
 
   /**
+   * Prepare a sweep transaction
+   */
+  prepareSweepBaseCoinTransaction(tx: BaseTransaction): Promise<BaseTransaction>
+  prepareSweepCoinTransaction(tx: BaseTransaction, metaData: FeeMeta): Promise<BaseTransaction>
+
+  /**
    * Prepare a coin transfer transaction
    */
   prepareBaseCoinTransaction(tx: BaseTransaction): Promise<BaseTransaction>
-  prepareCoinTransaction(tx: BaseTransaction, metaData: {baseFee: string, feeUnitPrice: string}): Promise<BaseTransaction>
+  prepareCoinTransaction(tx: BaseTransaction, metaData: FeeMeta): Promise<BaseTransaction>
 
   /**
    * Prepare a token transfer transaction
    */
   prepareBaseTokenTransaction(tx: BaseTransaction): Promise<BaseTransaction>
-  prepareTokenTransaction(tx: BaseTransaction, metaData: {baseFee: string, feeUnitPrice: string}): Promise<BaseTransaction>
+  prepareTokenTransaction(tx: BaseTransaction, metaData: FeeMeta): Promise<BaseTransaction>
 
   encodeTokenTransfer(to: string, amount: string): string
+}
+
+export interface FeeMeta {
+  baseFee: string
+  feeUnitPrice: string
 }
 
 export interface IBitcoinWallet extends IWallet {

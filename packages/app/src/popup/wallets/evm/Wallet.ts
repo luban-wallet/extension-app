@@ -6,7 +6,7 @@ import { AbiCoder } from 'ethers/abi'
 import { DERIVATION_PATHS } from '../../configs/account'
 import { LOCAL_KEYSTORE } from '../../configs/constant'
 import type { INetwork } from '../../configs/network'
-import type { BaseTransaction } from '../IWallet'
+import type { BaseTransaction, FeeMeta } from '../IWallet'
 import type { SomeRequired } from '../../utils/type'
 
 export type EthereumTransaction = SomeRequired<BaseTransaction, 'type' | 'chainId' | 'value' | 'data' | 'gasLimit' | 'maxPriorityFeePerGas' | 'maxFeePerGas'>
@@ -68,24 +68,32 @@ export default class Wallet implements IWallet {
       maxFeePerGas: transaction.maxFeePerGas
     }
 
-    return this.nativeWallet.signTransaction(payload)
+    return await this.nativeWallet.signTransaction(payload)
   }
 
-  public signMessage(message: string): Promise<string> {
+  public async signMessage(message: string): Promise<string> {
     if(this.nativeWallet === null) {
       throw new Error('Wallet not created')
     }
 
-    return this.nativeWallet.signMessage(message)
+    return await this.nativeWallet.signMessage(message)
   }
 
-  public signTypedData(data: {domain: unknown, types: unknown, message: unknown}): Promise<string> {
+  public async signTypedData(data: {domain: unknown, types: unknown, message: unknown}): Promise<string> {
     if(this.nativeWallet === null) {
       throw new Error('Wallet not created')
     }
 
     // @ts-expect-error todo
-    return this.nativeWallet.signTypedData(data.domain, data.types, data.message)
+    return await this.nativeWallet.signTypedData(data.domain, data.types, data.message)
+  }
+
+  public async prepareSweepBaseCoinTransaction(tx: BaseTransaction): Promise<EthereumTransaction> {
+    return await this.prepareBaseCoinTransaction(tx)
+  }
+
+  public async prepareSweepCoinTransaction(tx: EthereumTransaction, metaData: FeeMeta): Promise<EthereumTransaction> {
+    return await this.prepareCoinTransaction(tx, metaData)
   }
 
   public async prepareBaseCoinTransaction(transaction: BaseTransaction): Promise<EthereumTransaction> {
@@ -104,7 +112,7 @@ export default class Wallet implements IWallet {
     }
   }
 
-  public async prepareCoinTransaction(transaction: EthereumTransaction, metaData: {baseFee: string, feeUnitPrice: string}): Promise<EthereumTransaction> {
+  public async prepareCoinTransaction(transaction: EthereumTransaction, metaData: FeeMeta): Promise<EthereumTransaction> {
     transaction.maxPriorityFeePerGas = metaData.feeUnitPrice
     transaction.maxFeePerGas = (BigInt(metaData.baseFee) + BigInt(metaData.feeUnitPrice)).toString()
 
@@ -139,7 +147,7 @@ export default class Wallet implements IWallet {
     }
   }
 
-  public async prepareTokenTransaction(transaction: EthereumTransaction, fees: {baseFee: string, feeUnitPrice: string}): Promise<EthereumTransaction> {
+  public async prepareTokenTransaction(transaction: EthereumTransaction, fees: FeeMeta): Promise<EthereumTransaction> {
     const data = this.encodeTokenTransfer(transaction.to, transaction.value)
 
     // Token transaction set value to 0x0

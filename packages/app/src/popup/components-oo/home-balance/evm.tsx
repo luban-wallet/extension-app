@@ -62,9 +62,10 @@ export default function Evm() {
       const coin = await service.getCoinBalance(network.rpc, account.address)
       setCachedCoinBalance(network.chainId, account.address, coin.available)
       setBalance(coin.available)
-      setLoading(false)
     } catch(e) {
       log(TAG, e)
+    } finally {
+      setLoading(false)
     }
   }
 

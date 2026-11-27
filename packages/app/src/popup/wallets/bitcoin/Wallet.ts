@@ -10,7 +10,7 @@ import { Storage } from "@luban/wallet-storage"
 import Crypto, { type Keystore } from "@lubankit/crypto"
 import { BITCOIN_DUST_RELAY_SATS, LOCAL_KEYSTORE } from '../../configs/constant'
 import ServiceFactory from '../../services/ServiceFactory'
-import type { BaseTransaction, IBitcoinWallet } from '../IWallet'
+import type { BaseTransaction, FeeMeta, IBitcoinWallet } from '../IWallet'
 import type { IUTXO } from '../../configs/utxo'
 import type { SomeRequired } from '../../utils/type'
 
@@ -122,7 +122,7 @@ export default class Wallet implements IBitcoinWallet {
     return this.nativeWallet.p2tr.address ?? ''
   }
 
-  public signTransaction(tx: BitcoinTransaction): Promise<string> {
+  public async signTransaction(tx: BitcoinTransaction): Promise<string> {
     if(this.nativeWallet === null) {
       throw new Error('Wallet not created')
     }
@@ -176,17 +176,37 @@ export default class Wallet implements IBitcoinWallet {
     // }
 
     psbt.finalizeAllInputs()
-    const hex = psbt.extractTransaction().toHex()
-
-    return Promise.resolve(hex)
+    return psbt.extractTransaction().toHex()
   }
 
-  public signMessage(): Promise<string> {
+  public async signMessage(): Promise<string> {
     throw new Error('signMessage(), Method not implemented.')
   }
 
-  public signTypedData(): Promise<string> {
+  public async signTypedData(): Promise<string> {
     throw new Error('signTypedData(), Method not implemented.')
+  }
+
+  public async prepareSweepBaseCoinTransaction(tx: BaseTransaction): Promise<BitcoinTransaction> {
+    return await this.prepareBaseCoinTransaction(tx)
+  }
+
+  public async prepareSweepCoinTransaction(tx: BitcoinTransaction, /* metaData: FeeMeta */): Promise<BitcoinTransaction> {
+    if(tx.value === '') {
+      throw new Error('Transaction send amount is required')
+    }
+
+    if(BigInt(tx.value) <= BITCOIN_DUST_RELAY_SATS) {
+      throw new Error('Insufficient balance to cover transaction fee')
+    }
+
+    tx.selected = {
+      selected: tx.unspent,
+      change: 0n,
+      needChange: false,
+    }
+
+    return tx
   }
 
   public async prepareBaseCoinTransaction(tx: BaseTransaction): Promise<BitcoinTransaction> {
@@ -201,7 +221,7 @@ export default class Wallet implements IBitcoinWallet {
     }
   }
 
-  public async prepareCoinTransaction(tx: BitcoinTransaction, metaData: {feeUnitPrice: string}): Promise<BitcoinTransaction> {
+  public async prepareCoinTransaction(tx: BitcoinTransaction, metaData: FeeMeta): Promise<BitcoinTransaction> {
     if(tx.value === '') {
       throw new Error('Transaction send amount is required')
     }
@@ -216,15 +236,15 @@ export default class Wallet implements IBitcoinWallet {
     return tx
   }
 
-  prepareBaseTokenTransaction(): Promise<BitcoinTransaction> {
+  public async prepareBaseTokenTransaction(): Promise<BitcoinTransaction> {
     throw new Error('prepareBaseTokenTransaction(), Method not implemented.')
   }
 
-  prepareTokenTransaction(): Promise<BitcoinTransaction> {
+  public async prepareTokenTransaction(): Promise<BitcoinTransaction> {
     throw new Error('prepareTokenTransaction(), Method not implemented.')
   }
 
-  encodeTokenTransfer(): string {
+  public encodeTokenTransfer(): string {
     throw new Error('encodeTokenTransfer(), Method not implemented.')
   }
 }

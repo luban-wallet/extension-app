@@ -3,13 +3,14 @@ import Base from "../Base"
 import type { IProps } from "./type"
 
 const Evm = lazy(() => import('./evm'))
+const Btc = lazy(() => import('./btc'))
 
 export default class TxConfirmSendCoinAll<T = IProps> extends Base<T> {
   protected Components = {
     EVM: Evm,
-    BITCOIN: null,
-    BITCOIN_TESTNET: null,
-    BITCOIN_REGTEST: null,
+    BITCOIN: Btc,
+    BITCOIN_TESTNET: Btc,
+    BITCOIN_REGTEST: Btc,
     SVM: null,
   }
 }

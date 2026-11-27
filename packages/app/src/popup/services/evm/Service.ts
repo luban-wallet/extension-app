@@ -3,7 +3,7 @@ import type IService from '../IService'
 import type { IUTXO } from '../../configs/utxo'
 
 export default class Service implements IService {
-  decodeHexString(hexString: string) {
+  public decodeHexString(hexString: string): string {
     // 1. Remove the '0x' prefix
     const hex = hexString.startsWith('0x') ? hexString.substring(2) : hexString
     if (hex.length < 192) {
@@ -41,7 +41,7 @@ export default class Service implements IService {
     return result
   }
 
-  async call<R>(rpc: string, method: string, params: unknown): Promise<{ result: R }> {
+  public async call<R>(rpc: string, method: string, params: unknown): Promise<{ result: R }> {
     const config = {
       method: 'POST',
       headers: {
@@ -63,27 +63,27 @@ export default class Service implements IService {
     return json
   }
 
-  async getTransactionCount(rpc: string, address: string): Promise<string> {
+  public async getTransactionCount(rpc: string, address: string): Promise<string> {
     const json = await this.call<string>(rpc, 'eth_getTransactionCount', [ address, 'latest' ])
     return json.result
   }
 
-  async sendRawTransaction(rpc: string, tx: string[]): Promise<string> {
+  public async sendRawTransaction(rpc: string, tx: string[]): Promise<string> {
     const json = await this.call<string>(rpc, 'eth_sendRawTransaction', tx)
     return json.result
   }
 
-  async gasPrice(rpc: string): Promise<string> {
+  public async gasPrice(rpc: string): Promise<string> {
     const json = await this.call<string>(rpc, 'eth_gasPrice', [])
     return json.result
   }
 
-  async estimateGas(rpc: string, params: unknown[]): Promise<string> {
+  public async estimateGas(rpc: string, params: unknown[]): Promise<string> {
     const json = await this.call<string>(rpc, 'eth_estimateGas', params)
     return json.result
   }
 
-  async getRecommendTransactionFees(rpc: string): Promise<{ baseFee: string, priorityFees: string[] }> {
+  public async getRecommendTransactionFees(rpc: string): Promise<{ baseFee: string, priorityFees: string[] }> {
     const historyData = await this.call<{baseFeePerGas: string[], reward: string[][]}>(rpc, 'eth_feeHistory', [
       '0x1',
       'latest',
@@ -108,7 +108,7 @@ export default class Service implements IService {
     }
   }
 
-  async getTokenMetadata(rpc: string, contract: string): Promise<{ name: string, symbol: string, decimals: string, totalSupply: string }> {
+  public async getTokenMetadata(rpc: string, contract: string): Promise<{ name: string, symbol: string, decimals: string, totalSupply: string }> {
     const nameSig = '0x06fdde03'
     const symbolSig = '0x95d89b41'
     const decimalsSig = '0x313ce567'
@@ -134,7 +134,7 @@ export default class Service implements IService {
     }
   }
 
-  async getTokenBalance(rpc: string, contract: string, address: string): Promise<string> {
+  public async getTokenBalance(rpc: string, contract: string, address: string): Promise<string> {
     const balanceSig = '0x70a08231'
     let data = address.startsWith('0x') ? address.substring(2) : address
     while(data.length < 64) {
@@ -154,7 +154,7 @@ export default class Service implements IService {
     return json.result
   }
 
-  async getCoinBalance(rpc: string, address: string): Promise<{available: string, unconfirmed: string, locked: string}> {
+  public async getCoinBalance(rpc: string, address: string): Promise<{available: string, unconfirmed: string, locked: string}> {
     const json = await this.call<string>(rpc, 'eth_getBalance', [ address, 'latest' ])
     return {
       available: json.result,
@@ -163,11 +163,11 @@ export default class Service implements IService {
     }
   }
 
-  getUnspentList(): Promise<IUTXO[]> {
+  public async getUnspentList(): Promise<IUTXO[]> {
     throw new Error('getUnspentList(), Method not implemented.')
   }
 
-  async getTransactionStatus(rpc: string, txHash: string): Promise<{status: 'pending' | 'success' | 'failed'} | null> {
+  public async getTransactionStatus(rpc: string, txHash: string): Promise<{status: 'pending' | 'success' | 'failed'} | null> {
     const json = await this.call<{status: string}>(rpc, 'eth_getTransactionReceipt', [ txHash ])
     const data = json.result
 

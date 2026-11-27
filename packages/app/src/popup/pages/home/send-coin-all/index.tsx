@@ -114,12 +114,12 @@ export default function SendCoinAll() {
       let wallet = await WalletFactory.getLazyWallet(currentNetwork)
       wallet = await wallet.restore(pwd, currentAccount.index)
 
-      const txBase = await wallet.prepareBaseCoinTransaction({
+      const txBase = await wallet.prepareSweepBaseCoinTransaction({
         from: currentAccount.address,
         to: to,
         nonce: nonce !== '' ? Number(nonce) : undefined,
       })
-      const tx = await wallet.prepareCoinTransaction(
+      const tx = await wallet.prepareSweepCoinTransaction(
         {
           ...txBase,
           value: canSendAmount.toString(),

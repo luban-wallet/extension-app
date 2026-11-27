@@ -11,7 +11,7 @@ import {
 } from "@solana/kit"
 
 export default class Service implements IService {
-  async call<R>(rpc: string, method: string, params: unknown): Promise<{ result: R }> {
+  public async call<R>(rpc: string, method: string, params: unknown): Promise<{ result: R }> {
     const config = {
       method: 'POST',
       headers: {
@@ -30,10 +30,11 @@ export default class Service implements IService {
     if(typeof json.error !== 'undefined') {
       throw new Error(json.error.message)
     }
+
     return json
   }
 
-  async getCoinBalance(rpc: string, address: string): Promise<{ available: string, unconfirmed: string, locked: string }> {
+  public async getCoinBalance(rpc: string, address: string): Promise<{ available: string, unconfirmed: string, locked: string }> {
     const json = await this.call<{ value: number }>(rpc, 'getBalance', [
       address, {"commitment": "finalized"}
     ])
@@ -46,11 +47,11 @@ export default class Service implements IService {
     }
   }
 
-  getTransactionCount(): Promise<string> {
-    return Promise.resolve('0x0')
+  public async getTransactionCount(): Promise<string> {
+    return '0x0'
   }
 
-  async sendRawTransaction(rpc: string, tx: string[]): Promise<string> {
+  public async sendRawTransaction(rpc: string, tx: string[]): Promise<string> {
     const json = await this.call<string>(rpc, 'sendTransaction', [
       tx[0],
       { "encoding": "base64", "skipPreflight": false }
@@ -58,11 +59,11 @@ export default class Service implements IService {
     return json.result
   }
 
-  estimateGas(): Promise<string> {
+  public async estimateGas(): Promise<string> {
     throw new Error("Method not implemented.")
   }
 
-  async getRecommendTransactionFees(rpc: string): Promise<{ baseFee: string, priorityFees: string[] }> {
+  public async getRecommendTransactionFees(rpc: string): Promise<{ baseFee: string, priorityFees: string[] }> {
     const res = await this.call<{prioritizationFee: number}[]>(rpc, 'getRecentPrioritizationFees', undefined)
     const fees: number[] = []
     for(let i=0; i<res.result.length; i++) {
@@ -88,7 +89,7 @@ export default class Service implements IService {
     }
   }
 
-  async getTokenMetadata(rpc: string, contract: string): Promise<{ name: string; symbol: string; decimals: string; totalSupply: string; }> {
+  public async getTokenMetadata(rpc: string, contract: string): Promise<{ name: string; symbol: string; decimals: string; totalSupply: string; }> {
     // const encoder = getAddressEncoder()
     // const program = encoder.encode(SOLANA_METADATA_PROGRAM_ID as Address)
     // const address = encoder.encode(contract as Address)
@@ -135,7 +136,7 @@ export default class Service implements IService {
     }
   }
 
-  async getTokenBalance(rpc: string, contract: string, address: string): Promise<string> {
+  public async getTokenBalance(rpc: string, contract: string, address: string): Promise<string> {
     const info = await this.call<{value: AccountInfoBase & AccountInfoWithBase64EncodedData}>(rpc, 'getAccountInfo', [
       contract,
       {
@@ -173,11 +174,11 @@ export default class Service implements IService {
     return amount
   }
 
-  getUnspentList(): Promise<IUTXO[]> {
+  public async getUnspentList(): Promise<IUTXO[]> {
     throw new Error("Method not implemented.")
   }
 
-  async getTransactionStatus(rpc: string, txHash: string): Promise<{ status: "pending" | "success" | "failed" } | null> {
+  public async getTransactionStatus(rpc: string, txHash: string): Promise<{ status: "pending" | "success" | "failed" } | null> {
     const json = await this.call<{blockTime: number} | null>(rpc, 'getTransaction', [
       txHash,
       {

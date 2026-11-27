@@ -27,11 +27,6 @@
   justify-content: center;
   overflow: hidden;
   background-color: rgb(var(--color-background-200));
-
-  .qrcanvas {
-    width: 200px;
-    height:200px;
-  }
 }
 .address {
   margin: 16px auto 0 auto;

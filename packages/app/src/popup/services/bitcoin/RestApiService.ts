@@ -7,7 +7,7 @@ import type { IUTXO } from '../../configs/utxo'
  * Provides methods to interact with a REST API.
  */
 export default class RestApiService implements IService {
-  async call(rpc: string, method: string, params: unknown): Promise<{ result: string }> {
+  public async call(rpc: string, method: string, params: unknown): Promise<{ result: string }> {
     const res = await LimitedFetch.request(rpc, {
       method: method,
       body: params as string
@@ -19,52 +19,58 @@ export default class RestApiService implements IService {
     }
   }
 
-  getTransactionCount(): Promise<string> {
-    return Promise.resolve('0x0')
+  public async getTransactionCount(): Promise<string> {
+    return '0x0'
   }
 
-  async sendRawTransaction(rpc: string, tx: string[]): Promise<string> {
+  public async sendRawTransaction(rpc: string, tx: string[]): Promise<string> {
     const res = await this.call(rpc + '/api/tx', 'POST', tx[0])
     return res.result
   }
 
-  gasPrice(): Promise<string> {
-    return Promise.resolve('0x0')
+  public async gasPrice(): Promise<string> {
+    return '0x0'
   }
 
   /**
-   * Estimate the size of a Bitcoin transaction
+   * Estimate the size of a Bitcoin p2tr transaction
+   *
+   * Only estimates the size for keypath-based inputs.
+   *
+   * `Fee = vSize * feeRate`
    */
-  estimateGas(_rpc: string, params: {input: number, output: number}[]): Promise<string> {
-    // 10.5 (base header) + 40.75 (witness header) + inputs * 57.25 + outputs * 43 + 11 (fixed tail)
-    const size = 10.5 + 40.75 + 57.25 * params[0].input + 43 * params[0].output + 11
+  public async estimateGas(_rpc: string, params: {input: number, output: number}[]): Promise<string> {
+    // 10.5 (overhead) + (inputs * 57.5) + (outputs * 43)
+    const size = 10.5
+      + 57.5 * params[0].input
+      + 43 * params[0].output
 
-    return Promise.resolve(BigInt(Math.ceil(size)).toString())
+    return BigInt(Math.ceil(size)).toString()
   }
 
-  async getRecommendTransactionFees(rpc: string): Promise<{ baseFee: string, priorityFees: string[] }> {
+  public async getRecommendTransactionFees(rpc: string): Promise<{ baseFee: string, priorityFees: string[] }> {
     const res = await this.call(rpc + '/api/v1/fees/recommended', 'GET', null)
     const json = JSON.parse(res.result)
 
     return {
       baseFee: '0x0',
       priorityFees: [
-        json.hourFee,
-        json.halfHourFee,
-        json.fastestFee
+        BigInt(Math.ceil(json.hourFee)).toString(),
+        BigInt(Math.ceil(json.halfHourFee)).toString(),
+        BigInt(Math.ceil(json.fastestFee)).toString()
       ]
     }
   }
 
-  getTokenMetadata(): Promise<{ name: string, symbol: string, decimals: string, totalSupply: string }> {
+  public async getTokenMetadata(): Promise<{ name: string, symbol: string, decimals: string, totalSupply: string }> {
     throw new Error('getTokenMetadata(), Method not implemented.')
   }
 
-  getTokenBalance(): Promise<string> {
+  public async getTokenBalance(): Promise<string> {
     throw new Error('getTokenBalance(), Method not implemented.')
   }
 
-  async getCoinBalance(rpc: string, address: string): Promise<{available: string, unconfirmed: string, locked: string}> {
+  public async getCoinBalance(rpc: string, address: string): Promise<{available: string, unconfirmed: string, locked: string}> {
     const res = await this.call(rpc + '/api/address/' + address, 'GET', null)
     const json = JSON.parse(res.result)
 
@@ -87,7 +93,7 @@ export default class RestApiService implements IService {
     }
   }
 
-  async getUnspentList(rpc: string, address: string): Promise<IUTXO[]> {
+  public async getUnspentList(rpc: string, address: string): Promise<IUTXO[]> {
     const res = await this.call(rpc + '/api/address/' + address + '/utxo', 'GET', null)
     const all = JSON.parse(res.result) as IUTXO[]
     return all
@@ -107,7 +113,7 @@ export default class RestApiService implements IService {
     // return availables
   }
 
-  async getTransactionStatus(rpc: string, txHash: string): Promise<{status: 'pending' | 'success' | 'failed'} | null> {
+  public async getTransactionStatus(rpc: string, txHash: string): Promise<{status: 'pending' | 'success' | 'failed'} | null> {
     const res = await this.call(rpc + '/api/tx/' + txHash, 'GET', null)
     if(!res.result.startsWith('{')) {
       return null

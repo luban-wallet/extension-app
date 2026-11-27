@@ -2,7 +2,7 @@ export interface IProps {
   from: string
   to: string
   /**
-   * Send amount include decimals
+   * Wallet balance include decimals
    */
   amount: string
   symbol: string

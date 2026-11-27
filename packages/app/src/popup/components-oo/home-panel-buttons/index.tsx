@@ -2,7 +2,7 @@ import { lazy } from "react"
 import Base from "../Base"
 
 const Evm = lazy(() => import('./evm'))
-// const Btc = lazy(() => import('./btc'))
+const Svm = lazy(() => import('./svm'))
 
 export default class HomePanelButtons<T> extends Base<T> {
   protected Components = {
@@ -10,6 +10,6 @@ export default class HomePanelButtons<T> extends Base<T> {
     BITCOIN: Evm,
     BITCOIN_TESTNET: Evm,
     BITCOIN_REGTEST: Evm,
-    SVM: Evm
+    SVM: Svm
   }
 }
